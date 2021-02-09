@@ -21,9 +21,9 @@ The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanil
 
 <br>
 
-## Installation
+## Installation  
 
-  According to the [Minecraft Wiki](https://minecraft.gamepedia.com/Tutorials/Installing_a_data_pack) :
+**According to the [Minecraft Wiki](https://minecraft.gamepedia.com/Tutorials/Installing_a_data_pack),**
 
 > #### Singleplayer Installation:
 >
@@ -117,8 +117,7 @@ This lets you fine-tune your sitting position after sitting. It's the Minecraft 
 
 <br>
 
-To enter S.E.A.T adjustment mode:  
-
+**To enter S.E.A.T adjustment mode:**
 1. Look straight down while seated
 2. You should see a prompt telling you to scroll up/down (only if prompts are enabled)
 3. Scroll up/down rapidly on your mouse-wheel/hotbar  
