@@ -77,11 +77,56 @@ You can navigate to different pages using the page arrows at the bottom, or clea
   Keep this *ON* to apply fall damage to seated players when falling. No reason to turn this *OFF* unless you're playing it super safe.
 
 - #### Block Inventory:
-Prevents players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this *OFF* will allow seated inventory access but might break immersion.
+  Prevents players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this *OFF* will allow seated inventory access but might break immersion.
 
 - #### Freeze Ride On Adjust:
   Turning this *ON* will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but may cause issues with the mob/entity you're sitting on, since this resets their state.
 
 - #### Show Prompts:
   Turn this *OFF* to disable sitting instruction prompts. This might make things difficult for players new to the pack.
+  
+<br>
+
+## Sitting Down
+
+There are two ways to sit:
+
+#### Default Method:
+  1. Stand infront (or on top of) of the block you want to sit on
+  2. Turn around and face away from the block
+  3. Look straight down and Right-Click (USE button / MOUSE 2) 
+
+#### 'Only If Sneaking' Method:
+  1. Stand infront (or on top of) of the block you want to sit on
+  2. Turn around and face away from the block
+  3. Look straight down and 
+    3.1. Hold Left Shift for a second or two (SNEAK button)
+    3.2. Release Left Shift (SNEAK button) & quickly press Right Click (USE button)
+
+**You can switch to your preferred method using the pack menu**
+
+<br>
+
+## S.E.A.T Adjustment Mode
+
+This lets you fine-tune your sitting position after sitting. It's the Minecraft equivalent to *'scooting over'*.  
+To enter S.E.A.T adjustment mode:  
+
+1. Look straight down while seated
+2. You should see a prompt telling you to scroll up/down (only if prompts are enabled)
+3. Scroll up/down rapidly on your mouse-wheel/hotbar  
+
+Once you've entered S.E.A.T adjustment mode, you have 3 basic controls:  
+
+#### 1. Look-Around/Rotation: 
+This sets the direction you want to adjust your seat in. 
+Also, if rotation lock is enabled, the direction you're looking in when exiting S.E.A.T Adjustment Mode is taken as your seat's rotation.
+
+#### 2. Scroll Up/Down:
+Moves your seat either forward or backward along the axis/direction you're currently facing.
+
+#### 3. Wait/Stop Scrolling:
+If you stop scrolling for a while (about 7 seconds), the seat locks in your adjustment and exits S.E.A.T Adjustment Mode.  
+
+This also works when sitting on mobs and entities but is really difficult to do because they don't sit still during adjustment. If this annoys you, enable the *'Freeze Rides on Adjust'* option in the pack menu to temporarily freeze entities you're sitting on during adjustment.  
 
