@@ -214,29 +214,31 @@ If you want to help improve this pack, first of all, thank you ❤.
 
 If you're not familiar with Minecraft commands or how datapacks work, I would still love to hear your feedback and suggestions. These packs use a lot of *'fickle'* code to do their thing and I could really use some testing help.  
 
-If you know how to use Minecraft commands and make datapacks, you can contribute edits to the code. There are are two folders that hold code, the default 'functions' folder, which should be familiar to you, and the 'scripts' folder which is used with a tool called mcscript, to generate those functions.
+If you know how to use Minecraft commands and make datapacks, you can contribute edits to the code. There are are two folders to work with - the default 'functions' folder, which should be familiar to you, and the 'scripts' folder which is used with a tool called [mcscript](https://mcscript.stevertus.com/#variables), to generate those functions.
 
-I used mcscript because of its command grouping features that let you group commands by prefix.  
-
-For example:  
+I used mcscript mainly because of its command grouping features. For example:  
 
     asat('@p'){
       /say hello
       /tp ~ ~ ~
-      }
+    }
 
 gets compiled to 
 
     /execute as @p at @s run say hello
     /execute as @p at @s run tp ~ ~ ~  
 
-As you can see, it greatly simplifies coding in commands.
+As you can see, it greatly simplifies coding Minecraft functions.
 You can learn more about mcscript [here](https://mcscript.stevertus.com/#variables).  
 
-You can also directly contribute edits to functions, but mcscript scripts are so much easier to work with. I've also added comments to almost every line in those scripts, so it shouldn't be too difficult to figure out. Please try and understand the C.O.R.E pack first as a lot of S.E.A.T code depends on it.  
+You can also directly contribute edits to functions, but mcscript scripts are so much easier to work with.  
+I've also added comments to almost every line in those scripts, so it shouldn't be too difficult to figure out. Please try and understand the C.O.R.E pack first as a lot of S.E.A.T code depends on it.  
 
 <br>
 
-Okay, that about sums up everything I have to say about the S.E.A.T pack.  
-Thank you once again for checking it out.  
-I hope you enjoy it!
+<br>
+
+Okay, that about sums up everything you need to know about the S.E.A.T pack. 
+Thank you once again for checking it out. I hope you enjoy it!  
+
+Love, Xmas
