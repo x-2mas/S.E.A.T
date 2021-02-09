@@ -17,29 +17,31 @@ The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanil
 - Works in both singleplayer and multiplayer games
 - Carefully coded to prevent conflicts with other datapacks/mods, especially those made by me  
 
+<br>
 
 ## Installation
 
   According to the [Minecraft Wiki](https://minecraft.gamepedia.com/Tutorials/Installing_a_data_pack) :
 
-> ### Singleplayer Installation:
+> #### Singleplayer Installation:
 >
 > 1. Open Minecraft.
 > 2. Select the world you want to install the data pack for, click on "Edit", then "Open world folder".
 > 3. Open the folder named datapacks, and put the data pack into it.
 > 4. Type /reload (if you have enabled cheats) or re-open world.
 >
-> ### Multiplayer Installation:
+> #### Multiplayer Installation:
 > 
 > 1. Open your server folder, then open the folder of the world you wish to install the data pack in (default: world).
 > 2. Put the data pack into a folder named datapacks
 > 3. Type /reload from the console or as a level 3 operator, or restart the server.  
 
-You must copy both C.O.R.E and S.E.A.T datapacks to your world folder.
-The Co-Ordinated Runtime Environment (C.O.R.E) holds commands shared between my packs. You need it to run the S.E.A.T pack.
+**You must copy both C.O.R.E and S.E.A.T datapacks to your world folder.**
+The *Co-Ordinated Runtime Environment (C.O.R.E)* holds commands shared between my packs. You need it to run the S.E.A.T pack.
 
-If you're installing the pack for the first time, or loading it after a previous un-installation, you will have to reload twice. If installed and loaded correctly, you should see both packs show up as advancements in your Advancements Tab (Press L key to open).
+**If you're installing the pack for the first time, or loading it after a previous un-installation, you will have to reload ***twice***. If installed and loaded correctly, you should see both packs show up as advancements in your **Advancements Tab** *(Press L key to open)*.
 
+<br>
 
 ## Pack Menu
 
