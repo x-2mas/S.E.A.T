@@ -30,13 +30,13 @@ The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanil
 > 1. Open Minecraft.
 > 2. Select the world you want to install the data pack for, click on "Edit", then "Open world folder".
 > 3. Open the folder named datapacks, and put the data pack into it.
-> 4. Type /reload (if you have enabled cheats) or re-open world.
+> 4. Type `/reload` (if you have enabled cheats) or re-open world.
 >
 > #### Multiplayer Installation:
 > 
 > 1. Open your server folder, then open the folder of the world you wish to install the data pack in (default: world).
 > 2. Put the data pack into a folder named datapacks
-> 3. Type /reload from the console or as a level 3 operator, or restart the server.  
+> 3. Type `/reload` from the console or as a level 3 operator, or restart the server.  
 
 <br>
 
@@ -51,6 +51,7 @@ If installed and loaded correctly, you should see both packs show up as advancem
 ## Pack Menu
 
 There's an **in-built menu** you can open in your chat by running the following command:  
+    
     /function x_seat:menu
 
 This menu lets you toggle different pack settings to suit your experience. Turning off things like physics might improve performance and stability, especially on servers. Each option comes with a description you can view by hovering over it with your mouse.
@@ -156,7 +157,7 @@ Please note that sitting on an entity isn't the same as riding them. The main di
 
 ## Physics
 
-If physics is enabled, you will respond to world physics while seated. You could be pushed around by world mechanics like water, gravity, explosions, pistons, etc. How smoothly this runs depends entirely on the load on you world/server.   
+If physics is enabled, you will respond to world physics while seated. You could be pushed around by world mechanics like water, gravity, explosions, pistons, etc. How smoothly this runs depends on the performance of your world/server.   
 
 Please do not enable this in a Hardcore world! This feature is the sole cause behind 99% of this pack's bugs. It works most of the time, but during those rare moments when it doesn't work, you might find yourself being launched into outer-space or phasing through blocks.  
 
@@ -167,9 +168,11 @@ I spent days patching all known physics bugs, but I'm sure there are a few that 
 ## Uninstalling
 
 If you want to disable this pack 💔, you should first run the uninstaller function using the following command:  
+    
     /function x_seat:uninstall  
 
 This will remove all traces of the S.E.A.T pack, including any changes made to your world. If you're not using any other Xmas Labs packs, you could uninstall the C.O.R.E pack as well, using the following command:  
+    
     /function x_core:uninstall  
 
 Uninstalling the C.O.R.E pack will also automatically remove the S.E.A.T pack or any other packs that depend on it. If done correctly, you will no longer see the pack(s) in your Advancements tab.  
@@ -181,8 +184,8 @@ Once you've uninstalled the pack(s), you can safely remove the datapack(s) from 
 ## F.A.Q
 
 **Q: Why is nothing working?**  
-A: Stay calm. If you don't see any prompts while looking down, this usually means the pack hasn't loaded correctly. One way to check this is using your Advancements tab (Press L key to open). If the pack loaded correctly, it should show up there. If it didn't load correctly, or if something's not working, try reloading your world. If you have cheats enabled, use the '/reload' command or else, press F3 + T. Re-opening your world works too. 
-If none of that works, try using the '/datapack list' command to see if the packs were installed correctly. If they're not listed, you probably copied them into the wrong folder, or else the packs aren't compatible with your version of Minecraft. 
+A: Stay calm. If you don't see any prompts while looking down, this usually means the pack hasn't loaded correctly. One way to check this is using your Advancements tab (Press L key to open). If the pack loaded correctly, it should show up there. If it didn't load correctly, or if something's not working, try reloading your world. If you have cheats enabled, use the '/reload' command or re-open your world. 
+If that doesn't fix it, try using the '/datapack list' command to see if the packs were installed correctly. If they're not listed, you probably copied them into the wrong folder, or else the packs aren't compatible with your version of Minecraft. 
 
 **Q: Does Right-Click to sit not work sometimes?**  
 A: Yes, sometimes there's a bug where right-clicking doesn't seat you even if the prompt shows up. When that happens, just look/move around a tiny bit and try again.   
@@ -190,7 +193,7 @@ A: Yes, sometimes there's a bug where right-clicking doesn't seat you even if th
 **Q: Do the scrolling controls for S.E.A.T adjustment not work sometimes?**  
 A: The scrolling controls work by tracking the movement of the selected slot on your hotbar. If you scroll too quickly, the selection wraps around and confuses the function. To avoid this, just slow down your scrolling to 1 or 2 slots at a time.
 
-**Q: Why can't I sit on entity/mob XYZ?**  
+**Q: Why can't I sit on entity/mob X?**  
 A: You need to be directly above the entity/mob's hitbox to sit on them. Just try falling on top of them while seated. You can't sit on anything inside water or lava. Also, we've disabled sitting on things like item-drops and xp orbs, as they resulted in a lot of issues during testing.
 
 **Q: Can I sit underwater?**  
@@ -201,4 +204,39 @@ A: This can happen if you're trying to sit in a cramped or hard-to-access locati
 
 **Q: Why is this so buggy?**  
 A: I feel you, really I do. I've spent nearly a month getting this to where it's at, but there's only so much you can do with Minecraft commands. 
-If you want something more reliable, there are plenty of mods out there that do the same thing in a much more straight-forward fashion. In datapacks however, you have to rely on invisible llamas and sleeping foxes to implement stuff like this. This makes them more fun to develop but you'll probably never get a 100% perfect solution. 
+If you want something more reliable, there are plenty of mods out there that do the same thing in a straight-forward manner. With datapacks however, you have to rely on invisible llamas and sleeping foxes to implement stuff like this. This makes them fun to develop but it's almost impossible to get a perfect solution. 
+
+<br>
+
+## Contributing  
+
+If you want to help improve this pack, first of all, thank you ❤.  
+
+If you're not familiar with Minecraft commands or how datapacks work, I would still love to hear your feedback and suggestions. These packs use a lot of *'fickle'* code to do their thing and I could really use some testing help.  
+
+If you know how to use Minecraft commands and make datapacks, you can contribute edits to the code. There are are two folders that hold code, the default 'functions' folder, which should be familiar to you, and the 'scripts' folder which is used with a tool called mcscript, to generate those functions.
+
+I used mcscript because of its command grouping features that let you group commands by prefix.  
+
+For example:  
+
+    asat('@p'){
+      /say hello
+      /tp ~ ~ ~
+      }
+
+gets compiled to 
+
+    /execute as @p at @s run say hello
+    /execute as @p at @s run tp ~ ~ ~  
+
+As you can see, it greatly simplifies coding in commands.
+You can learn more about mcscript [here](https://mcscript.stevertus.com/#variables).  
+
+You can also directly contribute edits to functions, but mcscript scripts are so much easier to work with. I've also added comments to almost every line in those scripts, so it shouldn't be too difficult to figure out. Please try and understand the C.O.R.E pack first as a lot of S.E.A.T code depends on it.  
+
+<br>
+
+Okay, that about sums up everything I have to say about the S.E.A.T pack.  
+Thank you once again for checking it out.  
+I hope you enjoy it!
