@@ -140,3 +140,65 @@ Once you've entered S.E.A.T adjustment mode, you have 3 basic controls:
 
 This also works when sitting on mobs and entities but is really difficult to do because they don't sit still during adjustment. If this annoys you, enable the *'Freeze Rides on Adjust'* option in the pack menu to temporarily freeze entities you're sitting on during adjustment.  
 
+<br>
+
+## Sitting On Entities
+
+This pack lets you sit on almost every mob/entity in the game including other players, armor stands and mobs that can fly. You cannot sit on underwater mobs though, because Minecraft does not let you ride anything underwater (or under-lava).  
+
+To sit on an entity, all you have to do is sit on them from above (or fall on them while seated). Be careful doing this in Survival Mode as the mob you're sitting on could get you killed. For instance, you could be sitting on a cat that suddenly decides to run into a 1-block high passage, suffocating you inside the block above. Also, sitting on hostile mobs is generally a bad idea, though in a few cases, it's possible to get away with it.  
+
+When Rotation Lock is enabled, you tend to rotate with the entity you're sitting on (unless you're in S.E.A.T Adjustment Mode). This usually isn't apparent visually, unless the entity makes a drastic rotation.  
+
+Please note that sitting on an entity isn't the same as riding them. The main difference is that you can't directly control the movement of entities you're sitting on this way. However, you can now do things like share a ride with other players (they can join you as passengers).
+
+<br>
+
+## Physics
+
+If physics is enabled, you will respond to world physics while seated. You could be pushed around by world mechanics like water, gravity, explosions, pistons, etc. How smoothly this runs depends entirely on the load on you world/server.   
+
+Please do not enable this in a Hardcore world! This feature is the sole cause behind 99% of this pack's bugs. It works most of the time, but during those rare moments when it doesn't work, you might find yourself being launched into outer-space or phasing through blocks.  
+
+I spent days patching all known physics bugs, but I'm sure there are a few that went under my radar. It's impossible to find some of these unless you try every possible block or entity interaction in the game. So, if you want to stay safe, here's a general rule of thumb - DON'T SIT IN WEIRD SPOTS.
+
+<br>
+
+## Uninstalling
+
+If you want to disable this pack 💔, you should first run the uninstaller function using the following command:  
+    /function x_seat:uninstall  
+
+This will remove all traces of the S.E.A.T pack, including any changes made to your world. If you're not using any other Xmas Labs packs, you could uninstall the C.O.R.E pack as well, using the following command:  
+    /function x_core:uninstall  
+
+Uninstalling the C.O.R.E pack will also automatically remove the S.E.A.T pack or any other packs that depend on it. If done correctly, you will no longer see the pack(s) in your Advancements tab.  
+
+Once you've uninstalled the pack(s), you can safely remove the datapack(s) from your world folder. If you don't remove them, they will re-install themselves the next time you load/reload your world.
+
+<br>
+
+## F.A.Q
+
+**Q: Why is nothing working?**  
+A: Stay calm. If you don't see any prompts while looking down, this usually means the pack hasn't loaded correctly. One way to check this is using your Advancements tab (Press L key to open). If the pack loaded correctly, it should show up there. If it didn't load correctly, or if something's not working, try reloading your world. If you have cheats enabled, use the '/reload' command or else, press F3 + T. Re-opening your world works too. 
+If none of that works, try using the '/datapack list' command to see if the packs were installed correctly. If they're not listed, you probably copied them into the wrong folder, or else the packs aren't compatible with your version of Minecraft. 
+
+**Q: Does Right-Click to sit not work sometimes?**  
+A: Yes, sometimes there's a bug where right-clicking doesn't seat you even if the prompt shows up. When that happens, just look/move around a tiny bit and try again.   
+
+**Q: Do the scrolling controls for S.E.A.T adjustment not work sometimes?**  
+A: The scrolling controls work by tracking the movement of the selected slot on your hotbar. If you scroll too quickly, the selection wraps around and confuses the function. To avoid this, just slow down your scrolling to 1 or 2 slots at a time.
+
+**Q: Why can't I sit on entity/mob XYZ?**  
+A: You need to be directly above the entity/mob's hitbox to sit on them. Just try falling on top of them while seated. You can't sit on anything inside water or lava. Also, we've disabled sitting on things like item-drops and xp orbs, as they resulted in a lot of issues during testing.
+
+**Q: Can I sit underwater?**  
+A: No. There's a technical limitation/feature in Minecraft that dismounts you if you're riding anything underwater.
+
+**Q: Why do I get hurt while sitting or getting up?**  
+A: This can happen if you're trying to sit in a cramped or hard-to-access location. Try disabling different S.E.A.T menu options, such as physics and fall damage. If that doesn't work, you're outta luck.
+
+**Q: Why is this so buggy?**  
+A: I feel you, really I do. I've spent nearly a month getting this to where it's at, but there's only so much you can do with Minecraft commands. 
+If you want something more reliable, there are plenty of mods out there that do the same thing in a much more straight-forward fashion. In datapacks however, you have to rely on invisible llamas and sleeping foxes to implement stuff like this. This makes them more fun to develop but you'll probably never get a 100% perfect solution. 
