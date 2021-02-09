@@ -59,29 +59,29 @@ You can navigate to different pages using the page arrows at the bottom, or clea
 ### Menu Options:
 
 - #### Use Physics: 
-This feature makes you responsive to world physics while seated. Keep it *ON* if you want to fall, bounce, slide, etc while sitting. Turn it *OFF* to improve performance and avoid glitches.
+  This feature makes you responsive to world physics while seated. Keep it *ON* if you want to fall, bounce, slide, etc while sitting. Turn it *OFF* to improve performance and avoid glitches.
 
 - #### Rotation Lock:
-Turn *ON* to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode.
+  Turn *ON* to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode.
 
 - #### Only If Sneaking:
-Makes sitting slightly more complicated. If *ON,* players need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also, sneaking before sitting is slightly more realistic.
+  Makes sitting slightly more complicated. If *ON,* players need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also, sneaking before sitting is slightly more realistic.
 
 - #### Bounce Off Floors:
-By default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this *ON* will fix that but might cause the bounce to look less realistic.
+  By default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this *ON* will fix that but might cause the bounce to look less realistic.
 
 - #### Only Sit Down:
-By default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this *ON* forces S.E.A.T to only use the block you're standing on/in.
+  By default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this *ON* forces S.E.A.T to only use the block you're standing on/in.
 
 - #### Fall Damage:
-Keep this *ON* to apply fall damage to seated players when falling. No reason to turn this *OFF* unless you're playing it super safe.
+  Keep this *ON* to apply fall damage to seated players when falling. No reason to turn this *OFF* unless you're playing it super safe.
 
 - #### Block Inventory:
 Prevents players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this *OFF* will allow seated inventory access but might break immersion.
 
 - #### Freeze Ride On Adjust:
-Turning this *ON* will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but may cause issues with the mob/entity you're sitting on, since this resets their state.
+  Turning this *ON* will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but may cause issues with the mob/entity you're sitting on, since this resets their state.
 
 - #### Show Prompts:
-Turn this *OFF* to disable sitting instruction prompts. This might make things difficult for players new to the pack.
+  Turn this *OFF* to disable sitting instruction prompts. This might make things difficult for players new to the pack.
 
