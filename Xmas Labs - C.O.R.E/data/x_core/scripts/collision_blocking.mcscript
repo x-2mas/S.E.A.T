@@ -1,0 +1,135 @@
+
+#
+#
+# C.O.R.E | collision_blocking
+# Collision blocking tasks.
+#
+#
+
+    
+
+/// As entities not queued for collision blocking
+asat('@e[scores={x_NO_COLLIDE__T=..0}]'){
+    
+    /// Remove collision blocking tag
+    /tag @s remove x_NO_COLLIDE
+
+    /// Leave no-collision team
+    /team leave @s[team=x_NO_COLLIDE]
+
+    /// Reset collision blocking queue
+    /scoreboard players reset @s x_NO_COLLIDE__T
+}
+
+/// As entities tagged for collision blocking but missing tag queue
+asat('@e[tag=x_NO_COLLIDE]'), if(!'entity @s[scores={x_NO_COLLIDE__T=0..}]'){
+    
+    /// Queue collision blocking tag
+    /scoreboard players set @s x_NO_COLLIDE__T 1
+}
+
+/// As entities queued for collision blocking,
+asat('@e[scores={x_NO_COLLIDE__T=1..}]'){
+
+    /// Add the no collide tag
+    /tag @s add x_NO_COLLIDE
+
+    /// Add to the 'no collide' team if entity not already in a team
+    /// This team has collisions disabled (in load function), so other entities can't collide with them
+    /team join x_NO_COLLIDE @s
+}
+
+
+
+
+
+/// As entities not queued for collision barriers
+asat('@e[scores={x_COLLISION_B__T=..0}]'){
+    
+    /// Remove collision barrier tag
+    /tag @s remove x_DRAW_COLLISION_BARRIER
+
+    /// Reset collision barrier queue
+    /scoreboard players reset @s x_COLLISION_B__T
+}
+
+/// As entities tagged for collision barriers but missing tag queue
+asat('@e[tag=x_DRAW_COLLISION_BARRIER]'), if(!'entity @s[scores={x_COLLISION_B__T=0..}]'){
+    
+    /// Queue collision barrier tag
+    /scoreboard players set @s x_COLLISION_B__T 1
+}
+
+/// As entities queued for collision barriers
+asat('@e[scores={x_COLLISION_B__T=1..}]'){
+    
+    /// Tag as drawing collision barrier
+    /tag @s add x_DRAW_COLLISION_BARRIER
+
+    /// If no collision barrier already at entity
+    if(!'entity @e[distance=..0.5,tag=x_COLLISION_BARRIER]') {
+
+        /// [!] NEEDS SYNTAX CHECKING
+        /// Summon a (invisible) barrier falling block at entity
+        /summon minecraft:falling_block ~ ~ ~ {Tags:[x_COLLISION_BARRIER,x_KILL_ON_UNINSTALL], Age:1, NoAI:1, BlockState:{Name:"minecraft:barrier"}}
+    }
+}
+
+/// As collision barriers
+asat('@e[tag=x_COLLISION_BARRIER]'){
+
+    /// Teleport to closest entity requesting the collision barrier
+    /tp @s @e[distance=..1,tag=x_DRAW_COLLISION_BARRIER,limit=1,sort=nearest]
+
+    /// If no entity requesting colission barrier nearby, dispose self
+    if(!'entity @e[distance=..0.5,tag=x_DRAW_COLLISION_HITBOX]') {
+        /kill @s
+    }
+}
+
+
+
+
+
+/// As entities not queued for collision armor stands
+asat('@a[scores={x_COLLISION_A__T=..0}]'){
+    
+    /// Remove collision barrier tag
+    /tag @s remove x_DRAW_COLLISION_ARMOR_STAND
+
+    /// Reset collision armor stand queue
+    /scoreboard players reset @s x_COLLISION_A__T
+}
+
+/// As entities tagged for collision armor stands but missing tag queue
+asat('@e[tag=x_DRAW_COLLISION_ARMOR_STAND]'), if(!'entity @s[scores={x_COLLISION_A__T=0..}]'){
+    
+    /// Queue collision armor stands tag
+    /scoreboard players set @s x_COLLISION_A__T 1
+}
+
+/// As entities queued for collision armor stands
+asat('@e[scores={x_COLLISION_A__T=1..}]'){
+
+    /// Tag as drawing collision armor stand
+    /tag @s add x_DRAW_COLLISION_ARMOR_STAND
+
+    /// If no collision armor stand already at entity
+    if(!'entity @e[distance=..0.5,tag=x_COLLISION_ARMOR_STAND]') {
+
+        /// Summon a (invisible) armor stand at entity
+        /summon minecraft:armor_stand ~ ~ ~ {Tags:[x_COLLISION_ARMOR_STAND,x_KILL_ON_UNINSTALL],Invisible:1,Invulnerable:1,Small:1}
+    }
+}
+
+/// As collision armor stands
+asat('@e[tag=x_COLLISION_ARMOR_STAND]'){
+
+    /// Teleport to closest entity requesting the collision armor stand
+    /tp @s @p[distance=..1,tag=x_DRAW_COLLISION_ARMOR_STAND,limit=1,sort=nearest]
+    
+    /// If no entity requesting collision armor stand nearby, dispose self
+    if(!'entity @e[distance=..0.5,tag=x_DRAW_COLLISION_ARMOR_STAND]') {
+        /kill @s
+    }
+}

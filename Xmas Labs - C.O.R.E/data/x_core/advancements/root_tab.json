@@ -1,0 +1,25 @@
+{
+    "display":{
+        "icon": {
+            "item": "minecraft:written_book"
+        },
+        "title": {
+            "text": "Xmas Labs Advancements",
+            "color": "white"
+        },
+        "background" : "minecraft:textures/block/emerald_block.png",
+        "frame": "task",
+        "description" :{
+            "text": "All advancements from Xmas Labs packs!",
+            "color": "white"
+        },        
+        "show_toast": false,
+        "announce_to_chat": false,
+        "hidden":true
+    },
+    "criteria": {
+        "Is it Xmas?":{
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+
+#
+#
+# C.O.R.E | search
+# Search entities using dynamic search values
+#
+#
+
+
+/// Tag as searching entity
+/tag @s add x_SEARCH 
+
+
+/// Clear previous search results (if any)
+/tag @e remove x_FOUND 
+
+
+/// Do as all entities that can be searched, if their general register value matches the searching entity's genral register value
+asat('@e[tag=x_SEARCHABLE]'), if('score @s x_SEARCH_KEY = @e[tag=x_SEARCH,limit=1] x_SEARCH_KEY'){
+    
+    /// Tag matched entity as found
+    /tag @s add x_FOUND 
+}
+
+
+/// Remove searching tag
+/tag @s remove x_SEARCH 

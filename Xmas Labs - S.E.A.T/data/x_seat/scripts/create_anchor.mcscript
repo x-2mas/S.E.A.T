@@ -1,0 +1,32 @@
+
+#
+#
+# S.E.A.T | create_anchor
+# Creates a new S.E.A.T anchor
+#
+#
+
+
+/// Create a new anchor at player butt position
+positioned('as @s'), rotated('as @s'){
+
+    /summon minecraft:armor_stand ^ ^ ^ {Tags:[x_EID,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_ANCHOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T ANCHOR\"}]",Small:1,Marker:1,Invisible:1,Invulnerable:1} 
+
+    /tp @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] ^ ^1.9 ^-0.2 facing ^ ^1.9 ^
+}
+
+/// Assign seat ID to anchor
+/scoreboard players operation @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] x_SEAT_ID = @s x_SEAT_ID
+
+/// Tag anchor for attachment creation
+/tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] add x_ATTACH_NEW_PRIMARY
+
+/// Tag seat for attachment creation
+/tag @s add x_ATTACH_NEW_SECONDARY
+
+/// Remove unlinked tag
+/tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] remove x_SEAT_UNLINKED
+
+
+/// Run C.O.R.E attachment creation
+/function x_core:create_attachment

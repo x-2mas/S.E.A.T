@@ -1,0 +1,43 @@
+
+#
+#
+# S.E.A.T | seat_sensor
+# Handles S.E.A.T physics sensor tasks
+#
+#
+
+
+
+/// Copy anchor's player's rotation
+/data modify entity @s Rotation[0] set from entity @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] Rotation[0]
+    
+/// If sensor's anchor missing,
+if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR]'){
+
+    /// Dispose component
+    /function x_seat:kill_seat
+}
+
+
+
+
+/// Keep sensor (Fox) asleep to prevent AI movement and cancel any glowing effects
+/data modify entity @s {} merge value {Sleeping:1,Glowing:0}
+
+
+/// If sensor clock is at 30 ticks,
+if('score @s x_SEAT_TICK matches 30..') {
+
+    /// If sensor's anchor is moving or missing,
+    if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR,tag=!x_SEAT_ANCHOR_MOVING,distance=..0.15]'){
+
+        /// Dispose sensor
+        /function x_seat:kill_seat
+    }
+
+    /// Reset sensor clock
+    /scoreboard players set @s x_SEAT_TICK 0
+}
+
+/// Advance seat clock by 1 tick
+/scoreboard players add @s x_SEAT_TICK 1

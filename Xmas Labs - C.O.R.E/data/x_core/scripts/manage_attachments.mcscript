@@ -1,0 +1,41 @@
+
+#
+#
+# C.O.R.E | manage_attachments
+# Attachment management tasks
+#
+#
+
+
+
+/// As entities with no queued attachment tags,
+asat('@e[scores={x_ATTACH__T=..0}]') {
+
+    /// Reset attachment values
+    /scoreboard players reset @s x_ATTACH_X
+    /scoreboard players reset @s x_ATTACH_Y
+    /scoreboard players reset @s x_ATTACH_Z
+
+    /// Remove attachment tag
+    /tag @s remove x_ATTACH
+
+    /// Reset attachment tag queue
+    /scoreboard players reset @s x_ATTACH__T
+}
+
+/// As entities tagged for attachment but missing tag queue
+asat('@e[tag=x_ATTACH]'), if(!'entity @s[scores={x_ATTACH__T=0..}]'){
+    
+    /// Queue attachment tag
+    /scoreboard players set @s x_ATTACH__T 1
+}
+
+/// Tag entities queued for attachement
+/tag @e[scores={x_ATTACH__T=1..}] add x_ATTACH
+
+/// As entities queued for attachement to their parent entities
+asat('@e[scores={x_ATTACH__T=1..},limit=1]'){
+
+    /// Attach(tp) entities 
+    /function x_core:attach
+}

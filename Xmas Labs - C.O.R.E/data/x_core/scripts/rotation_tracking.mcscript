@@ -1,0 +1,35 @@
+
+#
+#
+# C.O.R.E | rotation_tracking
+# Do rotation tracking tasks
+#
+#
+
+
+/// As all players no longer queued for tracking rotation,
+asat('@e[scores={x_ROT_TRACK__T=..0}]') {
+
+    /// Remove rotation tracking tag
+    /tag @s remove x_TRACK_ROTATION
+}
+
+/// As entities tagged for tracking rotation but empty tag queue
+asat('@e[tag=x_TRACK_ROTATION]'), if(!'entity @s[scores={x_ROT_TRACK__T=0..}]'){
+    
+    /// Queue rotation tracking tag
+    /scoreboard players set @s x_ROT_TRACK__T 1
+}
+
+/// As all players queued for rotation tracking,
+asat('@e[scores={x_ROT_TRACK__T=1..}]') {
+
+    /// Tag as tracking rotation
+    /tag @s add x_TRACK_ROTATION
+
+    /// Copy entity X rotation to X-rotation register
+    /execute store result score @s x_ROT_Y run data get entity @s Rotation[0] 1
+
+    /// Copy entity Y rotation to Y-rotation register
+    /execute store result score @s x_ROT_X run data get entity @s Rotation[X] 1
+}

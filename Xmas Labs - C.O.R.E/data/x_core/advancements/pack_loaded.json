@@ -1,0 +1,30 @@
+{
+    "parent":"x_core:root_tab",
+    "display":{
+        "icon": {
+            "item": "minecraft:nether_star"
+        },
+        "title": {
+            "text": "C.O.R.E Ready!",
+            "color": "white"
+        },
+        "frame": "goal",
+        "description" :{
+            "text": "Xmas Labs C.O.R.E Pack",
+            "color": "gold",
+            "extra": [
+                {
+                    "text": "\n\nRequired by other Xmas Labs packs to do their thing. \nIf loaded correctly, they too will show up here.",
+                    "color": "white"
+                }
+            ]
+        },        
+        "show_toast": false,
+        "announce_to_chat": false
+    },
+    "criteria": {
+        "CORE Stable?":{
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

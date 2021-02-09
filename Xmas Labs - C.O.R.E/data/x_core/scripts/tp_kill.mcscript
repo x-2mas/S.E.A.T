@@ -1,0 +1,14 @@
+
+#
+#
+# C.O.R.E | tp_kill
+# Teleports and kills entity below world (to hide death animation))
+#
+#
+
+
+/// Teleport all TP-Kill tagged entities below world
+/tp @e[tag=x_TP_KILL] ~ ~999 ~
+
+/// Kill teleported entities
+/kill @e[tag=x_TP_KILL]

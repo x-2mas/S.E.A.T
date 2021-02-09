@@ -1,0 +1,29 @@
+
+{
+  "pack": {
+    "pack_format": 6,
+    "description": {
+      "text":"by Xmas Labs",
+      "color": "green",
+      "extra":[
+        {
+          "text":"\n\nXmas Labs S.E.A.T Pack",
+          "color":"gold" 
+        },
+        {
+          "text": "\nThe Xmas Labs ",
+          "color":"white"
+        },
+        {
+          "text": "Sitting Enabled Anywhere Technology (S.E.A.T). ",
+          "color":"green"
+        },
+        {
+          "text": "Lets you sit anywhere, anytime",
+          "color":"white"
+        }      
+      ] 
+    }
+  }
+}
+  

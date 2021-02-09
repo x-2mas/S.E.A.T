@@ -1,0 +1,163 @@
+
+#
+#
+# S.E.A.T | runtime
+# Performs runtime S.E.A.T tasks.
+# Runs every tick.
+#
+#
+
+
+
+
+
+/// Run player-S.E.A.T interface
+/function x_seat:player_interface
+
+/// Run S.E.A.T tasks
+/function x_seat:seat
+
+
+
+
+
+/// If 'only-if-sneaking' is enabled,
+if('data storage x_seat flags{onlyIfSneaking:1}') {
+
+    /// Activate C.O.R.E sneak-time tracking
+    if(!'data storage x_core flags.trackSneakTime') {
+        /data modify storage x_core flags merge value {trackSneakTime:1}
+    }
+
+    /// Queue pack for sneak-time tracking
+    if(!'data storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]'){
+        /data modify storage x_core flags.trackSneakTime__Packs append value {x_SEAT:1}
+    }
+
+/// If 'only-if-sneaking' is disabled 
+} else {
+
+    /// Unqueue pack from sneak-time tracking
+    if('data storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]'){
+        /data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
+    }
+}
+
+
+
+
+
+/// If there is atleast one seated player,
+if('entity @a[tag=x_SEATED]') {
+
+    /// Activate C.O.R.E scrollbar
+    if(!'data storage x_core flags.scrollBar') {
+        /data modify storage x_core flags merge value {scrollBar:1}
+    }
+
+    /// Queue pack for scroll-bar
+    if(!'data storage x_core flags.scrollBar__Packs[{x_SEAT:1}]'){
+        /data modify storage x_core flags.scrollBar__Packs append value {x_SEAT:1}
+    }
+
+/// If no seated players, 
+} else {
+
+    /// Unqueue pack from scroll-bar
+    if('data storage x_core flags.scrollBar__Packs[{x_SEAT:1}]'){
+        /data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
+    }
+}
+
+
+
+
+
+/// If there is atleast one seat,
+if('entity @e[tag=x_SEAT_NS]') {
+
+    /// Activate C.O.R.E collision-blocking
+    if(!'data storage x_core flags.blockCollisions') {
+        /data modify storage x_core flags merge value {blockCollisions:1}
+    }
+
+    /// Queue pack for collision-blocking
+    if(!'data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]'){
+        /data modify storage x_core flags.blockCollisions__Packs append value {x_SEAT:1}
+    }
+
+    /// Activate C.O.R.E attachments
+    if(!'data storage x_core flags.attach') {
+        /data modify storage x_core flags merge value {attach:1}
+    }
+
+    /// Queue pack for attachments
+    if(!'data storage x_core flags.attach__Packs[{x_SEAT:1}]'){
+        /data modify storage x_core flags.attach__Packs append value {x_SEAT:1}
+    }
+
+    /// Activate C.O.R.E item-monitoring
+    if(!'data storage x_core flags.monitorItems') {
+        /data modify storage x_core flags merge value {monitorItems:1}
+    }
+
+    /// Queue pack for item-monitoring
+    if(!'data storage x_core flags.monitorItems__Packs[{x_SEAT:1}]'){
+        /data modify storage x_core flags.monitorItems__Packs append value {x_SEAT:1}
+    }
+
+/// If no seat blocking interactions, 
+} else {
+
+    /// Unqueue pack from collison-blocking
+    if('data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]'){
+        /data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
+    }
+
+    /// Unqueue pack from attachments
+    if('data storage x_core flags.attach__Packs[{x_SEAT:1}]'){
+        /data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
+    }
+
+    /// Unqueue pack from item-monitoring
+    if('data storage x_core flags.monitorItems__Packs[{x_SEAT:1}]'){
+        /data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]
+    }
+}
+
+
+
+
+
+/// If rotations locked, 
+if('data storage x_seat flags{rotationLock:1}'){
+
+    /// Tag all seat anchors attached to entities, with a rotation attach tag
+    /// Ignores player rotation, rotates with ride (if attached)  
+    /tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_ATTACH] add x_ATTACH_ROTATE
+    
+} else {
+    
+    /// Remove rotation attach tags from all seat anchors
+    /// They rotate with player instead
+    /tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] remove x_ATTACH_ROTATE
+}
+
+
+
+
+
+/// Remove S.E.A.T tag namespace from entities that don't need it
+/tag @e[tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_MAY_SIT,tag=!x_MAY_SIT_SKIP,tag=!x_MAY_NOT_SIT,tag=!x_SCROLLBAR__SEAT,tag=!x_NO_COLLIDE__SEAT,tag=!x_MAY_ADJUST_SEAT,tag=!x_MAY_ADJUST_SEAT_SKIP,tag=!x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,tag=!x_SEATED,tag=!x_SEAT_RIDE,tag=!x_SEAT_RIDE_SKIP,tag=!x_SEAT_NO_RIDE,tag=!x_SEAT_BLOCKING_INTERACTIONS,tag=!x_SEAT_BASE_PLAYER,tag=!x_SEAT_SURFACE_PLAYER,tag=!x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_ANCHOR_RIDE,tag=!x_SEAT_ANCHOR_RIDE_FROZEN] remove x_SEAT_NS
+
+
+
+
+
+
+/// If load notifications complete,
+if('data storage x_core flags{loadNotified:1}') {
+
+    /// Add this pack to the Xmas Labs Advancements tab of all players
+    /advancement grant @a only x_seat:pack_loaded
+}

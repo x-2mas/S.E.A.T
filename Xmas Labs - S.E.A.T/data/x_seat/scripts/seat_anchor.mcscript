@@ -1,0 +1,434 @@
+
+#
+#
+# S.E.A.T | seat_anchor 
+# Handles S.E.A.T anchor tasks
+#
+#
+
+
+
+/// If not attached to anything and rotations unlocked
+if('data storage x_seat flags{rotationLock:0}'){
+
+    /// Copy anchor's player's rotation to anchor
+    /data modify entity @s Rotation[0] set from entity @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] Rotation[0]
+}
+
+
+/// If anchor's player or base missing,
+if(!'entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED]}}}]' || !'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_BASE]'){
+    
+    /// If not already tagged for disposal
+    if(!'entity @s[tag=x_KILL_SEAT]'){
+
+        /// Dispose
+        /schedule function x_seat:kill_seat 2t
+
+        /// Tag for disposal
+        /tag @s add x_KILL_SEAT
+    }
+}
+
+
+/// Cancel any glowing effects
+/data modify entity @s {} merge value {Glowing:0}  
+
+
+/// If block at anchor is water,
+if('block ^ ^ ^ minecraft:water'){
+
+    /// If not tagged as submerged,
+    if(!'entity @s[tag=x_SEAT_ANCHOR_SUBMERGED]'){
+
+        /// Disable seat base (Fox) AI (prevents ejecting playing underwater)
+        /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,limit=1,sort=nearest] {} merge value {NoAI:1}
+
+        /// Tag anchor as submerged
+        /tag @s add x_SEAT_ANCHOR_SUBMERGED
+    }
+
+/// If block at anchor is NOT water,
+} else {
+    
+    /// If tagged as submerged,
+    if('entity @s[tag=x_SEAT_ANCHOR_SUBMERGED]'){
+
+        /// Re-enable seat base (Fox) AI
+        /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,limit=1,sort=nearest] {} merge value {NoAI:0}
+
+        /// Restore Y attachment
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,limit=1,sort=nearest] x_ATTACH_Y -1900000
+
+        /// Remove submerged tag
+        /tag @s remove x_SEAT_ANCHOR_SUBMERGED
+    }
+}
+
+
+
+/// Do if tagged as submerged
+asat('@s[tag=x_SEAT_ANCHOR_SUBMERGED]'){
+
+    /// Adjust Y attachment to fit water level
+
+    if('block ^ ^ ^ minecraft:water[level=6]'){    
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1800000
+    }
+    if('block ^ ^ ^ minecraft:water[level=5]'){
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1700000
+    }
+    if('block ^ ^ ^ minecraft:water[level=4]'){
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1600000
+    }
+    if('block ^ ^ ^ minecraft:water[level=3]'){
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1500000
+    }
+    if('block ^ ^ ^ minecraft:water[level=2]'){
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1400000
+    }
+    if('block ^ ^ ^ minecraft:water[level=1]'){
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1100000
+    }
+    if('block ^ ^ ^ minecraft:water[level=0]'||'block ^ ^ ^ minecraft:water[level=8]'||'block ^ ^ ^ minecraft:water[level=9]'||'block ^ ^ ^ minecraft:water[level=10]'||'block ^ ^ ^ minecraft:water[level=11]'||'block ^ ^ ^ minecraft:water[level=12]'||'block ^ ^ ^ minecraft:water[level=13]'||'block ^ ^ ^ minecraft:water[level=14]'||'block ^ ^ ^ minecraft:water[level=15]'){
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -900000
+    }
+}
+
+
+
+
+
+/// If block just below anchor is a fence or fence-gate,
+if('block ^ ^-1 ^ #minecraft:fences' || 'block ^ ^-1 ^ #minecraft:fence_gates'){
+
+    /// If not tagged as on a fence,
+    if(!'entity @s[tag=x_SEAT_ANCHOR_ON_FENCE]' && !'entity @s[tag=x_ATTACH]'){
+
+        /// Adjust vertical attachment
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -2400000
+
+        /// Tag anchor as on fence
+        /tag @s add x_SEAT_ANCHOR_ON_FENCE
+    }
+} 
+
+
+/// If tagged as on a fence,
+if('entity @s[tag=x_SEAT_ANCHOR_ON_FENCE]'){
+
+    /// If block just below anchor is NOT a fence or fence-gate,
+    if(!'block ^ ^-1 ^ #minecraft:fences' && !'block ^ ^-1 ^ #minecraft:fence_gates'){
+
+        /// Restore Y attachment
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1900000
+
+        /// Remove fence tag
+        /tag @s remove x_SEAT_ANCHOR_ON_FENCE
+    }
+}
+
+
+
+
+/// If block just below anchor is a wall,
+if('block ^ ^-1 ^ #minecraft:walls'){
+
+    /// If not tagged as on a wall,
+    if(!'entity @s[tag=x_SEAT_ANCHOR_ON_WALL]' && !'entity @s[tag=x_ATTACH]'){
+
+        /// Adjust vertical attachment
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -2500000
+
+        /// Tag anchor as on wall
+        /tag @s add x_SEAT_ANCHOR_ON_WALL
+    }
+} 
+
+
+/// If tagged as on a wall,
+if('entity @s[tag=x_SEAT_ANCHOR_ON_WALL]'){
+
+    /// If block just below anchor is NOT a wall,
+    if(!'block ^ ^-1 ^ #minecraft:walls'){
+
+        /// Restore Y attachment
+        /scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -1900000
+
+        /// Remove wall tag
+        /tag @s remove x_SEAT_ANCHOR_ON_WALL
+    }
+}
+
+
+
+
+/// If fall-damage is ON,
+if('data storage x_seat flags{fallDamage:1}') {
+
+    /// Get fall distance
+    /execute store result score @s x_R0 run data get entity @s FallDistance 1
+    
+/// If fall-damage is OFF,
+} else {
+
+    /// Set fall damage to 0
+    /scoreboard players set @s x_R0 0
+}
+
+
+/// If fallen over atleast 3 blocks, and not attached to any entity,
+if('score @s x_R0 matches 3..' && !'entity @s[tag=x_ATTACH]'){
+
+
+    /// If seat physics is enabled
+    if('data storage x_seat flags{physics:1}'){
+        
+        /// Turn on base AI (making it directly responsive to physics)
+        /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] {} merge value {NoAI:0}  
+    }
+
+    /// Copy motion from anchor to S.E.A.T Base (Fox)
+    /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] Motion set from entity @s Motion 
+
+    /// Copy fall distance value from anchor to S.E.A.T Base (Fox)
+    /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] FallDistance set from entity @s FallDistance 
+
+
+    /// Tag seat base (Fox) as falling
+    /tag @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] add x_SEAT_FALLING
+
+    /// Remove seat base anchored tag
+    /tag @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] remove x_SEAT_ANCHORED
+
+    /// Remove seat base attachment tags
+    /tag @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] remove x_ATTACH
+    /tag @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] remove x_ATTACH_ROTATE
+
+
+    /// Dispose anchor 
+    /// Another one is created by base after landing
+    // /kill @s
+}
+
+
+
+
+
+/// If anchor is attached to some entity (i.e. riding them), 
+if('entity @s[tag=x_ATTACH]'){
+
+    /// If ride is missing,
+    if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_RIDE]'){
+
+        /// Remove the attach tags
+        /tag @s remove x_ATTACH_ROTATE
+        /tag @s remove x_ATTACH
+    }
+}
+
+
+
+
+/// If being adjusted on a ride and freeze-ride-on-adjust is enabled,
+if('entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING]' && 'data storage x_seat flags{freezeRideOnAdjust:1}'){
+
+    /// As the anchor's ride,
+    asat('@e[tag=x_SEAT_ANCHOR_RIDE,sort=nearest,limit=1]'){
+    
+        /// If ride AI is enabled,
+        if('entity @s[nbt=!{NoAI:1}]'){
+
+            /// Add frozen tag
+            /tag @s add x_SEAT_ANCHOR_RIDE_FROZEN
+
+            /// Disable ride AI
+            /data merge entity @s {NoAI:1} 
+        }
+    }        
+}
+
+
+
+
+/// If there is a seated player,
+if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]') {
+
+
+    /// Add a ride skip tag to the seated player
+    /// Prevents seat from riding player (see below)
+    /tag @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] add x_SEAT_NO_RIDE
+
+
+    /// If anchor is unattached  
+    if('entity @s[tag=!x_ATTACH]'){
+        
+        /// If there's an entity whose hitbox is right below the anchor,
+        if('entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!minecraft:item]'){
+            
+
+            /// If this anchor doesn't have an EID, give it one
+            if(!'score @s x_EID matches 1..'){
+                /function x_core:assign_eid
+            }
+
+            
+            /// Do as rideable entity closest to seat,
+            asat('@e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest]'){
+                
+
+                /// Add S.E.A.T namespace tag (helps prevent tag conflicts with other packs)
+                /tag @s add x_SEAT_NS
+
+                /// Tag as seat ride
+                /tag @s add x_SEAT_RIDE
+                
+
+                /// If entity not already tagged as no-collide 
+                if(!'entity @s[tag=x_NO_COLLIDE]'){
+                    
+                    /// Tag as no-collide 'added by seat' (indicates no-collide tag was added by this pack)
+                    /tag @s add x_NO_COLLIDE__SEAT
+                }
+
+
+                /// Queue a collision blocking tag
+                /scoreboard players add @s x_NO_COLLIDE__T 1
+
+                /// Tag as no-collide (prevents player pushing the entity)
+                /tag @s add x_NO_COLLIDE
+
+                
+                /// If this entity doesn't have an EID,
+                if(!'score @s x_EID matches 1..'){
+                    
+                    /// Tag as 'EID added by seat' (indicates EID was added by this pack)
+                    /tag @s add x_EID__SEAT
+
+                    /// Queue player for an EID tag
+                    /scoreboard players add @s x_EID__T 1
+
+                    /// Tag as having EID
+                    /tag @s add x_EID
+
+                    /// Assign EID
+                    /function x_core:assign_eid
+                }
+            }
+
+
+            /// Turn on anchor's marker mode (no longer responds to physics)
+            /data modify entity @s Marker set value 1
+
+            /// Reset seat clock 
+            /scoreboard players reset @s x_SEAT_TICK
+
+
+            /// Tag seat and ride for attachment creation
+            /tag @s add x_ATTACH_NEW_SECONDARY
+            /tag @e[tag=x_SEAT_RIDE,limit=1,sort=nearest] add x_ATTACH_NEW_PRIMARY
+
+            /// Run C.O.R.E attachment creation
+            /function x_core:create_attachment
+
+            /// Queue an attach tag
+            /scoreboard players add @s x_ATTACH__T 1
+
+            /// Tag anchor with an attach tag
+            /tag @s add x_ATTACH
+        }
+    }
+
+
+    /// Remove no-ride tag from the player (no longer needed)
+    /tag @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] remove x_SEAT_NO_RIDE
+}
+
+
+
+
+
+
+/// If physics anchor is not attached to any entity and is not being adjusted by player and some time has passed,
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_TICK matches 10'){
+    
+    /// If seat physics is enabled
+    if('data storage x_seat flags{physics:1}'){
+    
+        /// If no existing unlinked physics sensors (explained below) found near physics anchor, 
+        if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,distance=..1]'){
+
+            /// Summon a new physics sensor (Fox) (underground to hide summoning animation)
+            /summon minecraft:fox ^ ^999 ^ {Tags:[x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
+        }
+
+        /// Teleport nearest unlinked physics sensor to anchor
+        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] ^ ^ ^
+
+        /// Assign seat ID
+        /scoreboard players operation @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_SEAT_ID = @s x_SEAT_ID
+
+        /// Remove unlinked tag 
+        /tag @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] remove x_SEAT_UNLINKED
+    }
+}
+
+/// If anchor is unattached and is not being adjusted by player and there its sensor is near the anchor (indicates seat at rest),
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15]'){
+
+    /// If anchor previously tagged as moving,
+    if('entity @s[tag=x_SEAT_ANCHOR_MOVING]'){
+
+        /// Turn on anchor's marker mode (no longer responds to physics)
+        /data modify entity @s Marker set value 1
+
+        /// Remove anchor moving tag
+        /tag @s remove x_SEAT_ANCHOR_MOVING
+    }
+
+    /// Set seat clock to 20
+    /scoreboard players set @s x_SEAT_TICK 20
+}
+
+
+
+/// If anchor is unattached and is not being adjusted by player and some time has passed since sensor created, but its sensor not found near anchor (indicates motion),
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_TICK matches 20..' && !'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15]'){
+
+    /// If anchor not previously tagged as moving, 
+    if(!'entity @s[tag=x_SEAT_ANCHOR_MOVING]'){
+
+        /// If seat physics is enabled
+        if('data storage x_seat flags{physics:1}'){
+
+            /// Turn off armor stand marker mode (now responds to physics)
+            /data modify entity @s Marker set value 0
+        }
+
+        /// Tag as moving
+        /tag @s add x_SEAT_ANCHOR_MOVING    
+    }
+
+    /// Reset seat clock
+    /scoreboard players reset @s x_SEAT_TICK
+} 
+
+
+
+/// If anchor is un-attached and is not being adjusted by player,
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]'){
+
+    /// Advance seat clock by 1 tick
+    /scoreboard players add @s x_SEAT_TICK 1
+}
+
+
+/// Clock reset to zero if anchor...
+///     - is attached
+///     - is at rest
+///     - reached 20 ticks
+
+/// At 10 ticks: Summon sensor
+/// At 20 ticks: Check sensor
+
+/// Clock advances only if unattached

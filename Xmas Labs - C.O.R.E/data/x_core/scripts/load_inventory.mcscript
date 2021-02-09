@@ -1,0 +1,256 @@
+
+#
+#
+# C.O.R.E | load_inventory
+# Restore calling entity's inventory from storage.
+#
+#
+
+
+/// Tag calling entity for loading
+/tag @s add x_LOAD_INV
+
+
+/// Only do for as long as calling entity is tagged for loading (needed to exit recursion)
+asat('@s[tag=x_LOAD_INV]'){
+
+    /// Get entity ID of last entity in 'shared.entities' in storage
+    /execute store result score x_CPU x_EID run data get storage x_core shared.entities[-1].eid 1
+
+    /// If last entity ID matches the one being loaded and entity inventory not yet loaded,
+    if('score @s x_EID = x_CPU x_EID' && 'entity @s[tag=!x_LOADED_INV]'){
+        
+        /// Summon an item drop for items in each slot at the entity's location
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:0,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:0b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:1,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:1b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:2,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:2b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:3,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:3b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:4,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:4b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:5,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:5b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:6,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:6b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:7,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:7b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:8,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:8b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_HOTBAR
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:9,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:9b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:10,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:10b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:11,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:11b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:12,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:12b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:13,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:13b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:14,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:14b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:15,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:15b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:16,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:16b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:17,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:17b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:18,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:18b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:19,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:19b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:20,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:20b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:21,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:21b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:22,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:22b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:23,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:23b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:24,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:24b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:25,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:25b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:26,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:26b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:27,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:27b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:28,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:28b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:29,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:29b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:30,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:30b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:31,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:31b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:32,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:32b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:33,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:33b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:34,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:34b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:35,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:35b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM 
+        
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:2,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:100,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:100b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ARMOR 
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM 
+        
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:2,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:101,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:101b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ARMOR 
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM 
+        
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:2,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:102,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:102b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ARMOR 
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM 
+        
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:2,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:103,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:103b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ARMOR 
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM 
+
+        /summon minecraft:item ~ ~ ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:2,Item:{id:"minecraft:birch_button",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:-106,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+        /data modify entity @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] Item set from storage x_core shared.entities[-1].data.Inventory[{Slot:-106b}]
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_OFFHAND 
+        /tag @e[tag=x_INV_LOADER,tag=!x_INV_ITEM,limit=1] add x_INV_ITEM 
+
+        /tag @s add x_LOADED_INV
+    } 
+
+
+
+    /// If no temporary 'shared._entities' in storage,
+    if(!'data storage x_core shared._entities'){
+
+        /// Make a temporary 'shared._entities' in storage
+        /data modify storage x_core shared merge value {_entities:[]}
+    }
+    
+    /// Move last entity to temporary 'shared._entities' in storage 
+    /data modify storage x_core shared._entities prepend from storage x_core shared.entities[-1]
+    /data remove storage x_core shared.entities[-1]
+
+
+
+
+    /// If there remains data in 'shared.entities', 
+    if('data storage x_core shared.entities[0]'){
+        
+        /// Repeat this function on remaining data
+        /function x_core:load_inventory
+    }
+
+    /// If no more data in 'shared.entities' and if entity not yet loaded
+    if(!'data storage x_core shared.entities[0]' && !'entity @s[tag=x_LOADED_INV]') {
+
+        /// Get entity ID of calling entity
+        /execute store result score x_CPU x_EID run scoreboard players get @s x_EID
+
+        /// Display error 
+        /tellraw @a ["",{"text":"\n\nXmas Labs C.O.R.E Error!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Data for entity with ","color":"gold"}, {"text":"EID:","color":"blue","bold":true},{"score":{"name":"x_CPU","objective":"x_EID"},"color":"blue","bold":true},{"text":" missing in world storage.\n\n","color":"gold"}]        
+        
+        /// Tag as loaded (pretend load worked to exit recursion)
+        /tag @s add x_LOADED_INV
+
+    } 
+    
+    
+    /// Copy all shared.entities back from the temporary 'shared._entities' in storage
+    /data modify storage x_core shared.entities set from storage x_core shared._entities
+
+    /// Remove the loaded tag (no longer necessary)
+    /tag @s remove x_LOADED_INV 
+
+    /// Remove the temporary 'shared._entities'
+    /data remove storage x_core shared._entities
+
+    /// Remove the load tag from loaded entity (exits recursion)
+    /tag @s remove x_LOAD_INV
+    
+}

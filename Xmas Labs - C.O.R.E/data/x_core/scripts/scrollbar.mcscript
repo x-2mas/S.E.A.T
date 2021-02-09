@@ -1,0 +1,70 @@
+
+#
+#
+# C.O.R.E | scrollbar
+# Scrollbar tasks.
+#
+#
+
+
+/// As all players no longer queued for scrollbar use,
+asat('@e[scores={x_SCROLLBAR__T=..0}]') {
+
+    /// Remove scrollbar user tag
+    /tag @s remove x_SCROLLBAR
+}
+
+/// As entities tagged for scrollbar use but missing tag queue
+asat('@e[tag=x_SCROLLBAR]'), if(!'entity @s[scores={x_SCROLLBAR__T=0..}]'){
+    
+    /// Queue scrollbar use tag
+    /scoreboard players set @s x_SCROLLBAR__T 1
+}
+
+/// As all players queued for scrollbar use,
+asat('@e[scores={x_SCROLLBAR__T=1..}]') {
+
+    /// Tag as scrollbar user
+    /tag @s add x_SCROLLBAR
+
+    /// Get current scrollbar (hotbar) position
+    /execute store result score x_CPU x_SCROLL_POS run data get entity @s SelectedItemSlot 1
+
+    /// If current scrollbar position is lesser than last scrollbar position
+    if('score x_CPU x_SCROLL_POS < @s x_SCROLL_POS'){
+
+        /// Set scroll direction as negative
+        /scoreboard players set @s x_SCROLL_DIR -1
+    }
+    
+    /// If current scrollbar position is equal to last scrollbar position
+    if('score x_CPU x_SCROLL_POS = @s x_SCROLL_POS'){
+
+        /// Set scroll direction as none
+        /scoreboard players set @s x_SCROLL_DIR 0
+    }
+    
+    /// If current scrollbar position is greater than last scrollbar position
+    if('score x_CPU x_SCROLL_POS > @s x_SCROLL_POS'){
+
+        /// Set scroll direction as positive
+        /scoreboard players set @s x_SCROLL_DIR 1
+    }
+
+    /// If current scrollbar position is 0/1 and last scrollbar position was 7/8 (indicates positive wrap-around)
+    if('score x_CPU x_SCROLL_POS matches ..1' && 'score @s x_SCROLL_POS matches 7..'){
+
+        /// Set scroll direction as positive
+        /scoreboard players set @s x_SCROLL_DIR 1
+    }
+    
+    /// If current scrollbar position is 7/8 and last scrollbar position was 0/1 (indicates negative wrap-around)
+    if('score x_CPU x_SCROLL_POS matches 7..' && 'score @s x_SCROLL_POS matches ..1'){
+
+        /// Set scroll direction as negative
+        /scoreboard players set @s x_SCROLL_DIR -1
+    }
+
+    /// Set current scrollbar position as next last scrollbar position
+    /scoreboard players operation @s x_SCROLL_POS = x_CPU x_SCROLL_POS
+}

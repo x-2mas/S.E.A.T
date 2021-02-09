@@ -1,0 +1,25 @@
+{
+    "parent":"x_seat:pack_loaded",
+    "display":{
+        "icon": {
+            "item": "minecraft:birch_stairs"
+        },
+        "title": {
+            "text": "Take a Seat!",
+            "color": "white"
+        },
+        "frame": "challenge",
+        "description" :{
+            "text": "Sat down for the first time using S.E.A.T!",
+            "color": "green"
+        },        
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": true
+    },
+    "criteria": {
+        "CORE Stable?":{
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

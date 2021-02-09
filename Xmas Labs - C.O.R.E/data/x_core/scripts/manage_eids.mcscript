@@ -1,0 +1,53 @@
+
+#
+#
+# C.O.R.E | manage_eids
+# EID management tasks
+#
+#
+
+
+
+/// As entities with no queued EID tags,
+asat('@e[scores={x_EID__T=..0}]'){
+
+    /// Remove EID tag
+    /tag @s remove x_EID
+
+    /// Reset EID
+    /scoreboard players reset @s x_EID
+
+    /// Reset EID tag queue
+    /scoreboard players reset @s x_EID__T
+}
+
+/// As entities tagged for EID assignment but empty tag queue
+asat('@e[tag=x_EID]'), if(!'entity @s[scores={x_EID__T=0..}]'){
+    
+    /// Queue EID assignment tag
+    /scoreboard players set @s x_EID__T 1
+}
+
+/// As entities queued for EID assignment
+asat('@e[scores={x_EID__T=1..}]'), if(!'score @s x_EID matches 1..'){
+    
+    /// Tag for EID assignment
+    /tag @s add x_EID
+
+    /// Assign EID
+    /function x_core:assign_eid
+}
+
+
+
+
+
+/// If there are no entities being tracked by EID,
+if(!'entity @e[scores={x_EID__T=1..}]'){
+
+    /// Reset EID of all entities (including offline/missing entities)
+    /scoreboard players reset * x_EID
+
+    /// Reset EIDs
+    /data modify storage x_core shared.lastEID set value 0
+}

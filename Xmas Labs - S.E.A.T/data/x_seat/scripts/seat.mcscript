@@ -1,0 +1,281 @@
+
+#
+#
+# S.E.A.T | seat 
+# Handles general S.E.A.T routines
+#
+#
+
+
+
+/// As all S.E.A.T Base (Fox) components, taken one by one
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1]'){
+
+
+    /// As all players with EID matching seat,
+    asat('@a'), if('score @s x_EID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as player of base
+        /tag @s add x_SEAT_BASE_PLAYER
+    }
+
+    /// As all seat anchors with seat ID matching seat base,
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]'), if('score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as anchor of base
+        /tag @s add x_SEAT_BASE_ANCHOR
+    }
+
+    /// As all seat surfaces, with seat ID matching seat base,
+    asat('@e[tag=x_SEAT_SURFACE]'), if('score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_SEAT_ID'){
+
+        /// Tag as surface of base
+        /tag @s add x_SEAT_BASE_SURFACE
+    }
+
+
+    /// Run S.E.A.T Base tasks
+    /function x_seat:seat_base
+
+    
+    /// Remove base tag from its player
+    /tag @a remove x_SEAT_BASE_PLAYER
+     
+    /// Remove base tag from its anchor
+    /tag @e remove x_SEAT_BASE_ANCHOR
+
+    /// Remove base tag from its surface
+    /tag @e remove x_SEAT_BASE_SURFACE
+
+    /// Skip this player and iterate over other seat bases
+    /tag @s add x_SEAT_BASE_SKIP
+}
+
+/// If all seat bases checked, reset skip tags
+if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP]'){
+    /tag @e remove x_SEAT_BASE_SKIP
+}
+
+
+
+
+
+/// As all S.E.A.T Surface (Llama) components, taken one by one
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_SURFACE,tag=!x_SEAT_SURFACE_SKIP,limit=1]') {
+
+
+    /// As all seat bases, with matching seat ID,
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_BASE]'), if('score @s x_SEAT_ID = @e[tag=x_SEAT_SURFACE,tag=!x_SEAT_SURFACE_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as base of surface
+        /tag @s add x_SEAT_SURFACE_BASE
+    }
+
+    /// As all players, if EID matches seat ID,
+    asat('@a'), if('score @s x_EID = @e[tag=x_SEAT_SURFACE,tag=!x_SEAT_SURFACE_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as player of surface
+        /tag @s add x_SEAT_SURFACE_PLAYER
+    }
+
+
+    /// Run S.E.A.T surface tasks
+    /function x_seat:seat_surface
+
+
+    /// Remove surface tag from its player
+    /tag @a remove x_SEAT_SURFACE_PLAYER
+        
+    /// Remove surface tag from its base
+    /tag @e remove x_SEAT_SURFACE_BASE
+
+    /// Skip this player and iterate over other seat surfaces
+    /tag @s add x_SEAT_SURFACE_SKIP
+}
+
+/// If all seat surfaces checked, reset skip tags
+if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SURFACE,tag=!x_SEAT_SURFACE_SKIP]'){
+    /tag @e remove x_SEAT_SURFACE_SKIP
+}
+
+
+
+
+
+/// As all S.E.A.T anchor (Armor Stand) components, taken one by one
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=!x_SEAT_ANCHOR_SKIP,limit=1]'){
+
+    /// As all seat bases, with matching seat ID,
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_BASE]'), if('score @s x_SEAT_ID = @e[tag=x_SEAT_ANCHOR,tag=!x_SEAT_ANCHOR_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as base of anchor
+        /tag @s add x_SEAT_ANCHOR_BASE
+    }
+
+    /// As all players, if EID matches seat ID,
+    asat('@a'), if('score @s x_EID = @e[tag=x_SEAT_ANCHOR,tag=!x_SEAT_ANCHOR_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as player of anchor
+        /tag @s add x_SEAT_ANCHOR_PLAYER
+    }
+
+    /// As all seat rides, if anchor is riding them
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_RIDE]'), if('score @s x_EID = @e[tag=x_SEAT_ANCHOR,tag=!x_SEAT_ANCHOR_SKIP,limit=1] x_PID'){ 
+
+        /// Tag as ride of anchor
+        /tag @s add x_SEAT_ANCHOR_RIDE
+    }
+
+    /// As all seat sensors linked to anchor
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR]'), if('score @s x_SEAT_ID = @e[tag=x_SEAT_ANCHOR,tag=!x_SEAT_ANCHOR_SKIP,limit=1] x_SEAT_ID'){ 
+
+        /// Tag as ride of anchor
+        /tag @s add x_SEAT_ANCHOR_SENSOR
+    }
+
+
+    /// Run anchor tasks
+    /function x_seat:seat_anchor
+
+
+    /// Remove anchor tag from its base
+    /tag @e remove x_SEAT_ANCHOR_BASE
+
+    /// Remove anchor tag from its player
+    /tag @a remove x_SEAT_ANCHOR_PLAYER
+
+    /// Remove anchor tag from its ride
+    /tag @a remove x_SEAT_ANCHOR_RIDE
+
+    /// Remove anchor tag from its ride
+    /tag @a remove x_SEAT_ANCHOR_SENSOR
+
+    /// Skip this player and iterate over other seat surfaces
+    /tag @s add x_SEAT_ANCHOR_SKIP
+}
+
+/// If all seat surfaces checked, reset skip tags
+if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=!x_SEAT_ANCHOR_SKIP]'){
+    /tag @e remove x_SEAT_ANCHOR_SKIP
+}
+
+
+
+
+
+
+/// As all S.E.A.T Physics Sensor (Fox) Components, taken one by one
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=!x_SEAT_SENSOR_SKIP,limit=1]'){    
+
+
+    /// As all seat anchors with seat ID matching seat base,
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]'), if('score @s x_SEAT_ID = @e[tag=x_SEAT_SENSOR,tag=!x_SEAT_SENSOR_SKIP,limit=1] x_SEAT_ID'){
+        
+        /// Tag as anchor of base
+        /tag @s add x_SEAT_SENSOR_ANCHOR
+    }
+
+
+    /// Do physics sensor routine
+    /function x_seat:seat_sensor
+
+
+    /// Remove sensor tag from its anchor
+    /tag @e remove x_SEAT_SENSOR_ANCHOR
+
+    /// Skip this sensor and iterate over other seat sensors
+    /tag @s add x_SEAT_SENSOR_SKIP
+}
+
+/// If all seat sensors checked, reset skip tags
+if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=!x_SEAT_SENSOR_SKIP]'){
+    /tag @e remove x_SEAT_SENSOR_SKIP
+}
+
+
+
+
+
+/// As entities tagged as seat ride, taken one by one
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_RIDE,tag=!x_SEAT_RIDE_SKIP,limit=1]') {
+
+
+    /// As all anchors attached to ride
+    asat('@e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_ATTACH]'), if('score @s x_PID = @e[tag=x_SEAT_RIDE,tag=!x_SEAT_RIDE_SKIP,limit=1] x_EID'){ 
+        
+        /// Tag as anchor the ride was looking for
+        /tag @s add x_SEAT_RIDE_ANCHOR
+    }
+
+
+    /// Run S.E.A.T ride tasks
+    /function x_seat:seat_ride
+
+
+    /// Remove ride tag from its anchor
+    /tag @e remove x_SEAT_RIDE_ANCHOR
+
+    /// Skip this ride and iterate over other seat rides
+    /tag @s add x_SEAT_RIDE_SKIP
+}
+
+/// If all seat rides checked, reset skip tags
+if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_RIDE,tag=!x_SEAT_RIDE_SKIP]'){
+    /tag @e remove x_SEAT_RIDE_SKIP
+}
+
+
+
+
+
+/// As entities that cannot be ridden, if there's no attached seat anchor near them and they're not a S.E.A.T component
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_NO_RIDE]'), if(!'entity @e[distance=..7,tag=x_SEAT_ANCHOR,tag=x_ATTACH]' && !'entity @s[tag=x_SEAT]' && !'entity @s[tag=x_SEAT_ANCHOR]' && !'entity @s[tag=x_SEAT_SENSOR]' && !'entity @s[tag=x_SEAT_INTERACTION_BLOCKER]'){
+
+    /// Remove 'no seat ride' tag
+    /tag @s remove x_SEAT_NO_RIDE
+}
+
+
+
+
+
+/// As all players with S.E.A.T interaction blocking tags, 
+asat('@a[tag=x_SEAT_NS,tag=x_SEAT_BLOCKING_INTERACTIONS]'){
+    
+    /// If there is no S.E.A.T interaction blocker nearby
+    if(!'entity @e[distance=..7,tag=x_SEAT_INTERACTION_BLOCKER]') {    
+        
+        /// Summon an armor stand inside them to block interactions with the S.E.A.T 
+        /// Also block interactions with surrounding environment, so use only if needed
+        /summon minecraft:armor_stand ~ ~ ~ {Tags:[x_SEAT_NS,x_SEAT_INTERACTION_BLOCKER,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],Invisible:1,NoGravity:1,Small:0,Invulnerable:1}
+    }
+
+    /// If not holding something that messes with S.E.A.T components
+    if(!'entity @s[nbt={SelectedItem:{id:"minecraft:sweet_berries"}}]' && !'entity @s[nbt={SelectedItem:{id:"minecraft:wheat"}}]' && !'entity @s[nbt={SelectedItem:{id:"minecraft:hay_bale"}}]' && !'entity @s[nbt={SelectedItem:{id:"minecraft:lead"}}]'){
+        
+        /// Remove seat interaction blocking tag
+        /tag @s remove x_SEAT_BLOCKING_INTERACTIONS     
+    }
+}
+
+
+
+
+
+/// Do as all S.E.A.T interaction blockers (armor stands)
+asat('@e[tag=x_SEAT_NS,tag=x_SEAT_INTERACTION_BLOCKER]'){
+    
+    /// Teleport to nearest player with interaction blocking tag 
+    /tp @s @a[distance=..7,tag=x_SEAT_NS,tag=x_SEAT_BLOCKING_INTERACTIONS,limit=1,sort=nearest]
+
+
+    /// Dispose if no entity needing blocker nearby
+    if(!'entity @e[distance=..7,tag=x_SEAT_NS,tag=x_SEAT_BLOCKING_INTERACTIONS]') {
+        /kill @s
+    }
+}
+
+
+
+/// Remove 'seat interaction blocking' tags from unseated players
+/tag @a[tag=x_SEAT_NS, tag=x_SEAT_BLOCKING_INTERACTIONS, nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED]}}}] remove x_SEAT_BLOCKING_INTERACTIONS

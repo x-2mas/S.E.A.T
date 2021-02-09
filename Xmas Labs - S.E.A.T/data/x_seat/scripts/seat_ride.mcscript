@@ -1,0 +1,57 @@
+
+#
+#
+# S.E.A.T | seat_ride
+# Handles S.E.A.T ride tasks
+#
+#
+
+    
+
+/// If ride was previously frozen by anchor,
+if('entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN]'){
+
+    /// If no matching anchor that is being adjusted found, or freeze-ride-on-adjust is disabled
+    if(!'entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING]' || 'data storage x_seat flags{freezeRideOnAdjust:0}') {
+
+        /// Re-enable ride AI
+        /data merge entity @s {NoAI:0}
+
+        /// Remove frozen tag
+        /tag @s remove x_SEAT_ANCHOR_RIDE_FROZEN
+    }
+}
+
+
+/// If no matching anchor found,
+if(!'entity @e[tag=x_SEAT_RIDE_ANCHOR]') {
+
+    /// If no collide tag was added by this pack
+    if('entity @s[tag=x_NO_COLLIDE__SEAT]'){
+
+        /// Unqueue no-collide tag
+        /scoreboard players remove @s x_NO_COLLIDE__T 1
+
+        /// Remove seat no collide 'added by seat' tag
+        /tag @s remove x_NO_COLLIDE__SEAT
+    }
+
+
+    /// If no EID tag was added by this pack
+    if('entity @s[tag=x_EID__SEAT]'){
+
+        /// Unqueue EID tag
+        /scoreboard players remove @s x_EID__T 1
+
+        /// Remove seat EID 'added by seat' tag
+        /tag @s remove x_EID__SEAT
+    }
+
+
+    /// Remove anchor seat ride tags
+    /tag @s remove x_SEAT_ANCHOR_RIDE
+
+    /// Remove seat ride tags
+    /tag @s remove x_SEAT_RIDE_SKIP
+    /tag @s remove x_SEAT_RIDE
+}

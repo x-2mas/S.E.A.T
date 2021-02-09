@@ -1,0 +1,414 @@
+
+#
+#
+# C.O.R.E | load
+# Loads scoreboard objectives, players, teams, world storage data, etc required by C.O.R.E tasks
+# Runs when world loads. Also runs when running the /reload command.
+#
+#
+
+
+
+/// Create the 'packs' folder 
+/// Keeps track of all added packs
+if(!'data storage x_core packs'){
+    /data modify storage x_core packs set value {}
+}
+
+
+/// If this pack isn't already added, and no other versions of this pack already added,
+/// Add C.O.R.E pack to 'packs' folder
+if(!'data storage x_core packs{x_core:116401}' && !'data storage x_core packs.x_core'){
+    /data modify storage x_core packs merge value {x_core:116401}
+}
+
+
+/// Create the 'flags' folder. 
+/// Holds current C.O.R.E config and status info
+if(!'data storage x_core flags'){
+    /data modify storage x_core flags set value {}
+}
+
+
+/// Create the 'shared' folder
+/// Holds data shared across packs
+if(!'data storage x_core shared'){
+    /data modify storage x_core shared set value {lastEID:0}
+}
+
+
+/// Create the 'entities' folder
+/// Holds NBT data of world entities that packs need to keep track of
+if(!'data storage x_core shared.entities'){
+    /data modify storage x_core shared.entities set value {}
+}
+
+
+
+
+
+/// Create empty pack queues for load requests
+/// These queues tell the C.O.R.E how many packs require a particular feature loaded
+/// Features aren't loaded unless required by atleast one pack
+
+if(!'data storage x_core flags.loadCPU__Packs'){
+    /data modify storage x_core flags merge value {loadCPU__Packs:[]}
+}
+if(!'data storage x_core flags.loadEIDs__Packs'){
+    /data modify storage x_core flags merge value {loadEIDs__Packs:[]}
+}
+if(!'data storage x_core flags.loadSearchKey__Packs'){
+    /data modify storage x_core flags merge value {loadSearchKey__Packs:[]}
+}
+if(!'data storage x_core flags.loadCollisionRegisters__Packs'){
+    /data modify storage x_core flags merge value {loadCollisionRegisters__Packs:[]}
+}
+if(!'data storage x_core flags.loadSneakTimeRegisters__Packs'){
+    /data modify storage x_core flags merge value {loadSneakTimeRegisters__Packs:[]}
+}
+if(!'data storage x_core flags.loadAttachmentRegisters__Packs'){
+    /data modify storage x_core flags merge value {loadAttachmentRegisters__Packs:[]}
+}
+if(!'data storage x_core flags.loadRotationRegisters__Packs'){
+    /data modify storage x_core flags merge value {loadRotationRegisters__Packs:[]}
+}
+if(!'data storage x_core flags.loadScrollbarRegisters__Packs'){
+    /data modify storage x_core flags merge value {loadScrollbarRegisters__Packs:[]}
+}
+
+
+
+/// Create empty pack queues for runtime requests
+/// These queues tell the C.O.R.E how many packs require a particular feature during runtime
+/// Features aren't run every tick unless required by atleast one pack
+
+if(!'data storage x_core flags.attach__Packs'){
+    /data modify storage x_core flags merge value {attach__Packs:[]}
+}
+if(!'data storage x_core flags.blockCollisions__Packs'){
+    /data modify storage x_core flags merge value {blockCollisions__Packs:[]}
+}
+if(!'data storage x_core flags.monitorItems__Packs'){
+    /data modify storage x_core flags merge value {monitorItems__Packs:[]}
+}
+if(!'data storage x_core flags.trackSneakTime__Packs'){
+    /data modify storage x_core flags merge value {trackSneakTime__Packs:[]}
+}
+if(!'data storage x_core flags.tpKill__Packs'){
+    /data modify storage x_core flags merge value {tpKill__Packs:[]}
+}
+if(!'data storage x_core flags.scrollBar__Packs'){
+    /data modify storage x_core flags merge value {scrollBar__Packs:[]}
+}
+
+
+
+
+
+/// Create general scoreboard registers for local calculations on entities
+/// Also used with C.O.R.E player unit 'x_CPU' to perform general, entity-neutral calculations
+/// Scoreboard register values might get overwritten by other packs every tick 
+/// They are only safe to use immediately within the same tick, within the same function
+
+if(!'data storage x_core flags{loadCPU:0}' && 'data storage x_core flags.loadCPU') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_R0 dummy "Xmas Labs: CPU Register 0"
+    /scoreboard objectives add x_R1 dummy "Xmas Labs: CPU Register 1"
+    /scoreboard objectives add x_R2 dummy "Xmas Labs: CPU Register 2"
+    /scoreboard objectives add x_R3 dummy "Xmas Labs: CPU Register 3"
+}
+
+
+/// If loadCPU is set to 0, remove the flag
+if('data storage x_core flags{loadCPU:0}'){
+    /data remove storage x_core flags.loadCPU
+}
+
+if(!'data storage x_core flags.loadCPU') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_R0
+    /scoreboard objectives remove x_R1
+    /scoreboard objectives remove x_R2
+    /scoreboard objectives remove x_R3
+
+    /// Remove C.O.R.E Player Unit from scoreboard
+    /scoreboard players reset x_CPU
+
+    /// Disable features depending on CPU registers
+    /data remove storage x_core flags.loadEIDs
+    /data remove storage x_core flags.loadScrollBarRegisters
+    /data remove storage x_core flags.scrollBar
+    /data remove storage x_core flags.trackRotation
+    /data remove storage x_core flags.loadRotationRegisters
+}
+
+
+
+/// Create scoreboard entity ID registers 
+/// Used to dynamically assign unique IDs to entities and link them somewhere
+/// EIDs get reset if no entity is using them, to prevent overflow
+
+if(!'data storage x_core flags{loadEIDs:0}' && 'data storage x_core flags.loadEIDs') {
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_EID dummy "Xmas Labs: Entity ID Register"
+    /scoreboard objectives add x_PID dummy "Xmas Labs: Parent ID Register" 
+    /scoreboard objectives add x_EID__T dummy "Xmas Labs: Entity ID Tag Register"
+}
+
+
+/// If loadEIDs is set to 0, remove the flag
+if('data storage x_core flags{loadEIDs:0}'){
+    /data remove storage x_core flags.loadEIDs
+}
+
+if(!'data storage x_core flags.loadEIDs') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_EID__T
+    /scoreboard objectives remove x_EID
+    /scoreboard objectives remove x_PID
+
+    /// Remove EID-based tags
+    /tag @e remove x_EID
+    /tag @e remove x_PID
+    /tag @e remove x_SAVE_EDATA
+    /tag @e remove x_SAVED_EDATA
+    /tag @e remove x_LOAD_EDATA 
+    /tag @e remove x_LOADED_EDATA
+    /tag @e remove x_LOAD_INV 
+    /tag @e[tag=x_KEEP] remove x_INV_LOADER 
+    /tag @e[tag=x_KEEP] remove x_INV_ITEM 
+    /tag @e[tag=x_KEEP] remove x_INV_ARMOR 
+    /tag @e[tag=x_KEEP] remove x_INV_OFFHAND 
+
+    /// Kill EID-based entities
+    /kill @e[tag=x_INV_LOADER]
+    /kill @e[tag=x_INV_ITEM]
+    /kill @e[tag=x_INV_ARMOR]
+    /kill @e[tag=x_INV_OFFHAND]
+
+    /// Disable features depending on EID registers
+    /data remove storage x_core flags.loadAttachmentRegisters
+    /data remove storage x_core flags.attach
+    /data remove storage x_core flags.loadSearchKeyRegister
+}
+
+
+
+/// Create search key registers 
+/// Holding search-key values when perform dynamic entity searches
+
+if(!'data storage x_core flags{loadSearchKeyRegister:0}' && 'data storage x_core flags.loadSearchKeyRegister') {
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_SEARCH_KEY dummy "Xmas Labs: Search Key Register"
+}
+
+
+/// If loadSearchKeyRegister is set to 0, remove the flag
+if('data storage x_core flags{loadSearchKeyRegister:0}'){
+    /data remove storage x_core flags.loadSearchKeyRegister
+}
+
+if(!'data storage x_core flags.loadSearchKeyRegister') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_SEARCH_KEY
+
+    /// Remove search tags
+    /tag @e remove x_SEARCH 
+    /tag @e remove x_SEARCHING 
+    /tag @e remove x_FOUND 
+}
+
+
+
+/// Create the 'No Collide' team and registers required by collision-related tasks
+/// Used to disable entity collisions or add artifical colliders
+
+if(!'data storage x_core flags{loadCollisionRegisters:0}' && 'data storage x_core flags.loadCollisionRegisters') {
+
+    /// Add No-Collide team
+    /team add x_NO_COLLIDE "Xmas Labs: Collision Blocked Entities"
+    /team modify x_NO_COLLIDE collisionRule never
+    /team modify x_NO_COLLIDE seeFriendlyInvisibles false
+    /team modify x_NO_COLLIDE nametagVisibility never
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_NO_COLLIDE__T dummy "Xmas Labs: No Collide Tag Register"
+    /scoreboard objectives add x_COLLISION_A__T dummy "Xmas Labs: Collide Armor Stand Tag Register"
+    /scoreboard objectives add x_COLLISION_B__T dummy "Xmas Labs: Collide Barrier Tag Register"
+}
+
+
+/// If loadCollisionRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadCollisionRegisters:0}'){
+    /data remove storage x_core flags.loadCollisionRegisters
+}
+
+if(!'data storage x_core flags.loadCollisionRegisters') {
+    
+    /// Remove No-Collide team
+    /team remove x_NO_COLLIDE
+
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_NO_COLLIDE__T
+    /scoreboard objectives remove x_COLLISION_A__T
+    /scoreboard objectives remove x_COLLISION_B__T
+
+    /// Remove collision-blocking tags
+    /tag @e remove x_NO_COLLIDE
+    /tag @e remove x_DRAW_COLLISION_BARRIER
+    /tag @e remove x_DRAW_COLLISION_ARMOR_STAND
+
+    /// Kill collision-blocking entities
+    /kill @e[tag=x_COLLISION_ARMOR_STAND]
+    /kill @e[tag=x_COLLISION_BARRIER]
+}
+
+
+
+/// Create 'Sneak Time' registers 
+/// Tracks how long player has been sneaking
+
+if(!'data storage x_core flags{loadSneakTimeRegisters:0}' && 'data storage x_core flags.loadSneakTimeRegisters') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_SNEAK_TIME minecraft.custom:minecraft.sneak_time "Xmas Labs: Sneak Time Tracker"
+    /scoreboard objectives add x__SNEAK_TIME dummy "Xmas Labs: Sneak Time During Last Tick"
+}
+
+
+/// If loadSneakTimeRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadSneakTimeRegisters:0}'){
+    /data remove storage x_core flags.loadSneakTimeRegisters
+}
+
+if(!'data storage x_core flags.loadSneakTimeRegisters') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_SNEAK_TIME
+    /scoreboard objectives remove x__SNEAK_TIME
+}
+
+
+
+/// Create 'Attachment' scoreboard registers 
+/// Tracks entity attachment offsets
+/// Attached entites are teleported to their parent entities every tick, at the offset specified
+
+if(!'data storage x_core flags{loadAttachmentRegisters:0}' && 'data storage x_core flags.loadAttachmentRegisters') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_ATTACH__T dummy "Xmas Labs: Attach Tag Register"
+    /scoreboard objectives add x_ATTACH_X dummy "Xmas Labs: X Attachment Offset"
+    /scoreboard objectives add x_ATTACH_Y dummy "Xmas Labs: Y Attachment Offset"
+    /scoreboard objectives add x_ATTACH_Z dummy "Xmas Labs: Z Attachment Offset"
+    /scoreboard objectives add x_ATTACH_RX dummy "Xmas Labs: X-Rotation Attachment Offset"
+    /scoreboard objectives add x_ATTACH_RY dummy "Xmas Labs: Y-Rotation Attachment Offset"
+}
+
+
+/// If loadAttachmentRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadAttachmentRegisters:0}'){
+    /data remove storage x_core flags.loadAttachmentRegisters
+}
+
+if(!'data storage x_core flags.loadAttachmentRegisters') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_ATTACH__T
+    /scoreboard objectives remove x_ATTACH_X
+    /scoreboard objectives remove x_ATTACH_Y
+    /scoreboard objectives remove x_ATTACH_Z
+    /scoreboard objectives remove x_ATTACH_RX
+    /scoreboard objectives remove x_ATTACH_RY
+
+    /// Remove attachment tags
+    /tag @e remove x_ATTACH 
+    /tag @e remove x_ATTACH_ROTATE
+    /tag @e remove x_ATTACHING 
+    /tag @e remove x_ATTACHED 
+    /tag @e remove x_ATTACH_NEW_PRIMARY
+    /tag @e remove x_ATTACH_NEW_SECONDARY
+
+    /// Kill attachment entities
+    /kill @e[tag=x_ATTACHING_ANCHOR]
+}
+
+
+
+/// Create 'Rotation' scoreboard registers 
+/// Used to track entity rotations
+
+if(!'data storage x_core flags{loadRotationRegisters:0}' && 'data storage x_core flags.loadRotationRegisters') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_ROT_TRACK__T dummy "Xmas Labs: Rotation Tracking Tag Register"
+    /scoreboard objectives add x_ROT_X dummy "Xmas Labs: X Rotation Tracker"
+    /scoreboard objectives add x_ROT_Y dummy "Xmas Labs: Y Rotation Tracker"
+}
+
+
+/// If loadRotationRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadRotationRegisters:0}'){
+    /data remove storage x_core flags.loadRotationRegisters
+}
+
+if(!'data storage x_core flags.loadRotationRegisters') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_ROT_TRACK__T
+    /scoreboard objectives remove x_ROT_X
+    /scoreboard objectives remove x_ROT_Y
+
+    /// Remove rotation-tracking tags
+    /tag @e remove x_TRACK_ROTATION
+}
+
+
+
+/// Create 'ScrollBar' scoreboard registers 
+/// Used to track player hotbar-scrolling
+
+if(!'data storage x_core flags{loadScrollBarRegisters:0}' && 'data storage x_core flags.loadScrollBarRegisters') {
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_SCROLLBAR__T dummy "Xmas Labs: Scrollbar Tag Register"
+    /scoreboard objectives add x_SCROLL_POS dummy "Xmas Labs: Scrollbar Poition Tracker"
+    /scoreboard objectives add x_SCROLL_DIR dummy "Xmas Labs: Scrollbar Direction Tracker"
+}
+
+
+/// If loadScrollBarRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadScrollBarRegisters:0}'){
+    /data remove storage x_core flags.loadScrollBarRegisters
+}
+
+if(!'data storage x_core flags.loadScrollBarRegisters') {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_SCROLLBAR__T
+    /scoreboard objectives remove x_SCROLL_POS
+    /scoreboard objectives remove x_SCROLL_DIR
+    
+    /// Remove scroll-bar tags
+    /tag @e remove x_SCROLLBAR
+}
+
+
+
+/// About Tag Registers: 
+/// Tag Registers are used to queue multiple scoreboard tags of the same kind on an entity. 
+/// This prevents packs from removing entity tags that other packs may still require
+
+
+
+/// Reset load notification status
+/data remove storage x_core flags.loadNotified
+
+/// Schedule load notifications
+/schedule function x_core:load_notify 3s

@@ -1,0 +1,36 @@
+
+#
+#
+# C.O.R.E | sneak_time_tracking
+# Sneak-time tracking tasks.
+#
+#
+
+
+
+/// Do for all players who have sneaked for 1 tick or more
+asat('@a[scores={x_SNEAK_TIME=1..}]'){
+
+    /// If the 'ticks sneaked at current tick' matches the 'ticks sneaked at previous tick'
+    if('score @s x_SNEAK_TIME = @s x__SNEAK_TIME') {
+
+        /// Tag player for resetting sneak time
+        /tag @s add x_SNEAK_RESET
+    }
+
+    /// Set the 'ticks sneaked at previous tick' to current ticks sneaked value
+    /scoreboard players operation @s x__SNEAK_TIME = @s x_SNEAK_TIME
+}
+
+/// Do for all players tagged with the sneak time reset tag
+asat('@a[tag=x_SNEAK_RESET]'){
+
+    /// Reset 'ticks sneaked at previous tick'
+    /scoreboard players set @s x__SNEAK_TIME 0
+    
+    /// Reset 'ticks sneaked at current tick'
+    /scoreboard players set @s x_SNEAK_TIME 0
+
+    /// Remove sneak time reset tag
+    /tag @s remove x_SNEAK_RESET
+}

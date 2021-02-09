@@ -1,0 +1,27 @@
+
+#
+#
+# S.E.A.T | main 
+# Runs on every tick. About 20 times a second.
+#
+#
+
+
+/// If the right C.O.R.E & S.E.A.T pack entries and versions detected in storage (properly loaded),
+if('data storage x_core packs{x_core:116401}' && 'data storage x_core packs{x_seat:116401}') {
+
+    /// Perform runtime tasks    
+    /function x_seat:runtime
+
+/// If C.O.R.E/S.E.A.T pack missing in storage (due to uninstall or failed load)
+} else {
+    
+    /// Run uninstaller every tick until datapack is removed/disabled/reloaded 
+    /function x_seat:uninstall
+} 
+
+
+asat('@e[tag=x_QTEST]'){
+    /data merge entity @s {DeathTime:100}
+    /tag @s remove x_QTEST
+}

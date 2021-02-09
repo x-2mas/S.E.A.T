@@ -1,0 +1,45 @@
+
+#
+#
+# S.E.A.T | load_notify
+# Loads notifications triggered by pack load
+#
+#
+
+
+
+/// If C.O.R.E missing,
+if(!'data storage x_core packs.x_core') {
+
+    /// Notify players of missing C.O.R.E
+    /tellraw @a ["",{"text":"\n\nC.O.R.E Missing!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please install the latest Xmas Labs C.O.R.E datapack in order to run S.E.A.T pack! \n\n","color":"white","italic":true}]
+}
+
+
+if('data storage x_core packs{x_seat:116401}') {
+
+
+    /// Get the current C.O.R.E version number
+    /execute store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
+
+    /// Set the required C.O.R.E version number
+    /scoreboard players set x_CPU x_R1 116401
+
+    /// Subtract required version number from current version number
+    /scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
+
+    /// If result negative (current version < required version)
+    if('score x_CPU x_R0 matches ..-1'){
+        
+        /// Notify players of outdated C.O.R.E
+        /tellraw @a ["",{"text":"\n\nC.O.R.E Outdated!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please update the Xmas Labs C.O.R.E datapack to the latest version in order to run S.E.A.T pack! \n\n","color":"white","italic":true}]
+
+        /// Remove the S.E.A.T entry from C.O.R.E packs 
+        /// Stops pack from running
+        /data remove storage x_core packs.x_seat
+    }        
+}
+
+
+/// Set load notified status
+/data modify storage x_seat flags merge value {loadNotified:1}

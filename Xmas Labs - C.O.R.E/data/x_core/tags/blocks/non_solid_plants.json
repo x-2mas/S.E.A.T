@@ -1,0 +1,28 @@
+{
+"values":[
+        "#minecraft:crops",
+        "#minecraft:flowers",
+        "#minecraft:saplings",
+        "minecraft:dead_bush",
+        "minecraft:grass",
+        "minecraft:tall_grass",
+        "minecraft:large_fern",
+        "minecraft:nether_sprouts",
+        "minecraft:nether_wart",
+        "minecraft:crimson_roots",
+        "minecraft:warped_roots",
+        "minecraft:seagrass",
+        "minecraft:tall_seagrass",
+        "minecraft:attached_pumpkin_stem",
+        "minecraft:attached_melon_stem",
+        "minecraft:sugar_cane",
+        "minecraft:bamboo_sapling",
+        "minecraft:crimson_fungus",
+        "minecraft:warped_fungus",
+        "minecraft:brown_mushroom",
+        "minecraft:red_mushroom",
+        "minecraft:kelp",
+        "minecraft:kelp_plant",
+        "#x_core:vines"
+    ]
+}

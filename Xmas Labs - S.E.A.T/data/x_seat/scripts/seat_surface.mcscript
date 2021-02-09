@@ -1,0 +1,152 @@
+
+#
+#
+# S.E.A.T | seat_surface 
+# Handles S.E.A.T surface tasks
+#
+#
+
+
+
+/// Get Y-Rotations of surface and base
+/execute store result score @s x_R0 run data get entity @s Rotation[0] 1
+/execute store result score @s x_R1 run data get entity @e[tag=x_SEAT_SURFACE_BASE,sort=nearest,limit=1] Rotation[0] 1
+
+/// If surface and base have different Y-Rotations
+if(!'score @s x_R0 = @s x_R1'){
+    
+    /// Rotate S.E.A.T surface with base
+    /data modify entity @s Rotation[0] set from entity @e[tag=x_SEAT_SURFACE_BASE,sort=nearest,limit=1] Rotation[0]
+}
+
+
+/// Get X-Rotation of surface 
+/execute store result score @s x_R0 run data get entity @s Rotation[1] 1
+
+/// If not facing vertically straight
+if(!'score @s x_R0 matches 0'){
+
+    /// Keep S.E.A.T surface facing vertically straight
+    /data modify entity @s Rotation[1] set value 0
+}
+
+
+/// If surface is glowing,
+if('data entity @s {Glowing:1b}'){
+
+    /// Cancel any glowing effects
+    /data modify entity @s {} merge value {Glowing:0}  
+}
+
+
+/// If blocking inventory, and surface tamed,
+if('data storage x_seat flags{blockInventory:1}' && 'data entity @s {Tame:1b}'){
+    
+    /// Untame surface (llama)
+    /// Prevents seated player to access inventory
+    /data modify entity @s {} merge value {Tame:0} 
+}
+
+/// If not blocking inventory, and surface untamed,
+if('data storage x_seat flags{blockInventory:0}' && !'data entity @s {Tame:1b}'){
+
+    /// Tame surface (llama)
+    /// Allows seated player to access inventory
+    /data modify entity @s {} merge value {Tame:1} 
+}
+
+
+/// Do if S.E.A.T surface is ready,
+if('entity @s[tag=x_SEAT_SURFACE_READY]'){
+    
+
+    /// Set max health to 0.1 (hides llama hearts from UI)
+    if(!'data entity @s Attributes[{Name:"minecraft:generic.max_health",Base:0.1d}]'){
+        /data modify entity @s Attributes[{Name:"generic.max_health"}].Base set value 0.1
+    }
+
+
+    /// If seat base missing,
+    if(!'entity @e[tag=x_SEAT_SURFACE_BASE]'){ 
+
+        /// If not already tagged for disposal
+        if(!'entity @s[tag=x_KILL_SEAT]'){
+
+            /// Dispose
+            /schedule function x_seat:kill_seat 2t
+
+            /// Tag for disposal
+            /tag @s add x_KILL_SEAT
+        }
+    } 
+
+
+    /// If no matching player nearby, 
+    if(!'entity @a[tag=x_SEAT_SURFACE_PLAYER]'){
+
+        /// If not already tagged for disposal
+        if(!'entity @s[tag=x_KILL_SEAT]'){
+
+            /// Dispose
+            /schedule function x_seat:kill_seat 2t
+
+            /// Tag for disposal
+            /tag @s add x_KILL_SEAT
+        }
+    }
+
+    /// If entity is leashed,
+    if('entity @s[nbt={Leash:{}}]'){
+
+        /// If not already tagged for disposal
+        if(!'entity @s[tag=x_KILL_SEAT]'){
+
+            /// Dispose
+            /schedule function x_seat:kill_seat 2t
+
+            /// Tag for disposal
+            /tag @s add x_KILL_SEAT
+        }
+
+    }
+}
+
+
+/// If llama gets carpeted, 
+if('entity @s[nbt={DecorItem:{}}]'){
+
+    /// Create a placeholder item drop
+    /summon minecraft:item ~ ~1.5 ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:white_carpet",Count:1b,tag:{x_ITEM_TAGS:[x_INV_PLACEHOLDER,x_CLEAR_FROM_INV],x_ITEM_SLOT:0,display:{Name:"{\"text\":\"Empty\"}"}}},CustomName:"{\"text\":\"Xmas Labs Inventory Loader\"}"}
+
+    /// Copy carpet to item drop
+    positioned('~ ~1.5 ~'){
+        /data modify entity @e[tag=x_INV_LOADER,sort=nearest,limit=1] Item set from entity @s DecorItem
+    }
+
+    /// Remove carpet from llama
+    /data modify entity @s DecorItem set value {}
+}
+
+
+/// If llama gets chests added to it,
+if('entity @s[nbt={ChestedHorse:1b}]'){
+
+    /// Create a chest item drop
+    /summon minecraft:item ~ ~1.5 ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:chest",Count:1b}}
+
+    /// Remove chest from llama
+    /data modify entity @s ChestedHorse set value 0
+}
+
+
+/// If nearest player holding something that messes with S.E.A.T components, 
+if('entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:sweet_berries"}}]' || 'entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:wheat"}}]' || 'entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:hay_bale"}}]' || 'entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:lead"}}]'){
+    
+    /// Tag nearest player as blocking seat interactions
+    /tag @a[tag=x_SEAT_SURFACE_PLAYER,limit=1,sort=nearest] add x_SEAT_BLOCKING_INTERACTIONS     
+} 
+
+
+/// Tag S.E.A.T surface as ready 
+/// (Only ready after first iteration, prevents weird issue where llama dies right after summoning)
+/tag @s add x_SEAT_SURFACE_READY

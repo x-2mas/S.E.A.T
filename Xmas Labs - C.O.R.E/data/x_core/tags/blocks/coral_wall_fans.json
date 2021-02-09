@@ -1,0 +1,10 @@
+{
+    "values":[
+        "minecraft:tube_coral_wall_fan",
+        "minecraft:brain_coral_wall_fan",
+        "minecraft:bubble_coral_wall_fan",
+        "minecraft:fire_coral_wall_fan",
+        "minecraft:horn_coral_wall_fan",
+        "#x_core:dead_coral_wall_fans"
+    ]
+}

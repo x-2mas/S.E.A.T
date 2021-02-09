@@ -1,0 +1,395 @@
+
+#
+#
+# C.O.R.E | runtime
+# Performs C.O.R.E tasks requested by packs.
+# Runs every tick.
+#
+#
+
+
+
+/// If using CPU registers, 
+if(!'data storage x_core flags{loadCPU:0}' && 'data storage x_core flags.loadCPU') {
+
+
+    /// If using EID registers,
+    if(!'data storage x_core flags{loadEIDs:0}' && 'data storage x_core flags.loadEIDs'){
+
+        /// Run EID management tasks
+        /function x_core:manage_eids
+
+        /// Save NBT data of tagged entities to world storage, one by one
+        asat('@e[tag=x_SAVE_EDATA,limit=1]'){
+            /function x_core:save_edata
+        }
+
+        /// Load NBT data of tagged entities from world storage, one by one
+        asat('@e[tag=x_LOAD_EDATA,limit=1]'){
+            /function x_core:load_edata
+        }
+
+        /// Restore inventory of tagged entities from world storage, one by one
+        asat('@e[tag=x_LOAD_INV,limit=1]'){
+            /function x_core:load_inventory
+        }
+
+        
+        /// If using attachments, 
+        if(!'data storage x_core flags{attach:0}' && 'data storage x_core flags.attach' && !'data storage x_core flags{loadAttachmentRegisters:0}' && 'data storage x_core flags.loadAttachmentRegisters') {
+
+            /// Run attachment management tasks
+            /function x_core:manage_attachments
+        }
+
+
+        /// If using search,
+        if(!'data storage x_core flags{loadSearchKeyRegister:0}' && 'data storage x_core flags.loadSearchKeyRegister') {
+
+            /// Search tagged entities using dynamic search keys, one by one
+            asat('@e[tag=x_SEARCH,limit=1]'){
+                /function x_core:search
+            }
+        }
+    }
+    
+
+    /// If using scroll-bar,
+    if(!'data storage x_core flags{scrollBar:0}' && 'data storage x_core flags.scrollBar' && !'data storage x_core flags{loadScrollBarRegisters:0}' && 'data storage x_core flags.loadScrollBarRegisters'){
+        
+        /// Run scrollbar tasks
+        /function x_core:scrollbar
+    }
+
+
+    /// If using rotation-tracking, 
+    if(!'data storage x_core flags{trackRotation:0}' && 'data storage x_core flags.trackRotation' && !'data storage x_core flags{loadRotationRegisters:0}' && 'data storage x_core flags.loadRotationRegisters'){
+        
+        /// Run rotation-tracking tasks
+        /function x_core:rotation_tracking
+    }
+}
+
+
+/// If using collision-blocking,
+if(!'data storage x_core flags{blockCollisions:0}' && 'data storage x_core flags.blockCollisions' && !'data storage x_core flags{loadCollisionRegisters:0}' && 'data storage x_core flags.loadCollisionRegisters') {
+
+    /// Run collision-blocking tasks
+    /function x_core:collision_blocking
+}
+
+
+/// If monitoring items,
+if(!'data storage x_core flags{monitorItems:0}' && 'data storage x_core flags.monitorItems') {
+
+    /// Run item-monitoring tasks
+    /function x_core:monitor_items
+}
+
+
+/// If tracking player sneak-time,
+if(!'data storage x_core flags{trackSneakTime:0}' && 'data storage x_core flags.trackSneakTime' && !'data storage x_core flags{loadSneakTimeRegisters:0}' && 'data storage x_core flags.loadSneakTimeRegisters') {    
+
+    /// Run sneak-time tracking tasks
+    /function x_core:sneak_time_tracking
+
+}
+
+
+/// If using TP-Killing (kills after teleport, hides death animation),
+if(!'data storage x_core flags{tpKill:0}' && 'data storage x_core flags.tpKill'){
+    
+    /// Run tp-killing tasks
+    /function x_core:tp_kill
+}
+
+
+/// If an action-bar title clear requested,
+if(!'data storage x_core flags{clearABTitle:0}' && 'data storage x_core flags.clearABTitle') {
+
+    /// Delay clearing for 2 ticks (smoother)
+    /schedule function x_core:clear_abtitles 2t
+
+    /// Clear request
+    /data remove storage x_core flags.clearABTitle
+}
+
+
+/// If loadCPU is set to 0, remove the flag
+if('data storage x_core flags{loadCPU:0}'){
+    /data remove storage x_core flags.loadCPU
+}
+
+/// If not using CPU registers,
+if(!'data storage x_core flags.loadCPU') {
+
+    /// Disable features depending on CPU registers
+    /data remove storage x_core flags.loadEIDs
+    /data remove storage x_core flags.loadScrollBarRegisters
+    /data remove storage x_core flags.scrollBar
+    /data remove storage x_core flags.trackRotation
+    /data remove storage x_core flags.loadRotationRegisters
+}
+
+
+/// If loadEIDs is set to 0, remove the flag
+if('data storage x_core flags{loadEIDs:0}'){
+    /data remove storage x_core flags.loadEIDs
+}
+
+/// If not using EIDs,
+if(!'data storage x_core flags.loadEIDs') {
+
+    /// Remove EID-based tags
+    /tag @e remove x_EID
+    /tag @e remove x_PID
+    /tag @e remove x_SAVE_EDATA
+    /tag @e remove x_SAVED_EDATA
+    /tag @e remove x_LOAD_EDATA 
+    /tag @e remove x_LOADED_EDATA
+    /tag @e remove x_LOAD_INV 
+    /tag @e[tag=x_KEEP] remove x_INV_LOADER 
+    /tag @e[tag=x_KEEP] remove x_INV_ITEM 
+    /tag @e[tag=x_KEEP] remove x_INV_ARMOR 
+    /tag @e[tag=x_KEEP] remove x_INV_OFFHAND 
+
+    /// Kill EID-based entities
+    /kill @e[tag=x_INV_LOADER]
+    /kill @e[tag=x_INV_ITEM]
+    /kill @e[tag=x_INV_ARMOR]
+    /kill @e[tag=x_INV_OFFHAND]
+
+    /// Disable features depending on EID registers
+    /data remove storage x_core flags.loadAttachmentRegisters
+    /data remove storage x_core flags.attach
+    /data remove storage x_core flags.loadSearchKeyRegister
+}
+
+
+/// If attach is set to 0, remove the flag
+if('data storage x_core flags{attach:0}'){
+    /data remove storage x_core flags.attach
+}
+
+/// If loadAttachmentRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadAttachmentRegisters:0}'){
+    /data remove storage x_core flags.attach
+    /data remove storage x_core flags.loadAttachmentRegisters
+}
+
+/// If not using attachments, 
+if(!'data storage x_core flags.attach') {
+
+    /// Remove attachment tags
+    /tag @e remove x_ATTACH 
+    /tag @e remove x_ATTACH_ROTATE
+    /tag @e remove x_ATTACHING 
+    /tag @e remove x_ATTACHED 
+    /tag @e remove x_ATTACH_NEW_PRIMARY
+    /tag @e remove x_ATTACH_NEW_SECONDARY
+
+    /// Kill attachment entities
+    /kill @e[tag=x_ATTACHING_ANCHOR]
+}
+
+
+
+/// If loadSearchKeyRegister is set to 0, remove the flag
+if('data storage x_core flags{loadSearchKeyRegister:0}'){
+    /data remove storage x_core flags.loadSearchKeyRegister
+}
+
+/// If not using search,
+if(!'data storage x_core flags.loadSearchKeyRegister') {
+
+    /// Remove search tags
+    /tag @e remove x_SEARCH 
+    /tag @e remove x_SEARCHING 
+    /tag @e remove x_FOUND 
+}
+
+
+
+/// If blockCollisions is set to 0, remove the flag
+if('data storage x_core flags{blockCollisions:0}'){
+    /data remove storage x_core flags.blockCollisions
+}
+
+/// If loadCollisionRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadCollisionRegisters:0}'){
+    /data remove storage x_core flags.blockCollisions
+    /data remove storage x_core flags.loadCollisionRegisters
+}
+
+/// If not using collision-blocking,
+if(!'data storage x_core flags.blockCollisions') {
+
+    /// Remove collision-blocking tags
+    /tag @e remove x_NO_COLLIDE
+    /tag @e remove x_DRAW_COLLISION_BARRIER
+    /tag @e remove x_DRAW_COLLISION_ARMOR_STAND
+
+    /// Kill collision-blocking entities
+    /kill @e[tag=x_COLLISION_ARMOR_STAND]
+    /kill @e[tag=x_COLLISION_BARRIER]
+}
+
+
+
+/// If tpKill is set to 0, remove the flag
+if('data storage x_core flags{tpKill:0}'){
+    /data remove storage x_core flags.tpKill
+}
+
+/// If not using TP-Killing
+if(!'data storage x_core flags.tpKill'){
+
+    /// Remove tp-kill tags
+    /tag @e remove x_TP_KILL
+}
+
+
+
+/// If scrollBar is set to 0, remove the flag
+if('data storage x_core flags{scrollBar:0}'){
+    /data remove storage x_core flags.scrollBar
+}
+
+/// If loadScrollBarRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadScrollBarRegisters:0}'){
+    /data remove storage x_core flags.scrollBar
+    /data remove storage x_core flags.loadScrollBarRegisters
+}
+
+/// If not using scroll-bar,
+if(!'data storage x_core flags.scrollBar'){
+    
+    /// Remove scroll-bar tags
+    /tag @e remove x_SCROLLBAR
+}
+
+
+
+/// If trackRotation is set to 0, remove the flag
+if('data storage x_core flags{trackRotation:0}'){
+    /data remove storage x_core flags.trackRotation
+}
+
+/// If loadRotationRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadRotationRegisters:0}'){
+    /data remove storage x_core flags.trackRotation
+    /data remove storage x_core flags.loadRotationRegisters
+}
+
+/// If not using rotation-tracking, 
+if(!'data storage x_core flags.trackRotation'){
+
+    /// Remove rotation-tracking tags
+    /tag @e remove x_TRACK_ROTATION
+}
+
+
+
+/// If clearABTitle is set to 0, remove the flag
+if('data storage x_core flags{clearABTitle:0}'){
+    /data remove storage x_core flags.clearABTitle
+}
+
+
+
+/// If command feedback suppression change requested by packs,
+if('data storage x_core flags.hideCommandFeedback') {
+
+    /// If command feedback suppression release requested by packs,
+    if('data storage x_core flags{hideCommandFeedback:0}') {
+
+        /// Set gamerule to show output
+        /gamerule sendCommandFeedback true
+
+    /// If command feedback suppression requested by packs,
+    } else {
+
+        /// Set gamerule to hide output
+        /gamerule sendCommandFeedback false
+    }
+
+    /// Remove flag to avoid interfering with other packs
+    /data remove storage x_core flags.hideCommandFeedback 
+}
+
+
+
+
+
+/// If load notifications complete,
+if('data storage x_core flags{loadNotified:1}') {
+
+    /// Add this pack to the Xmas Labs Advancements tab of all players
+    /advancement grant @a only x_core:root_tab
+    /advancement grant @a only x_core:pack_loaded
+
+
+    /// If C.O.R.E reload requested by packs,
+    if('data storage x_core flags{reload:1}') {
+
+        /// Prompt user to reload
+        /tellraw @a ["",{"text":"\n\nC.O.R.E Reload Requested!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please use the ","color":"white"},{"text":"/reload ","color":"light_purple"},{"text":"command to reload Xmas Labs Packs! \nIf you can't run commands, just exit and re-enter the world.\nIf you're on a server, you may need to restart/reload it.\n\n","color":"white"},{"text":"Sorry for the inconvenience! \n\n","color":"white","italic":true}]
+
+        /// Update flag to indicate reload requested
+        /data modify storage x_core flags merge value {reload:-1}
+    }
+}
+
+
+
+
+
+/// If no packs using loaded registers, disable them (on next reload)
+
+if(!'data storage x_core flags.loadCPU__Packs[0]'){
+    /data remove storage x_core flags.loadCPU
+}
+if(!'data storage x_core flags.loadEIDs__Packs[0]'){
+    /data remove storage x_core flags.loadEIDs
+}
+if(!'data storage x_core flags.loadSearchKeyRegister__Packs[0]'){
+    /data remove storage x_core flags.loadSearchKeyRegister
+}
+if(!'data storage x_core flags.loadCollisionRegisters__Packs[0]'){
+    /data remove storage x_core flags.loadCollisionRegisters
+}
+if(!'data storage x_core flags.loadSneakTimeRegisters__Packs[0]'){
+    /data remove storage x_core flags.loadSneakTimeRegisters
+}
+if(!'data storage x_core flags.loadAttachmentRegisters__Packs[0]'){
+    /data remove storage x_core flags.loadAttachmentRegisters
+}
+if(!'data storage x_core flags.loadRotationRegisters__Packs[0]'){
+    /data remove storage x_core flags.loadRotationRegisters
+}
+if(!'data storage x_core flags.loadScrollBarRegisters__Packs[0]'){
+    /data remove storage x_core flags.loadScrollBarRegisters
+}
+
+
+
+/// If no packs using runtime features, disable them
+
+if(!'data storage x_core flags.attach__Packs[0]'){
+    /data remove storage x_core flags.attach
+}
+if(!'data storage x_core flags.blockCollisions__Packs[0]'){
+    /data remove storage x_core flags.blockCollisions
+}
+if(!'data storage x_core flags.monitorItems__Packs[0]'){
+    /data remove storage x_core flags.monitorItems
+}
+if(!'data storage x_core flags.trackSneakTime__Packs[0]'){
+    /data remove storage x_core flags.trackSneakTime
+}
+if(!'data storage x_core flags.tpKill__Packs[0]'){
+    /data remove storage x_core flags.tpKill
+}
+if(!'data storage x_core flags.scrollBar__Packs[0]'){
+    /data remove storage x_core flags.scrollBar
+}

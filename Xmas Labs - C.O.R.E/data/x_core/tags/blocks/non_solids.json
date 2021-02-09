@@ -1,0 +1,26 @@
+{
+"values":[
+    "#minecraft:banners",
+    "#minecraft:buttons",
+    "#minecraft:fire",
+    "#minecraft:portals",
+    "#minecraft:pressure_plates",
+    "#minecraft:rails",
+    "#minecraft:signs",
+    "#minecraft:wall_corals",
+    "#minecraft:wall_post_override",
+    "#x_core:fluids",
+    "#x_core:coral_plants",
+    "#x_core:coral_fans",
+    "#x_core:coral_wall_fans",
+    "#x_core:non_solid_plants",
+    "#x_core:torches",
+    "minecraft:structure_void",
+    "minecraft:lever",
+    "minecraft:redstone_wire",
+    "minecraft:tripwire",
+    "minecraft:tripwire_hook",
+    "minecraft:lever",
+    "minecraft:bubble_column"
+]
+}

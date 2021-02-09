@@ -1,0 +1,96 @@
+
+#
+#
+# C.O.R.E | save_edata
+# Save calling entity's data to storage.
+#
+#
+
+
+/// Tag calling entity for saving
+/tag @s add x_SAVE_EDATA
+
+
+/// Only do for as long as calling entity is tagged for saving (needed to exit recursion)
+asat('@s[tag=x_SAVE_EDATA]'){
+
+
+
+    /// If saving entity doesn't have an EID, give it one first
+    if(!'score @s x_EID matches 1..'){
+        /function x_core:assign_eid
+    }
+
+
+    /// Get entity ID of last entity in 'shared.entities' in storage
+    /execute store result score x_CPU x_EID run data get storage minecraft:x_core shared.entities[-1].eid 1
+
+    /// If last entity ID matches the one being saved
+    if('score @s x_EID = x_CPU x_EID'){
+
+        /// Save matched entity's data to storage
+        /data modify storage x_core shared.entities[-1].data set from entity @s
+
+        /// Tag entity as saved
+        /tag @s add x_SAVED_EDATA
+    } 
+
+
+
+    /// If no temporary 'shared._entities' in storage,
+    if(!'data storage x_core shared._entities'){
+
+        /// Make a temporary 'shared._entities' in storage
+        /data modify storage x_core shared merge value {_entities:[]}
+    }
+
+    /// Move last entity to temporary 'shared._entities' in storage 
+    /data modify storage x_core shared._entities prepend from storage x_core shared.entities[-1]
+    /data remove storage x_core shared.entities[-1]
+
+
+    /// If entity not tagged as saved and there remains data in 'shared.entities', 
+    if('data storage x_core shared.entities[0]'){
+
+        /// Repeat this function on remaining data
+        /function x_core:save_edata
+
+    } 
+
+    if(!'data storage x_core shared.entities[0]'){
+
+        /// If calling entity is still not tagged as saved (cuz its being saved for the first time), tag as unsaved
+        /tag @s[tag=!x_SAVED_EDATA] add x_UNSAVED_EDATA
+        
+        /// Remove the saved tag (no longer necessary)
+        /tag @s remove x_SAVED_EDATA 
+
+        /// Copy all entities back from the temporary 'shared._entities' in storage
+        /data modify storage x_core shared.entities set from storage x_core shared._entities
+    }
+
+
+    /// If entity tagged as unsaved,
+    if('entity @s[tag=x_UNSAVED_EDATA]'){
+
+        /// Add a new blank entry to 'shared.entities' in storage
+        /data modify storage x_core shared.entities append value {eid:0,data:{}}
+        
+        /// Copy saving entity's data to entry
+        /data modify storage x_core shared.entities[-1].data set from entity @s
+        
+        /// Copy saving entity's ID to entry
+        /execute store result storage x_core shared.entities[-1].eid int 1 run scoreboard players get @s x_EID
+
+        /// Remove the unsaved tag
+        /tag @s remove x_UNSAVED_EDATA
+    }
+
+
+    /// Remove the temporary 'shared._entities'
+    /data remove storage x_core shared._entities
+
+    /// Remove the save tag from saved entity (exits recursion)
+    /tag @s remove x_SAVE_EDATA
+
+}

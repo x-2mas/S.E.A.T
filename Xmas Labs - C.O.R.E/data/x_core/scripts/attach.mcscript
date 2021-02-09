@@ -1,0 +1,96 @@
+
+#
+#
+# C.O.R.E | attach
+# Attach(tp) entities tagged for attachment
+#
+#
+
+
+
+/// If attaching entity doesn't have an EID, give it one first
+if(!'score @s x_EID matches 1..'){
+    /function x_core:assign_eid
+}
+
+
+/// If attaching entity is not a player,
+if(!'entity @s[type=minecraft:player]'){
+  
+    /// Tag as attaching
+    /tag @s add x_ATTACHING
+
+/// If attaching entity is a player,
+} else {
+  
+    /// Summon a attachment anchor
+    /summon minecraft:armor_stand ~ ~ ~ {Tags:[x_EID,x_ATTACHING,x_ATTACHING_ANCHOR],Invisible:1,Small:1,Marker:1}
+
+    /// Set its parent ID to the player's parent ID
+    /scoreboard players operation @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest] x_PID = @s x_PID
+}
+
+
+/// Do as all entities with an entity ID, if the attaching entity's parent ID matches it,
+asat('@e[tag=x_EID,tag=!x_TP_KILL]'), if('score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID') {
+    
+    /// Add the entity's X, Y & Z positions with their respective offsets and update
+
+    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[0] 1000000
+    /scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_X
+    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[0] double 0.000001 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+
+    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[1] 1000000
+    /scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Y
+    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[1] double 0.000001 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
+
+    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[2] 1000000
+    /scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Z
+    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[2] double 0.000001 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
+
+
+    /// Add the entity's X & Y rotations with their respective offsets and update
+
+    /execute store result score @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 run data get entity @s Rotation[0] 10
+    /scoreboard players operation @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 += @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_ATTACH_RY
+    /execute store result entity @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] Rotation[0] float 0.1 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+
+    /execute store result score @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 run data get entity @s Rotation[1] 10
+    /scoreboard players operation @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 += @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_ATTACH_RX
+    /execute store result entity @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] Rotation[1] float 0.1 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+}
+
+
+/// Rotated as attachment anchor,
+rotated('as @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest]'){
+
+    /// Teleport to nearest attachment anchor if attaching entity is a player
+    /tp @s[type=minecraft:player] @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest]
+}
+
+/// Dispose attachment anchor
+/kill @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest]
+
+
+/// Add attach-skip tag (to move to the next attaching entity)
+/tag @s add x_ATTACH_SKIP
+
+/// Remove attaching tag
+/tag @s remove x_ATTACHING
+
+
+/// Do as next remaining un-attached entity tagged for attachment, 
+asat('@e[scores={x_ATTACH__T=1..},tag=!x_ATTACH_SKIP,limit=1]') {
+
+    /// Run attach function
+    /function x_core:attach
+}
+
+/// If there is no un-attached attaching entities, 
+if(!'entity @e[scores={x_ATTACH__T=1..},tag=!x_ATTACH_SKIP]') {
+
+    /// Reset all entity attach-skip tags
+    /tag @e remove x_ATTACH_SKIP
+}
+
+

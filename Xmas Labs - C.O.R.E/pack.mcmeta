@@ -1,0 +1,29 @@
+
+{
+  "pack": {
+    "pack_format": 6,
+    "description": {
+      "text":"by Xmas Labs",
+      "color": "green",
+      "extra":[
+        {
+          "text":"\n\nXmas Labs C.O.R.E Pack [v1.0]",
+          "color":"gold" 
+        },
+        {
+          "text": "\nThe Xmas Labs ",
+          "color":"white"
+        },
+        {
+          "text": "Co-Ordinated Runtime Environment (C.O.R.E). ",
+          "color":"green"
+        },
+        {
+          "text": "Required by all packs exported by Xmas Labs",
+          "color":"white"
+        }      
+      ] 
+    }
+  }
+}
+  

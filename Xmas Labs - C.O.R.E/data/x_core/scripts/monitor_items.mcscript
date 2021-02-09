@@ -1,0 +1,15 @@
+
+#
+#
+# C.O.R.E | monitor_items
+# Performs item-specific tasks in entity inventories
+#
+#
+
+
+
+/// Remove all items with the 'Clear From Inventory' item tag, from player inventories
+/clear @a #x_core:all{x_ITEM_TAGS:[x_CLEAR_FROM_INV]}
+
+/// Dispose all item drops with the 'Kill On Drop' item tag
+/kill @e[type=minecraft:item,nbt={Item:{tag:{x_ITEM_TAGS:[x_KILL_ON_DROP]}}}]

@@ -1,0 +1,244 @@
+
+#
+#
+# S.E.A.T | seat_base
+# Handles S.E.A.T base tasks
+#
+#
+
+
+
+/// Advance seat timeout if not occupied
+if('entity @s[tag=!x_SEAT_OCCUPIED]'){
+
+    /scoreboard players remove @s x_SEAT_TICK 1
+}
+
+
+/// If seat has exceeded its time-out 
+if('score @s x_SEAT_TICK matches ..0'){
+
+    /// If not already tagged for disposal
+    if(!'entity @s[tag=x_KILL_SEAT]'){
+
+        /// Dispose
+        /schedule function x_seat:kill_seat 2t
+
+        /// Tag for disposal
+        /tag @s add x_KILL_SEAT
+    }
+}
+
+
+/// If not already tagged for disposal
+if(!'entity @s[tag=x_KILL_SEAT]'){
+
+    /// If no player with matching EID found,
+    if(!'entity @a[tag=x_SEAT_BASE_PLAYER]'){
+        
+        /// Dispose
+        /schedule function x_seat:kill_seat 2t
+
+        /// Tag for disposal
+        /tag @s add x_KILL_SEAT
+    }
+
+    /// If no surface with matching EID found,
+    if(!'entity @e[tag=x_SEAT_BASE_SURFACE]'){
+        
+        /// Dispose
+        /schedule function x_seat:kill_seat 2t
+        
+        /// Tag for disposal
+        /tag @s add x_KILL_SEAT
+    }
+
+    /// If entity is leashed,
+    if('entity @s[nbt={Leash:{}}]'){
+        
+        /// Dispose
+        /schedule function x_seat:kill_seat 2t
+        
+        /// Tag for disposal
+        /tag @s add x_KILL_SEAT
+    }
+}
+
+
+
+/// If seat physics is on, seat is anchored and isn't falling,
+if('data storage x_seat flags{physics:1}' && 'entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING]') {
+
+    /// If no matching anchor found,
+    if(!'entity @e[tag=x_SEAT_BASE_ANCHOR]'){     
+
+        /// If not already tagged for disposal
+        if(!'entity @s[tag=x_KILL_SEAT]'){
+
+            /// Dispose
+            /schedule function x_seat:kill_seat 2t
+
+            /// Tag for disposal
+            /tag @s add x_KILL_SEAT
+        }
+    }
+}
+
+
+
+/// Keep S.E.A.T Base (Fox) facing vertically straight
+/data modify entity @s Rotation[1] set value 0
+
+/// Keep S.E.A.T Base (Fox) asleep and cancels any glowing effects
+/// (Alternative to [NoAI] tag that keeps mob frozen but responsive to world physics)
+/data modify entity @s {} merge value {Sleeping:1,Glowing:0}    
+
+
+
+/// If not tagged as occupied, but seat player is seated on this base, 
+if('entity @s[tag=!x_SEAT_OCCUPIED]' && 'entity @a[tag=x_SEAT_BASE_PLAYER,tag=!x_SEATED,nbt={RootVehicle: {Entity:{Tags:[x_SEAT_NS,x_SEAT_BASE]}}},nbt=!{RootVehicle: {Entity:{Tags:[x_SEAT_BASE_SKIP]}}}]'){ 
+    
+    /// Tag as seating the player
+    /tag @s add x_SEAT_SEATING
+}
+
+/// If tagged as seating, 
+if('entity @s[tag=x_SEAT_SEATING]'){
+
+
+    /// Prevent seat from being killed (by auto-kill timeout)
+    /tag @s remove x_KILL_SEAT     
+    
+    /// Tag player with S.E.A.T namespace
+    /tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] add x_SEAT_NS
+
+    /// Tag player as seated
+    /tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] add x_SEATED
+
+    /// Give advancement to first-time sitters
+    /advancement grant @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] only x_seat:take_a_seat
+
+
+
+    /// If 'only sit down' option is not enabled
+    positioned('as @s'), if(!'data storage x_seat flags{onlySitDown:1}'){
+
+        /// If the block directly behind player or the block above that is a non-solid/semi-solid, 
+        /// Accounting for anchor positioning at (^ ^1.9 ^-0.2), checks blocks (^ ^1.9 ^-0.7) & (^ ^2.9 ^-0.7)
+        if('block ^ ^1.9 ^-0.7 #x_core:non_solids' || 'block ^ ^2.9 ^-0.7 #x_core:non_solids' || 'block ^ ^1.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^2.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^1.9 ^-0.7 minecraft:snow[layers=1]' || 'block ^ ^2.9 ^-0.7 minecraft:snow[layers=1]'){
+            
+            /// Tag as sit down
+            /tag @s add x_SEAT_SIT_BACK
+        } 
+    }
+    
+    /// If tagged as sit down
+    positioned('as @s'), if('entity @s[tag=x_SEAT_SIT_BACK]'){
+
+        /// Teleport seat half a block backward
+        /tp @s ^ ^ ^-0.5
+
+        /// Remove too close tag
+        /tag @s remove x_SEAT_SIT_BACK
+    }
+
+
+
+    /// If block above player is a non-solid/semi-solid
+    positioned('as @s'), if('block ^ ^3.9 ^ #x_core:non_solids' || 'block ^ ^3.9 ^ #x_core:semi_solids') {
+        
+        /// Tag as low roof
+        /tag @s add x_SEAT_LOW_ROOF
+    }
+    
+    /// If tagged as low roof
+    positioned('as @s'), if('entity @s[tag=x_SEAT_LOW_ROOF]'){
+
+        /// Teleport seat 1 block higher 
+        /// Seat surface spawn position (relative to player feet)       (^ ^0.5 ^)                  =>  0.5 blocks above feet
+        /// Position after this tp                                      (^ ^1.5 ^)                  =>  1.5 blocks above feet
+        /tp @s ^ ^1 ^
+
+        /// Remove low roof tag
+        /tag @s remove x_SEAT_LOW_ROOF
+    }
+
+    /// The normal seat height is 1 block above feet (position of player's butt)
+    /// This tp places seat 0.5 blocks above normal seat height and then later lowers player to correct vertical height (if physics ON)
+    /// Also creates a realistic sink-into-seat effect
+
+
+
+    /// If there is a solid block too close to the player's back, 
+    positioned('as @s'), if(!'block ^ ^1.9 ^-0.6 #x_core:non_solids' && !'block ^ ^1.9 ^-0.6 #x_core:semi_solids'){
+        
+        /// Tag as too close
+        /tag @s add x_SEAT_TOO_CLOSE
+    }
+    
+    /// If tagged as too close
+    positioned('as @s'), if('entity @s[tag=x_SEAT_TOO_CLOSE]'){
+
+        /// Teleport seat slightly forward (to prevent clipping)
+        /tp @s ^ ^ ^0.3
+
+        /// Remove too close tag
+        /tag @s remove x_SEAT_TOO_CLOSE
+    }
+    
+
+
+    /// If not anchored,
+    if('entity @s[tag=!x_SEAT_ANCHORED]'){
+
+        /// Run C.O.R.E attachment creation
+        /function x_seat:create_anchor
+
+        /// Tag seat for attachment to anchor
+        /tag @s add x_ATTACH
+        /tag @s add x_ATTACH_ROTATE
+
+        /// Tag seat as anchored
+        /tag @s add x_SEAT_ANCHORED
+    }
+    
+    
+
+    /// Tag base as occupied
+    /tag @s add x_SEAT_OCCUPIED
+
+    /// Tag surface as occupied
+    /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_OCCUPIED
+
+    /// Remove seating tag
+    /tag @s remove x_SEAT_SEATING
+} 
+
+
+
+/// If occupied,
+if('entity @s[tag=x_SEAT_OCCUPIED]') {
+
+    
+    /// If seat player is not seated on this seat
+    if(!'entity @a[tag=x_SEAT_BASE_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED,x_SEAT_BASE]}}},nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_BASE_SKIP]}}}]'){
+
+        /// If not already tagged for disposal
+        if(!'entity @s[tag=x_KILL_SEAT]'){
+
+            /// Dispose
+            /schedule function x_seat:kill_seat 2t
+
+            /// Tag for disposal
+            /tag @s add x_KILL_SEAT
+        }
+    }
+
+
+    /// If S.E.A.T physics enabled,
+    if('data storage x_seat flags{physics:1}'){
+
+        /// Run base physics tasks
+        /function x_seat:seat_physics
+    }
+}

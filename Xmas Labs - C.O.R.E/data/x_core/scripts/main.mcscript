@@ -1,0 +1,22 @@
+
+#
+#
+# C.O.R.E | main
+# Runs on every tick. About 20 times a second.
+#
+#
+
+
+
+/// If the right C.O.R.E pack entry and version detected in storage (properly loaded),
+if('data storage x_core packs{x_core:116401}') {
+
+    /// Perform runtime tasks    
+    /function x_core:runtime
+
+/// If C.O.R.E pack missing in storage (due to uninstall or failed load)
+} else {
+    
+    /// Run uninstaller every tick until datapack is removed/disabled/reloaded 
+    /function x_core:uninstall
+} 

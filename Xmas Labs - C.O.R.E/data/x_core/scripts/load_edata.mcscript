@@ -1,0 +1,98 @@
+
+#
+#
+# C.O.R.E | load_edata
+# Load calling entity's data from storage.
+#
+#
+
+
+/// Tag calling entity for loading
+/tag @s add x_LOAD_EDATA
+
+
+/// Only do for as long as calling entity is tagged for loading (needed to exit recursion)
+asat('@s[tag=x_LOAD_EDATA]'){
+
+
+
+    /// Get entity ID of calling entity
+    /execute store result score x_CPU x_EID run scoreboard players get @s x_EID
+
+    /// If calling entity doesn't have a entity ID, stop loading and display error message
+    if('score x_CPU x_EID matches 0'){
+        /tellraw @a ["",{"text":"\n\nXmas Labs C.O.R.E Error!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Tried loading entity data of an entity with no ID! \n\n","color":"gold"}]        
+        /tag @s remove x_LOAD_EDATA
+    }
+
+
+
+    /// Get entity ID of last entity in 'shared.entities' in storage
+    /execute store result score x_CPU x_EID run data get storage minecraft:x_core shared.entities[-1].eid 1
+    
+    /// If last entity ID matches the one being loaded and entity not yet loaded,
+    if('score @s x_EID = x_CPU x_EID' && !'entity @s[tag=x_LOADED_EDATA]'){
+
+        /// Copy over entity data to callign entity
+        /data modify entity @s {} merge from storage x_core shared.entities[-1].data
+
+        /// Remove save tags added while saving
+        /tag @s remove x_SAVE_EDATA
+        /tag @s remove x_UNSAVED_EDATA
+
+        /// Tag entity as loaded
+        /tag @s add x_LOADED_EDATA
+        
+    } 
+
+
+
+    /// If no temporary 'shared._entities' in storage,
+    if(!'data storage x_core shared._entities'){
+
+        /// Make a temporary 'shared._entities' in storage
+        /data modify storage x_core shared merge value {_entities:[]}
+    }
+
+    /// Move last entity to temporary 'shared._entities' in storage 
+    /data modify storage x_core shared._entities prepend from storage x_core shared.entities[-1]
+    /data remove storage x_core shared.entities[-1]
+
+
+
+    /// If there remains data in 'shared.entities', 
+    if('data storage x_core shared.entities[0]'){
+        
+        /// Repeat this function on remaining data
+        /function x_core:load_edata
+        
+    }
+    
+    /// If no more data in 'shared.entities' and if entity not yet loaded
+    if(!'data storage x_core shared.entities[0]' && !'entity @s[tag=x_LOADED_EDATA]') {
+ 
+        /// Get entity ID of calling entity
+        /execute store result score x_CPU x_EID run scoreboard players get @s x_EID
+
+        /// Display error 
+        /tellraw @a ["",{"text":"\n\nXmas Labs C.O.R.E Error!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Data for entity with ","color":"gold"}, {"text":"EID:","color":"blue","bold":true},{"score":{"name":"x_CPU","objective":"x_EID"},"color":"blue","bold":true},{"text":" missing in world storage.\n\n","color":"gold"}]        
+        
+        /// Tag as loaded (pretend load worked to exit recursion)
+        /tag @s add x_LOADED_EDATA
+        
+    } 
+    
+
+    /// Copy all entities back from the temporary 'shared._entities' in storage
+    /data modify storage x_core shared.entities set from storage x_core shared._entities
+
+    /// Remove the loaded tag (no longer necessary)
+    /tag @s remove x_LOADED_EDATA
+
+    /// Remove the temporary 'shared._entities'
+    /data remove storage x_core shared._entities
+    
+    /// Remove the load tag from loaded entity (exits recursion)
+    /tag @s remove x_LOAD_EDATA 
+
+}
