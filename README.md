@@ -109,7 +109,7 @@ There are two ways to sit:
 
 ## S.E.A.T Adjustment Mode
 
-This lets you fine-tune your sitting position after sitting. It's the Minecraft equivalent to *'scooting over'*.  
+This lets you fine-tune your sitting position after sitting. It's the Minecraft equivalent to *'scooting over'.*  
 To enter S.E.A.T adjustment mode:  
 
 1. Look straight down while seated
@@ -118,15 +118,15 @@ To enter S.E.A.T adjustment mode:
 
 Once you've entered S.E.A.T adjustment mode, you have 3 basic controls:  
 
-#### 1. Look-Around/Rotation: 
-This sets the direction you want to adjust your seat in. 
-Also, if rotation lock is enabled, the direction you're looking in when exiting S.E.A.T Adjustment Mode is taken as your seat's rotation.
+1. #### Look-Around/Rotation: 
+  This sets the direction you want to adjust your seat in. 
+  Also, if rotation lock is enabled, the direction you're looking in when exiting S.E.A.T Adjustment Mode is taken as your seat's rotation.
 
-#### 2. Scroll Up/Down:
-Moves your seat either forward or backward along the axis/direction you're currently facing.
+2. #### Scroll Up/Down:
+  Moves your seat either forward or backward along the axis/direction you're currently facing.
 
-#### 3. Wait/Stop Scrolling:
-If you stop scrolling for a while (about 7 seconds), the seat locks in your adjustment and exits S.E.A.T Adjustment Mode.  
+3. #### Wait/Stop Scrolling:
+  If you stop scrolling for a while (about 7 seconds), the seat locks in your adjustment and exits S.E.A.T Adjustment Mode.  
 
 This also works when sitting on mobs and entities but is really difficult to do because they don't sit still during adjustment. If this annoys you, enable the *'Freeze Rides on Adjust'* option in the pack menu to temporarily freeze entities you're sitting on during adjustment.  
 
