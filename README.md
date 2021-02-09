@@ -1,10 +1,10 @@
 
-# Xmas Labs | S.E.A.T | User Guide
+# Xmas Labs  |  S.E.A.T  |  User Guide
 
 Thank you for checking out the S.E.A.T pack!  
-This little document should cover ALL the information you need to use this pack in your world. If you're not in the mood to read it, you can watch it in video-form here: 
+This little document should cover *all* the information you need to use this pack in your world. If you're not in the mood to read it, you can watch it in video-form [here](https://www.youtube.com) 
 
-
+<br>
 ## About
 The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanilla Minecraft.  
 
