@@ -38,6 +38,8 @@ The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanil
 > 2. Put the data pack into a folder named datapacks
 > 3. Type /reload from the console or as a level 3 operator, or restart the server.  
 
+<br>
+
 **You must copy both C.O.R.E and S.E.A.T datapacks to your world folder.**  
 The *Co-Ordinated Runtime Environment (C.O.R.E)* holds commands shared between my packs. You need it to run the S.E.A.T pack.
 
@@ -55,6 +57,8 @@ This menu lets you toggle different pack settings to suit your experience. Turni
 
 You can navigate to different pages using the page arrows at the bottom, or clear the menu using the Close Menu button.  
 **Remember, changes you make in this menu get applied to everyone in your world/server.**
+
+<br>
 
 ### Menu Options:
 
@@ -109,7 +113,10 @@ There are two ways to sit:
 
 ## S.E.A.T Adjustment Mode
 
-This lets you fine-tune your sitting position after sitting. It's the Minecraft equivalent to *'scooting over'.*  
+This lets you fine-tune your sitting position after sitting. It's the Minecraft equivalent to *'scooting over'.* 
+
+<br>
+
 To enter S.E.A.T adjustment mode:  
 
 1. Look straight down while seated
@@ -117,13 +124,15 @@ To enter S.E.A.T adjustment mode:
 3. Scroll up/down rapidly on your mouse-wheel/hotbar  
 
 Once you've entered S.E.A.T adjustment mode, you have 3 basic controls:  
-1. Look-Around/Rotation: 
+1. Look-Around/Rotation:  
   This sets the direction you want to adjust your seat in. 
   Also, if rotation lock is enabled, the direction you're looking in when exiting S.E.A.T Adjustment Mode is taken as your seat's rotation.
-2. Scroll Up/Down:
+2. Scroll Up/Down:  
   Moves your seat either forward or backward along the axis/direction you're currently facing.
-3. Wait/Stop Scrolling:
+3. Wait/Stop Scrolling:  
   If you stop scrolling for a while (about 7 seconds), the seat locks in your adjustment and exits S.E.A.T Adjustment Mode.  
+
+<br>
 
 This also works when sitting on mobs and entities but is really difficult to do because they don't sit still during adjustment. If this annoys you, enable the *'Freeze Rides on Adjust'* option in the pack menu to temporarily freeze entities you're sitting on during adjustment.  
 
