@@ -11,7 +11,7 @@ This little document should cover *all* the information you need to use this pac
 ## About
 The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanilla Minecraft.  
 
-### Current Features:
+### Features:
 - **Sit on (almost) any block/entity in the game, including other players**
 - **Fine-tune your sitting position to make it look just right**
 - **Reacts to world physics letting players fall, bounce, slide, etc while seated**
@@ -41,46 +41,47 @@ The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanil
 **You must copy both C.O.R.E and S.E.A.T datapacks to your world folder.**  
 The *Co-Ordinated Runtime Environment (C.O.R.E)* holds commands shared between my packs. You need it to run the S.E.A.T pack.
 
-**If you're installing the pack for the first time, or loading it after a previous un-installation, you will have to reload** ***twice***. If installed and loaded correctly, you should see both packs show up as advancements in your **Advancements Tab** ***(Press L key to open)***.
+**If you're installing the pack for the first time, or loading it after a previous un-installation, you will have to reload** ***twice***.  
+If installed and loaded correctly, you should see both packs show up as advancements in your **Advancements Tab** *(Press L key to open)*.
 
 <br>
 
 ## Pack Menu
 
-There's an **in-built menu** you can open in your chat by running the following command:
-  /function x_seat:menu
+There's an **in-built menu** you can open in your chat by running the following command:  
+    /function x_seat:menu
 
 This menu lets you toggle different pack settings to suit your experience. Turning off things like physics might improve performance and stability, especially on servers. Each option comes with a description you can view by hovering over it with your mouse.
 
 You can navigate to different pages using the page arrows at the bottom, or clear the menu using the Close Menu button.  
 **Remember, changes you make in this menu get applied to everyone in your world/server.**
 
-### Current Menu Options:
+### Menu Options:
 
-#### Use Physics: 
+- #### Use Physics: 
 This feature makes you responsive to world physics while seated. Keep it *ON* if you want to fall, bounce, slide, etc while sitting. Turn it *OFF* to improve performance and avoid glitches.
 
-#### Rotation Lock:
+- #### Rotation Lock:
 Turn *ON* to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode.
 
-#### Only If Sneaking:
+- #### Only If Sneaking:
 Makes sitting slightly more complicated. If *ON,* players need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also, sneaking before sitting is slightly more realistic.
 
-#### Bounce Off Floors:
+- #### Bounce Off Floors:
 By default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this *ON* will fix that but might cause the bounce to look less realistic.
 
-#### Only Sit Down:
+- #### Only Sit Down:
 By default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this *ON* forces S.E.A.T to only use the block you're standing on/in.
 
-#### Fall Damage:
+- #### Fall Damage:
 Keep this *ON* to apply fall damage to seated players when falling. No reason to turn this *OFF* unless you're playing it super safe.
 
-#### Block Inventory:
+- #### Block Inventory:
 Prevents players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this *OFF* will allow seated inventory access but might break immersion.
 
-#### Freeze Ride On Adjust:
+- #### Freeze Ride On Adjust:
 Turning this *ON* will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but may cause issues with the mob/entity you're sitting on, since this resets their state.
 
-#### Show Prompts:
+- #### Show Prompts:
 Turn this *OFF* to disable sitting instruction prompts. This might make things difficult for players new to the pack.
 
