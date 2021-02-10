@@ -243,5 +243,4 @@ I've also added comments to almost every line in those scripts, so it shouldn't 
 *That sums up everything you need to know about the S.E.A.T pack.*  
 *Thank you once again for checking it out. I hope you enjoy it!*  
 
-*With 💛,*  
- **Xmas**
+*💛,* **Xmas**
