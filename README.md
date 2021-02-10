@@ -97,15 +97,15 @@ You can navigate to different pages using the page arrows at the bottom, or clea
 There are two ways to sit:
 
 #### Default Method:
-  1. Stand infront (or on top of) of the block you want to sit on
+  1. Stand in front of (or on) the block you want to sit on
   2. Turn around and face away from the block
   3. Look straight down and Right-Click (USE button / MOUSE 2) 
 
 #### 'Only If Sneaking' Method:
-  1. Stand infront (or on top of) of the block you want to sit on
+  1. Stand in front of (or on) the block you want to sit on
   2. Turn around and face away from the block
-  3. Look straight down and 
-    3.1. Hold Left Shift for a second or two (SNEAK button)
+  3. Look straight down and  
+    3.1. Hold Left Shift for a second or two (SNEAK button)  
     3.2. Release Left Shift (SNEAK button) & quickly press Right Click (USE button)
 
 **You can switch to your preferred method using the pack menu**
@@ -118,7 +118,7 @@ This lets you fine-tune your sitting position after sitting. It's the Minecraft 
 
 <br>
 
-**To enter S.E.A.T adjustment mode:**
+**To enter S.E.A.T Adjustment Mode:**
 1. Look straight down while seated
 2. You should see a prompt telling you to scroll up/down (only if prompts are enabled)
 3. Scroll up/down rapidly on your mouse-wheel/hotbar  
