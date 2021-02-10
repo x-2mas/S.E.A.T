@@ -9,7 +9,7 @@ This little document should cover *all* the information you need to use this pac
 <br>
 
 ## About
-The S.E.A.T pack is my attempt at making the ultimate sitting solution for Vanilla Minecraft.  
+The *Sitting Enabled Anywhere Technology (S.E.A.T)* pack is the ultimate sitting solution for Vanilla Minecraft.  
 
 ### Features:
 - **Sit on (almost) any block/entity in the game, including other players**
