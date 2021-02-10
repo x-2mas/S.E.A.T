@@ -4,7 +4,7 @@
 # Xmas Labs  |  S.E.A.T  |  User Guide
 
 Thank you for checking out the S.E.A.T pack!  
-This little document should cover *all* the information you need to use this pack in your world. If you're not in the mood to read it, you can watch it in video-form [here](https://www.youtube.com) 
+This little document should cover *all* the information you need to use this pack in your world. If you're not in the mood to read it, you can watch it in video-form [here](https://youtu.be/caASsYzVx-g) 
 
 <br>
 
