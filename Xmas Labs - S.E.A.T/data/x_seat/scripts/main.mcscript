@@ -7,21 +7,20 @@
 #
 
 
-/// If the right C.O.R.E & S.E.A.T pack entries and versions detected in storage (properly loaded),
-if('data storage x_core packs{x_core:116401}' && 'data storage x_core packs{x_seat:116401}') {
+     
+/// If no C.O.R.E reloads queued,
+if('data storage x_core flags{reload:0}') {
 
-    /// Perform runtime tasks    
-    /function x_seat:runtime
+    /// If the right C.O.R.E & S.E.A.T pack entries and versions detected in storage (properly loaded),
+    if('data storage x_core packs.x_core' && 'data storage x_core packs{x_seat:116501}') {
 
-/// If C.O.R.E/S.E.A.T pack missing in storage (due to uninstall or failed load)
-} else {
-    
-    /// Run uninstaller every tick until datapack is removed/disabled/reloaded 
-    /function x_seat:uninstall
-} 
+        /// Perform runtime tasks    
+        /function x_seat:runtime
 
+    /// If C.O.R.E/S.E.A.T pack missing in storage (due to uninstall or failed load)
+    } else {
 
-asat('@e[tag=x_QTEST]'){
-    /data merge entity @s {DeathTime:100}
-    /tag @s remove x_QTEST
+        /// Run uninstaller every tick until datapack is removed/disabled/reloaded 
+        /function x_seat:uninstall
+    } 
 }

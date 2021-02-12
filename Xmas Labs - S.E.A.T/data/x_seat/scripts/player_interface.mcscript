@@ -545,13 +545,13 @@ asat(@a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1]){
     asat('@e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]'), if('score @s x_SEAT_ID = @a[tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_EID'){
 
         /// Get anchor's current X position
-        /execute store result score @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R0 run data get entity @s Pos[0] 1000000
+        /execute store result score @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R0 run data get entity @s Pos[0] 100
 
         /// Get anchor's current Y position
-        /execute store result score @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R1 run data get entity @s Pos[1] 1000000
+        /execute store result score @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R1 run data get entity @s Pos[1] 100
 
         /// Get anchor's current Z position
-        /execute store result score @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R2 run data get entity @s Pos[2] 1000000
+        /execute store result score @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R2 run data get entity @s Pos[2] 100
     }
     
 
@@ -569,17 +569,17 @@ asat(@a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1]){
 
 
         /// Compute X-offset from anchor and base positions
-        /execute store result score @s x_R0 run data get entity @s Pos[0] 1000000
+        /execute store result score @s x_R0 run data get entity @s Pos[0] 100
         /scoreboard players operation @s x_R0 -= @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R0
         /scoreboard players operation @s x_ATTACH_X = @s x_R0
 
         /// Compute Y-offset from anchor and base positions
-        /execute store result score @s x_R0 run data get entity @s Pos[1] 1000000
+        /execute store result score @s x_R0 run data get entity @s Pos[1] 100
         /scoreboard players operation @s x_R0 -= @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R1
         /scoreboard players operation @s x_ATTACH_Y = @s x_R0
 
         /// Compute Z-offset from anchor and base positions
-        /execute store result score @s x_R0 run data get entity @s Pos[2] 1000000
+        /execute store result score @s x_R0 run data get entity @s Pos[2] 100
         /scoreboard players operation @s x_R0 -= @a[tag=x_SEAT_NS,tag=x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,limit=1,sort=nearest] x_R2
         /scoreboard players operation @s x_ATTACH_Z = @s x_R0
     }     
@@ -665,7 +665,7 @@ asat('@a[tag=x_SEAT_NS,tag=x_SEATED,nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_NS,x
 
     /// As all seat bases with seat ID matching player,
     asat('@e[tag=x_SEAT_NS,tag=x_SEAT_OCCUPIED,tag=x_SEAT_BASE]'), if('score @s x_SEAT_ID = @a[tag=x_UNSEATING,limit=1,sort=nearest] x_EID'){
-   
+
         /// Eject the surface riding this base
         /tp @e[tag=x_SEAT_NS,tag=x_SEAT_OCCUPIED,tag=x_SEAT_SURFACE,limit=1,distance=..1,sort=nearest] ~ ~0.5 ~
 
@@ -679,9 +679,36 @@ asat('@a[tag=x_SEAT_NS,tag=x_SEATED,nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_NS,x
 
     /// As all seat surfaces with seat ID matching player,
     asat('@e[tag=x_SEAT_NS,tag=x_SEAT_OCCUPIED,tag=x_SEAT_SURFACE]'), if('score @s x_SEAT_ID = @a[tag=x_UNSEATING,limit=1,sort=nearest] x_EID'){
-   
-        /// Teleport player to a safe height above seat
-        // /tp @a[tag=x_UNSEATING,limit=1,sort=nearest] ~ ~1.5 ~
+
+
+        /// If player sat back on this seat and roof is low,
+        if('entity @s[tag=x_SEAT_SIT_BACK,tag=x_SEAT_LOW_ROOF]'){
+
+            /// Teleport player to a safe height above and infront of seat
+            /tp @a[tag=x_UNSEATING,limit=1,sort=nearest] ^ ^1.65 ^0.5
+        }
+
+        /// If player sat back on this seat and roof not low,
+        if('entity @s[tag=x_SEAT_SIT_BACK,tag=!x_SEAT_LOW_ROOF]'){
+
+            /// Teleport player to a safe height above and infront of seat
+            /tp @a[tag=x_UNSEATING,limit=1,sort=nearest] ^ ^1.5 ^0.5
+        }
+
+        /// If player sat down and roof is low,
+        if('entity @s[tag=!x_SEAT_SIT_BACK,tag=x_SEAT_LOW_ROOF]'){
+
+            /// Teleport player to a safe height above seat
+            /tp @a[tag=x_UNSEATING,limit=1,sort=nearest] ^ ^1.65 ^
+        }
+
+        /// If player sat down and roof is not low,
+        if('entity @s[tag=!x_SEAT_SIT_BACK,tag=!x_SEAT_LOW_ROOF]'){
+
+            /// Teleport player to a safe height above seat
+            /tp @a[tag=x_UNSEATING,limit=1,sort=nearest] ^ ^1.5 ^
+        }
+
 
         /// If not already tagged for disposal
         if(!'entity @s[tag=x_KILL_SEAT]'){

@@ -28,18 +28,18 @@ asat('@e[tag=x_ATTACH_NEW_SECONDARY]'){
     /scoreboard players operation @s x_PID = @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] x_EID
 
     /// Set X distance between primary and secondary as X attachment
-    /execute store result score @s x_R0 run data get entity @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] Pos[0] 1000000
-    /execute store result score @s x_ATTACH_X run data get entity @s Pos[0] 1000000
+    /execute store result score @s x_R0 run data get entity @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] Pos[0] 100
+    /execute store result score @s x_ATTACH_X run data get entity @s Pos[0] 100
     /scoreboard players operation @s x_ATTACH_X -= @s x_R0
     
     /// Set Y distance between primary and secondary as Y attachment
-    /execute store result score @s x_R0 run data get entity @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] Pos[1] 1000000
-    /execute store result score @s x_ATTACH_Y run data get entity @s Pos[1] 1000000
+    /execute store result score @s x_R0 run data get entity @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] Pos[1] 100
+    /execute store result score @s x_ATTACH_Y run data get entity @s Pos[1] 100
     /scoreboard players operation @s x_ATTACH_Y -= @s x_R0
     
     /// Set Z distance between primary and secondary as Z attachment
-    /execute store result score @s x_R0 run data get entity @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] Pos[2] 1000000
-    /execute store result score @s x_ATTACH_Z run data get entity @s Pos[2] 1000000
+    /execute store result score @s x_R0 run data get entity @e[tag=x_ATTACH_NEW_PRIMARY,limit=1,sort=nearest] Pos[2] 100
+    /execute store result score @s x_ATTACH_Z run data get entity @s Pos[2] 100
     /scoreboard players operation @s x_ATTACH_Z -= @s x_R0
 
     /// Set Y-Rotation difference between primary and secondary as Y-Rotation offset

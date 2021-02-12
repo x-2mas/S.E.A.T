@@ -120,90 +120,172 @@ if('entity @s[tag=x_SEAT_SEATING]'){
 
 
 
-    /// If 'only sit down' option is not enabled
-    positioned('as @s'), if(!'data storage x_seat flags{onlySitDown:1}'){
+    /// Force positioning (in case of tp-lag)
+    positioned('as @s'){
 
-        /// If the block directly behind player or the block above that is a non-solid/semi-solid, 
-        /// Accounting for anchor positioning at (^ ^1.9 ^-0.2), checks blocks (^ ^1.9 ^-0.7) & (^ ^2.9 ^-0.7)
-        if('block ^ ^1.9 ^-0.7 #x_core:non_solids' || 'block ^ ^2.9 ^-0.7 #x_core:non_solids' || 'block ^ ^1.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^2.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^1.9 ^-0.7 minecraft:snow[layers=1]' || 'block ^ ^2.9 ^-0.7 minecraft:snow[layers=1]'){
+        /// If 'only sit down' option is not enabled
+        if(!'data storage x_seat flags{onlySitDown:1}'){
+
+
+            /// If the block directly behind player or the block above that is a non-solid/semi-solid/snow, 
+            /// Accounting for anchor positioning at (^ ^1.9 ^-0.2), checks blocks (^ ^1.9 ^-0.7) & (^ ^2.9 ^-0.7)
+            if('block ^ ^1.9 ^-0.7 #x_core:non_solids' || 'block ^ ^2.9 ^-0.7 #x_core:non_solids' || 'block ^ ^1.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^2.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^1.9 ^-0.7 minecraft:snow' || 'block ^ ^2.9 ^-0.7 minecraft:snow'){
+                
+                /// Tag as sit back
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
+                /tag @s add x_SEAT_SIT_BACK
+            } 
+        }
+
+    
+        /// If tagged as sit back
+        if('entity @s[tag=x_SEAT_SIT_BACK]'){
+
+            /// Teleport seat half a block backward and half a block down
+            /tp @s ^ ^-0.5 ^-0.5
+
+        /// If not tagged as sit back
+        } else {
+
+            /// Teleport seat half a block down
+            /tp @s ^ ^-0.5 ^
+        }
+
+
+        /// If sitting back and block above and behind player is a solid
+        if('entity @s[tag=x_SEAT_SIT_BACK]' && !'block ^ ^3.9 ^-0.5 #x_core:non_solids' && !'block ^ ^3.9 ^-0.5 #x_core:semi_solids' && !'block ^ ^3.9 ^-0.5 minecraft:snow') {
+
+            /// Tag as low roof
+            /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
+            /tag @s add x_SEAT_LOW_ROOF
+        }
+
+        /// If sitting down and block above player is a solid
+        if('entity @s[tag=!x_SEAT_SIT_BACK]' && !'block ^ ^3.9 ^ #x_core:non_solids' && !'block ^ ^3.9 ^ #x_core:semi_solids' && !'block ^ ^3.9 ^ minecraft:snow') {
+
+            /// Tag as low roof
+            /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
+            /tag @s add x_SEAT_LOW_ROOF
+        }
+
+        /// If sitting back
+        if('entity @s[tag=x_SEAT_SIT_BACK]'){
+
+            /// If block behind player is a non-solid/semi-solid/snow
+            if('block ^ ^1.9 ^-0.5 #x_core:non_solids' || 'block ^ ^1.9 ^-0.5 #x_core:semi_solids' || 'block ^ ^1.9 ^-0.5 minecraft:snow') {
+
+                /// Tag as on floor
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
+                /tag @s add x_SEAT_ON_FLOOR
+            }
+        }
+
+        /// If sitting down and block at player is a non-solid/semi-solid
+        if('entity @s[tag=!x_SEAT_SIT_BACK]') {
             
-            /// Tag as sit down
-            /tag @s add x_SEAT_SIT_BACK
-        } 
-    }
-    
-    /// If tagged as sit down
-    positioned('as @s'), if('entity @s[tag=x_SEAT_SIT_BACK]'){
+            /// If block at player is a non-solid/semi-solid/snow
+            if('block ^ ^1.9 ^ #x_core:non_solids' || 'block ^ ^1.9 ^ #x_core:semi_solids' || 'block ^ ^1.9 ^ minecraft:snow') {
 
-        /// Teleport seat half a block backward
-        /tp @s ^ ^ ^-0.5
-
-        /// Remove too close tag
-        /tag @s remove x_SEAT_SIT_BACK
-    }
-
-
-
-    /// If block above player is a non-solid/semi-solid
-    positioned('as @s'), if('block ^ ^3.9 ^ #x_core:non_solids' || 'block ^ ^3.9 ^ #x_core:semi_solids') {
-        
-        /// Tag as low roof
-        /tag @s add x_SEAT_LOW_ROOF
-    }
-    
-    /// If tagged as low roof
-    positioned('as @s'), if('entity @s[tag=x_SEAT_LOW_ROOF]'){
-
-        /// Teleport seat 1 block higher 
-        /// Seat surface spawn position (relative to player feet)       (^ ^0.5 ^)                  =>  0.5 blocks above feet
-        /// Position after this tp                                      (^ ^1.5 ^)                  =>  1.5 blocks above feet
-        /tp @s ^ ^1 ^
-
-        /// Remove low roof tag
-        /tag @s remove x_SEAT_LOW_ROOF
-    }
-
-    /// The normal seat height is 1 block above feet (position of player's butt)
-    /// This tp places seat 0.5 blocks above normal seat height and then later lowers player to correct vertical height (if physics ON)
-    /// Also creates a realistic sink-into-seat effect
-
-
-
-    /// If there is a solid block too close to the player's back, 
-    positioned('as @s'), if(!'block ^ ^1.9 ^-0.6 #x_core:non_solids' && !'block ^ ^1.9 ^-0.6 #x_core:semi_solids'){
-        
-        /// Tag as too close
-        /tag @s add x_SEAT_TOO_CLOSE
-    }
-    
-    /// If tagged as too close
-    positioned('as @s'), if('entity @s[tag=x_SEAT_TOO_CLOSE]'){
-
-        /// Teleport seat slightly forward (to prevent clipping)
-        /tp @s ^ ^ ^0.3
-
-        /// Remove too close tag
-        /tag @s remove x_SEAT_TOO_CLOSE
-    }
-    
-
-
-    /// If not anchored,
-    if('entity @s[tag=!x_SEAT_ANCHORED]'){
-
-        /// Run C.O.R.E attachment creation
-        /function x_seat:create_anchor
-
-        /// Tag seat for attachment to anchor
-        /tag @s add x_ATTACH
-        /tag @s add x_ATTACH_ROTATE
-
-        /// Tag seat as anchored
-        /tag @s add x_SEAT_ANCHORED
-    }
+                /// Tag as on floor
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
+                /tag @s add x_SEAT_ON_FLOOR
+            }
+        }
     
     
+        /// If tagged as low roof but on floor
+        if('entity @s[tag=x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR]'){
 
+            /// Teleport seat 3/4 of a block higher 
+            /// Seat surface spawn position (relative to player feet)       (^ ^0.5 ^)                  =>  0.5 blocks above feet
+            /// Position after this tp                                      (^ ^1.3 ^)                  =>  1.5 blocks above feet
+            /tp @s ^ ^0.8 ^
+        }
+
+        /// If not tagged as low roof nor on floor
+        if('entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR]'){
+
+            /// Teleport seat 1 block higher 
+            /// Seat surface spawn position (relative to player feet)       (^ ^0.5 ^)                  =>  0.5 blocks above feet
+            /// Position after this tp                                      (^ ^1.5 ^)                  =>  1.5 blocks above feet
+            /tp @s ^ ^1 ^
+        }
+
+
+
+        /// If there is a solid block too close to the player's back, 
+        if(!'block ^ ^1.9 ^-0.6 #x_core:non_solids' && !'block ^ ^1.9 ^-0.6 #x_core:semi_solids' && !'block ^ ^1.9 ^-0.6 minecraft:snow'){
+            
+            /// Tag as too close
+            /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_TOO_CLOSE
+            /tag @s add x_SEAT_TOO_CLOSE
+        }
+    
+        /// If tagged as too close
+        if('entity @s[tag=x_SEAT_TOO_CLOSE]'){
+
+            /// Teleport seat slightly forward (to prevent clipping)
+            /tp @s ^ ^ ^0.3
+        }
+
+
+
+        /// If not in a cramped location
+        if('entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_TOO_CLOSE]'){
+            
+            /// If block at player is a fence or wall
+            if('block ^ ^1.4 ^ #minecraft:fences' || 'block ^ ^1.4 ^ #minecraft:fence_gates' || 'block ^ ^1.4 ^ #minecraft:walls') {
+
+                /// Tag as on fence
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FENCE
+                /tag @s add x_SEAT_ON_FENCE
+            }
+        }
+    
+        /// If tagged as on a fence/wall
+        if('entity @s[tag=x_SEAT_ON_FENCE]'){
+
+            /// Teleport half a block higher 
+            /tp @s ^ ^0.5 ^
+        }
+
+
+        /// If sitting back and on the floor,
+        positioned('^ ^ ^-0.5'), if('entity @s[tag=x_SEAT_SIT_BACK,tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FENCE,tag=x_SEAT_ON_FLOOR]') {
+            
+            /// If there's a rideable entity whose hitbox is at the player,
+            if('entity @e[dy=2.9,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables]'){
+                
+                /// Tag as on ride
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_RIDE
+                /tag @s add x_SEAT_ON_RIDE
+            }
+        }
+    
+        /// If tagged as on ride
+        if('entity @s[tag=x_SEAT_ON_RIDE]'){
+
+            /// Teleport one block higher
+            /tp @s ^ ^1 ^
+        }
+
+
+        /// If not anchored,
+        if('entity @s[tag=!x_SEAT_ANCHORED]'){
+
+            /// Run C.O.R.E attachment creation
+            /function x_seat:create_anchor
+
+            /// Tag seat for attachment to anchor
+            /tag @s add x_ATTACH
+            /tag @s add x_ATTACH_ROTATE
+
+            /// Tag seat as anchored
+            /tag @s add x_SEAT_ANCHORED
+        }
+    }
+    
+    
     /// Tag base as occupied
     /tag @s add x_SEAT_OCCUPIED
 

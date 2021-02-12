@@ -13,7 +13,7 @@
 if('data storage x_core packs.x_seat') {
 
     /// Announce un-installation (only the first time)
-    /tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs S.E.A.T Pack!\n\n","bold":true,"color":"gold"},{"text":"~ Finally taking a stand? ~\n\n\n","color":"light_purple","italics":true}]
+    /tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs S.E.A.T Pack!\n\n","bold":true,"color":"gold"},{"text":"~ Finally taking a stand? ~\n\n\n","color":"light_purple","italic":true}]
 }
 
 
@@ -31,7 +31,6 @@ if('data storage x_core packs.x_seat') {
 
 
 /// Unqueue from C.O.R.E runtime features
-/data remove storage x_core flags.tpKill__Packs[{x_SEAT:1}]
 /data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
 /data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
 /data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
@@ -134,13 +133,6 @@ asat('@e[tag=x_SCROLLBAR__SEAT]'){
     /// Remove scroll-bar 'added by seat' tag
     /tag @s remove x_SCROLLBAR__SEAT
 }
-
-
-
-
-
-/// Teleport all S.E.A.T components out of world
-/tp @e[tag=x_SEAT_NS,tag=x_SEAT] ~ ~999 ~
 
 
 

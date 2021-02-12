@@ -33,5 +33,9 @@ if('data storage x_core flags{reload:-1}') {
 }
 
 
+/// Run compatibility checks on packs and world
+/function x_core:check_compatibility
+
+
 /// Set load notified status
 /data modify storage x_core flags merge value {loadNotified:1}

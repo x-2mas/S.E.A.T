@@ -16,14 +16,14 @@ if(!'data storage x_core packs.x_core') {
 }
 
 
-if('data storage x_core packs{x_seat:116401}') {
+if('data storage x_core packs{x_seat:116501}') {
 
 
     /// Get the current C.O.R.E version number
     /execute store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
 
     /// Set the required C.O.R.E version number
-    /scoreboard players set x_CPU x_R1 116401
+    /scoreboard players set x_CPU x_R1 116501
 
     /// Subtract required version number from current version number
     /scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
@@ -32,7 +32,7 @@ if('data storage x_core packs{x_seat:116401}') {
     if('score x_CPU x_R0 matches ..-1'){
         
         /// Notify players of outdated C.O.R.E
-        /tellraw @a ["",{"text":"\n\nC.O.R.E Outdated!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please update the Xmas Labs C.O.R.E datapack to the latest version in order to run S.E.A.T pack! \n\n","color":"white","italic":true}]
+        /tellraw @a ["",{"text":"\n\nC.O.R.E Outdated!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please update the Xmas Labs C.O.R.E datapack to the latest version in order to run the S.E.A.T pack! \n\n","color":"white","italic":true}]
 
         /// Remove the S.E.A.T entry from C.O.R.E packs 
         /// Stops pack from running

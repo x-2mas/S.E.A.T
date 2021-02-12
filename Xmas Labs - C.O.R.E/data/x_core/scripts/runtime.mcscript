@@ -324,6 +324,7 @@ if('data storage x_core flags.hideCommandFeedback') {
 /// If load notifications complete,
 if('data storage x_core flags{loadNotified:1}') {
 
+
     /// Add this pack to the Xmas Labs Advancements tab of all players
     /advancement grant @a only x_core:root_tab
     /advancement grant @a only x_core:pack_loaded

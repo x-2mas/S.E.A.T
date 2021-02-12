@@ -18,8 +18,8 @@ if(!'data storage x_core packs'){
 
 /// If this pack isn't already added, and no other versions of this pack already added,
 /// Add C.O.R.E pack to 'packs' folder
-if(!'data storage x_core packs{x_core:116401}' && !'data storage x_core packs.x_core'){
-    /data modify storage x_core packs merge value {x_core:116401}
+if(!'data storage x_core packs{x_core:116501}' && !'data storage x_core packs.x_core'){
+    /data modify storage x_core packs merge value {x_core:116501}
 }
 
 

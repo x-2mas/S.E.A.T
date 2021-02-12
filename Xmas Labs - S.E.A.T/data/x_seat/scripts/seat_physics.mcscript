@@ -46,7 +46,7 @@ if('entity @s[tag=x_SEAT_POST_FALLING]'){
 
 
     /// Restore Y attachment
-    /scoreboard players set @s x_ATTACH_Y -1900000
+    /scoreboard players set @s x_ATTACH_Y -190
     
     /// Tag as attached to anchor
     /tag @s add x_ATTACH

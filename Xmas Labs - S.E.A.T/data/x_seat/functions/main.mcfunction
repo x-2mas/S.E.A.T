@@ -10,7 +10,5 @@
 # Runs on every tick. About 20 times a second.
 
 
-execute if data storage x_core packs{x_core:116401} if data storage x_core packs{x_seat:116401} run function x_seat:runtime
-execute unless data storage x_core packs{x_core:116401} unless data storage x_core packs{x_seat:116401} run function x_seat:uninstall
-execute as @e[tag=x_QTEST] at @s run data merge entity @s {DeathTime:100}
-execute as @e[tag=x_QTEST] at @s run tag @s remove x_QTEST
+execute if data storage x_core flags{reload:0} if data storage x_core packs.x_core if data storage x_core packs{x_seat:116501} run function x_seat:runtime
+execute if data storage x_core flags{reload:0} unless data storage x_core packs.x_core unless data storage x_core packs{x_seat:116501} run function x_seat:uninstall

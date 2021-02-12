@@ -17,4 +17,5 @@ execute unless data storage x_core flags.reload run tellraw @a [{"text":"\n Merr
 execute if data storage x_core flags{reload:-1} run tellraw @a [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Re-Loaded! \n","italic":true,"color":"gold"}]
 execute if data storage x_core flags{reload:-1} run data modify storage x_core flags.reload set value 0
 
+function x_core:check_compatibility
 data modify storage x_core flags merge value {loadNotified:1}

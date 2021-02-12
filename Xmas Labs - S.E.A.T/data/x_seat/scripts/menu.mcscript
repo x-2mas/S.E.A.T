@@ -79,10 +79,10 @@ if('score @s x_SEAT_MENU matches 200..299') {
     
     /// freeze-ride-on-adjust toggle
     if('data storage x_seat flags{freezeRideOnAdjust:1}'){
-        /tellraw @s [{"text":" ✎ Freeze Ride On Adjust  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 231"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but is quite unrealistic and might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+        /tellraw @s [{"text":" ✎ Freeze Ride On Adjust  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 231"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
     } 
     if('data storage x_seat flags{freezeRideOnAdjust:0}') {
-        /tellraw @s [{"text":" ✎ Freeze Ride On Adjust  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 232"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but is quite unrealistic and might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+        /tellraw @s [{"text":" ✎ Freeze Ride On Adjust  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 232"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\Keeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
     }
 
     /// Page navigation and exit buttons

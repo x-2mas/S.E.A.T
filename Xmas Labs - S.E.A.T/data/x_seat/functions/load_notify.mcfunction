@@ -12,10 +12,10 @@
 
 execute unless data storage x_core packs.x_core run tellraw @a ["",{"text":"\n\nC.O.R.E Missing!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please install the latest Xmas Labs C.O.R.E datapack in order to run S.E.A.T pack! \n\n","color":"white","italic":true}]
 
-execute if data storage x_core packs{x_seat:116401} store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
-execute if data storage x_core packs{x_seat:116401} run scoreboard players set x_CPU x_R1 116401
-execute if data storage x_core packs{x_seat:116401} run scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
-execute if data storage x_core packs{x_seat:116401} if score x_CPU x_R0 matches ..-1 run tellraw @a ["",{"text":"\n\nC.O.R.E Outdated!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please update the Xmas Labs C.O.R.E datapack to the latest version in order to run S.E.A.T pack! \n\n","color":"white","italic":true}]
-execute if data storage x_core packs{x_seat:116401} if score x_CPU x_R0 matches ..-1 run data remove storage x_core packs.x_seat
+execute if data storage x_core packs{x_seat:116501} store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
+execute if data storage x_core packs{x_seat:116501} run scoreboard players set x_CPU x_R1 116501
+execute if data storage x_core packs{x_seat:116501} run scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
+execute if data storage x_core packs{x_seat:116501} if score x_CPU x_R0 matches ..-1 run tellraw @a ["",{"text":"\n\nC.O.R.E Outdated!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please update the Xmas Labs C.O.R.E datapack to the latest version in order to run the S.E.A.T pack! \n\n","color":"white","italic":true}]
+execute if data storage x_core packs{x_seat:116501} if score x_CPU x_R0 matches ..-1 run data remove storage x_core packs.x_seat
 
 data modify storage x_seat flags merge value {loadNotified:1}

@@ -16,7 +16,7 @@ execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physi
 execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] as @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] at @s if score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_EID run data modify entity @s FallDistance set from entity @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] FallDistance
 execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] as @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] at @s if score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_EID run data modify entity @s Motion set from entity @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] Motion
 execute if entity @s[tag=x_SEAT_POST_FALLING] run data modify entity @s {} merge value {NoAI:1}
-execute if entity @s[tag=x_SEAT_POST_FALLING] run scoreboard players set @s x_ATTACH_Y -1900000
+execute if entity @s[tag=x_SEAT_POST_FALLING] run scoreboard players set @s x_ATTACH_Y -190
 execute if entity @s[tag=x_SEAT_POST_FALLING] run tag @s add x_ATTACH
 execute if entity @s[tag=x_SEAT_POST_FALLING] run tag @s add x_ATTACH_ROTATE
 execute if entity @s[tag=x_SEAT_POST_FALLING] run scoreboard players add @s x_ATTACH__T 1

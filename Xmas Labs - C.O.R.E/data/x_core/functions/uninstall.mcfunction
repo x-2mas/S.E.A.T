@@ -10,7 +10,7 @@
 # Removes all traces of the C.O.R.E pack from world
 
 
-execute if data storage x_core packs.x_core run tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs C.O.R.E Pack ","bold":true,"color":"gold"},{"text":"\n(& packs that depend on it)!\n\n","color":"gold"},{"text":"~ It was fun while it lasted. ~\n\n\n","color":"light_purple","italics":true}]
+execute if data storage x_core packs.x_core run tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs C.O.R.E Pack ","bold":true,"color":"gold"},{"text":"\n(& packs that depend on it)!\n\n","color":"gold"},{"text":"~ It was fun while it lasted. ~\n\n\n","color":"light_purple","italic":true}]
 
 scoreboard players reset x_CPU
 scoreboard objectives remove x_R0

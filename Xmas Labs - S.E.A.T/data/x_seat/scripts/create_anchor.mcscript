@@ -12,7 +12,18 @@ positioned('as @s'), rotated('as @s'){
 
     /summon minecraft:armor_stand ^ ^ ^ {Tags:[x_EID,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_ANCHOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T ANCHOR\"}]",Small:1,Marker:1,Invisible:1,Invulnerable:1} 
 
-    /tp @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] ^ ^1.9 ^-0.2 facing ^ ^1.9 ^
+    /// Create anchor slightly higher if tagged as low-roof
+    positioned('~ ~0.2 ~'), if('entity @s[tag=x_SEAT_LOW_ROOF]') {
+
+        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] ^ ^1.9 ^-0.2 facing ^ ^1.9 ^
+    }
+
+    /// Create anchor normally if not tagged as low-roof
+    if('entity @s[tag=!x_SEAT_LOW_ROOF]'){
+
+        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] ^ ^1.9 ^-0.2 facing ^ ^1.9 ^
+    }
+
 }
 
 /// Assign seat ID to anchor

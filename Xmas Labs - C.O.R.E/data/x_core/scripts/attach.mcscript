@@ -36,17 +36,17 @@ asat('@e[tag=x_EID,tag=!x_TP_KILL]'), if('score @e[tag=x_ATTACHING,tag=!x_TP_KIL
     
     /// Add the entity's X, Y & Z positions with their respective offsets and update
 
-    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[0] 1000000
+    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[0] 100
     /scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_X
-    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[0] double 0.000001 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[0] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
 
-    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[1] 1000000
+    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[1] 100
     /scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Y
-    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[1] double 0.000001 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
+    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[1] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
 
-    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[2] 1000000
+    /execute store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[2] 100
     /scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Z
-    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[2] double 0.000001 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
+    /execute store result entity @e[tag=x_ATTACHING,limit=1] Pos[2] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
 
 
     /// Add the entity's X & Y rotations with their respective offsets and update

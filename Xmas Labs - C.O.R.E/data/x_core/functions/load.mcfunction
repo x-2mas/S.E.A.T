@@ -14,7 +14,7 @@ function x_core:mcscript/load
 
 execute unless data storage x_core packs run data modify storage x_core packs set value {}
 
-execute unless data storage x_core packs{x_core:116401} unless data storage x_core packs.x_core run data modify storage x_core packs merge value {x_core:116401}
+execute unless data storage x_core packs{x_core:116501} unless data storage x_core packs.x_core run data modify storage x_core packs merge value {x_core:116501}
 
 execute unless data storage x_core flags run data modify storage x_core flags set value {}
 

@@ -10,7 +10,7 @@
 # Removes all traces of the S.E.A.T pack from world
 
 
-execute if data storage x_core packs.x_seat run tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs S.E.A.T Pack!\n\n","bold":true,"color":"gold"},{"text":"~ Finally taking a stand? ~\n\n\n","color":"light_purple","italics":true}]
+execute if data storage x_core packs.x_seat run tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs S.E.A.T Pack!\n\n","bold":true,"color":"gold"},{"text":"~ Finally taking a stand? ~\n\n\n","color":"light_purple","italic":true}]
 
 data remove storage x_core flags.loadCPU__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadEIDs__Packs[{x_SEAT:1}]
@@ -18,7 +18,6 @@ data remove storage x_core flags.loadSneakTimeRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadAttachmentRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadCollisionRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}]
-data remove storage x_core flags.tpKill__Packs[{x_SEAT:1}]
 data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
 data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
 data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
@@ -54,7 +53,6 @@ execute as @e[tag=x_ATTACH__SEAT] at @s run scoreboard players remove @s x_ATTAC
 execute as @e[tag=x_ATTACH__SEAT] at @s run tag @s remove x_ATTACH__SEAT
 execute as @e[tag=x_SCROLLBAR__SEAT] at @s run scoreboard players remove @s x_SCROLLBAR__T 1
 execute as @e[tag=x_SCROLLBAR__SEAT] at @s run tag @s remove x_SCROLLBAR__SEAT
-tp @e[tag=x_SEAT_NS,tag=x_SEAT] ~ ~999 ~
 kill @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR]
 kill @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]
 kill @e[tag=x_SEAT_NS,tag=x_SEAT_INTERACTION_BLOCKER]
