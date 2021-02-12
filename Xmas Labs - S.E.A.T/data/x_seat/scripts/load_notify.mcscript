@@ -16,7 +16,7 @@ if(!'data storage x_core packs.x_core') {
 }
 
 
-if('data storage x_core packs{x_seat:116501}') {
+if('data storage x_core packs{x_seat:116503}') {
 
 
     /// Get the current C.O.R.E version number

@@ -9,7 +9,7 @@
 
 
 /// If the right C.O.R.E pack entry and version detected in storage (properly loaded),
-if('data storage x_core packs{x_core:116501}') {
+if('data storage x_core packs{x_core:116503}') {
 
     /// Perform runtime tasks    
     /function x_core:runtime

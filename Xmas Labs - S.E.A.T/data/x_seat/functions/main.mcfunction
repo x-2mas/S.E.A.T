@@ -10,5 +10,5 @@
 # Runs on every tick. About 20 times a second.
 
 
-execute if data storage x_core flags{reload:0} if data storage x_core packs.x_core if data storage x_core packs{x_seat:116501} run function x_seat:runtime
-execute if data storage x_core flags{reload:0} unless data storage x_core packs.x_core unless data storage x_core packs{x_seat:116501} run function x_seat:uninstall
+execute if data storage x_core flags{reload:0} if data storage x_core packs.x_core if data storage x_core packs{x_seat:116503} run function x_seat:runtime
+execute if data storage x_core flags{reload:0} unless data storage x_core packs.x_core unless data storage x_core packs{x_seat:116503} run function x_seat:uninstall

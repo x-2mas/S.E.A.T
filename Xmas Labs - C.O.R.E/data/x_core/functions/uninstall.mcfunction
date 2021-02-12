@@ -13,6 +13,7 @@
 execute if data storage x_core packs.x_core run tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs C.O.R.E Pack ","bold":true,"color":"gold"},{"text":"\n(& packs that depend on it)!\n\n","color":"gold"},{"text":"~ It was fun while it lasted. ~\n\n\n","color":"light_purple","italic":true}]
 
 scoreboard players reset x_CPU
+scoreboard players reset x_RNG
 scoreboard objectives remove x_R0
 scoreboard objectives remove x_R1
 scoreboard objectives remove x_R2

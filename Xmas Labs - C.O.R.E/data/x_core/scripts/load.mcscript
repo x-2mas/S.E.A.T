@@ -16,10 +16,10 @@ if(!'data storage x_core packs'){
 }
 
 
-/// If this pack isn't already added, and no other versions of this pack already added,
+/// If no other versions of this pack already added,
 /// Add C.O.R.E pack to 'packs' folder
-if(!'data storage x_core packs{x_core:116501}' && !'data storage x_core packs.x_core'){
-    /data modify storage x_core packs merge value {x_core:116501}
+if(!'data storage x_core packs.x_core'){
+    /data modify storage x_core packs merge value {x_core:116503}
 }
 
 
@@ -133,8 +133,9 @@ if(!'data storage x_core flags.loadCPU') {
     /scoreboard objectives remove x_R2
     /scoreboard objectives remove x_R3
 
-    /// Remove C.O.R.E Player Unit from scoreboard
+    /// Reset C.O.R.E Player Units on the scoreboard
     /scoreboard players reset x_CPU
+    /scoreboard players reset x_RNG
 
     /// Disable features depending on CPU registers
     /data remove storage x_core flags.loadEIDs

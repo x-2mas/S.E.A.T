@@ -20,8 +20,9 @@ if('data storage x_core packs.x_core') {
 
 
 
-/// Remove C.O.R.E Player Unit from the scoreboard
+/// Remove C.O.R.E Player Units from the scoreboard
 /scoreboard players reset x_CPU
+/scoreboard players reset x_RNG
 
 
 

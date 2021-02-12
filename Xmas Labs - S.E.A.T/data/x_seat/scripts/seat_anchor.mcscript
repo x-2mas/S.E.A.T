@@ -359,7 +359,7 @@ if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_T
         if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,distance=..1]'){
 
             /// Summon a new physics sensor (Fox) (underground to hide summoning animation)
-            /summon minecraft:fox ^ ^999 ^ {Tags:[x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
+            /summon minecraft:fox ^ ^999 ^ {Tags:[x_SYSTEM,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
         }
 
         /// Teleport nearest unlinked physics sensor to anchor

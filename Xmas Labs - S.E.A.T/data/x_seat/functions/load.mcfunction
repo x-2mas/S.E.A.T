@@ -44,15 +44,15 @@ execute unless data storage x_core flags.loadScrollBarRegisters run data modify 
 
 execute unless data storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}] run data modify storage x_core flags.loadScrollBarRegisters__Packs append value {x_SEAT:1}
 
-execute unless data storage x_core flags{reload:1} run data modify storage x_core packs merge value {x_seat:116501} 
+execute unless data storage x_core flags{reload:1} run data modify storage x_core packs merge value {x_seat:116503} 
 
-execute if data storage x_core packs{x_seat:116501} run data remove storage x_seat flags.loadNotified
-execute if data storage x_core packs{x_seat:116501} run schedule function x_seat:load_notify 3s
-execute if data storage x_core packs{x_seat:116501} store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
-execute if data storage x_core packs{x_seat:116501} run scoreboard players set x_CPU x_R1 116501
-execute if data storage x_core packs{x_seat:116501} run scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
-execute if data storage x_core packs{x_seat:116501} unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_ID dummy "Xmas Labs: S.E.A.T ID Register"
-execute if data storage x_core packs{x_seat:116501} unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_TICK dummy "Xmas Labs: S.E.A.T Tick Register"
-execute if data storage x_core packs{x_seat:116501} unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_SCROLLED dummy "Xmas Labs: S.E.A.T Scroll Tracking Register"
-execute if data storage x_core packs{x_seat:116501} unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_MENU dummy "Xmas Labs: S.E.A.T Menu Register"
-execute if data storage x_core packs{x_seat:116501} unless score x_CPU x_R0 matches ..-1 unless data storage x_seat flags run data modify storage x_seat flags set value {physics:1, rotationLock:0, bounceOffFloor:0, onlySitDown:0, onlyIfSneaking:0, safetyEjects:1, fallDamage:1, blockInventory:1, freezeRideOnAdjust:1, showPrompts:1}
+execute if data storage x_core packs.x_seat run data remove storage x_seat flags.loadNotified
+execute if data storage x_core packs.x_seat run schedule function x_seat:load_notify 3s
+execute if data storage x_core packs.x_seat store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
+execute if data storage x_core packs.x_seat run scoreboard players set x_CPU x_R1 116501
+execute if data storage x_core packs.x_seat run scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_ID dummy "Xmas Labs: S.E.A.T ID Register"
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_TICK dummy "Xmas Labs: S.E.A.T Tick Register"
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_SCROLLED dummy "Xmas Labs: S.E.A.T Scroll Tracking Register"
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_MENU dummy "Xmas Labs: S.E.A.T Menu Register"
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 unless data storage x_seat flags run data modify storage x_seat flags set value {physics:1, rotationLock:0, bounceOffFloor:0, onlySitDown:0, onlyIfSneaking:0, safetyEjects:1, fallDamage:1, blockInventory:1, freezeRideOnAdjust:1, showPrompts:1}

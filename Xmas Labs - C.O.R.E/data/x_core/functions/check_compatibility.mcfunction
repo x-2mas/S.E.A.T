@@ -11,4 +11,6 @@
 
 
 execute if data storage x_core packs{x_seat:116401} run tellraw @a ["",{"text":"\n\nCompatibility Issue!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"The Xmas Labs S.E.A.T datapack you're using is outdated and won't work with the current C.O.R.E. Please update S.E.A.T pack to the latest version.\n\n","color":"white","italic":true}]
+execute if data storage x_core packs{x_seat:116501} run tellraw @a ["",{"text":"\n\nCompatibility Issue!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"The Xmas Labs S.E.A.T datapack you're using is outdated and won't work with the current C.O.R.E. Please update S.E.A.T pack to the latest version.\n\n","color":"white","italic":true}]
 execute if data storage x_core packs{x_seat:116401} run data remove storage x_core packs.x_seat
+execute if data storage x_core packs{x_seat:116501} run data remove storage x_core packs.x_seat

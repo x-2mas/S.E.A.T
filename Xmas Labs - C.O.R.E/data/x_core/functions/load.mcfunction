@@ -14,7 +14,7 @@ function x_core:mcscript/load
 
 execute unless data storage x_core packs run data modify storage x_core packs set value {}
 
-execute unless data storage x_core packs{x_core:116501} unless data storage x_core packs.x_core run data modify storage x_core packs merge value {x_core:116501}
+execute unless data storage x_core packs.x_core run data modify storage x_core packs merge value {x_core:116503}
 
 execute unless data storage x_core flags run data modify storage x_core flags set value {}
 
@@ -62,6 +62,7 @@ execute unless data storage x_core flags.loadCPU run scoreboard objectives remov
 execute unless data storage x_core flags.loadCPU run scoreboard objectives remove x_R2
 execute unless data storage x_core flags.loadCPU run scoreboard objectives remove x_R3
 execute unless data storage x_core flags.loadCPU run scoreboard players reset x_CPU
+execute unless data storage x_core flags.loadCPU run scoreboard players reset x_RNG
 execute unless data storage x_core flags.loadCPU run data remove storage x_core flags.loadEIDs
 execute unless data storage x_core flags.loadCPU run data remove storage x_core flags.loadScrollBarRegisters
 execute unless data storage x_core flags.loadCPU run data remove storage x_core flags.scrollBar

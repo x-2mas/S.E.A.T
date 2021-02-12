@@ -102,7 +102,7 @@ if(!'data storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}]'){
 if(!'data storage x_core flags{reload:1}') {
 
     /// Add the S.E.A.T pack to the C.O.R.E 'packs' folder
-    /data modify storage x_core packs merge value {x_seat:116501} 
+    /data modify storage x_core packs merge value {x_seat:116503} 
 } 
 
 
@@ -110,7 +110,7 @@ if(!'data storage x_core flags{reload:1}') {
 
 
 /// If S.E.A.T entry in C.O.R.E packs (successfully loaded)
-if('data storage x_core packs{x_seat:116501}') {
+if('data storage x_core packs.x_seat') {
 
 
     /// Reset load notification status

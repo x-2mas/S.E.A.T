@@ -12,7 +12,7 @@
 if('data storage x_core flags{reload:0}') {
 
     /// If the right C.O.R.E & S.E.A.T pack entries and versions detected in storage (properly loaded),
-    if('data storage x_core packs.x_core' && 'data storage x_core packs{x_seat:116501}') {
+    if('data storage x_core packs.x_core' && 'data storage x_core packs{x_seat:116503}') {
 
         /// Perform runtime tasks    
         /function x_seat:runtime
