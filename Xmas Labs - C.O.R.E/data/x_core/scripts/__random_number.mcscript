@@ -1,0 +1,129 @@
+
+#
+#
+# C.O.R.E | __random_number
+# Recursing part of random number function
+#
+#
+
+
+
+/// Get the difference between upper and lower limits
+/scoreboard players operation x_RNG x_R0 = x_RNG x_R2
+/scoreboard players operation x_RNG x_R0 -= x_RNG x_R1
+
+
+/// If upper and lower limits are equal,
+if('score x_RNG x_R0 matches ..0'){
+
+    /// Set control variable to break recursion
+    /scoreboard players set x_CPU x_R3 -1
+
+    /// Set lower limit as selected number
+    /scoreboard players operation x_RNG x_R0 = x_RNG x_R1
+}
+
+
+/// If control variable not set to break recursion,
+if(!'score x_CPU x_R3 matches ..-1') {
+
+    /// Get mid-value from difference in upper and lower limits
+    /scoreboard players set x_CPU x_R0 2
+    /scoreboard players operation x_RNG x_R0 /= x_CPU x_R0
+    /scoreboard players operation x_RNG x_R0 += x_RNG x_R1
+
+    /// Set control variable to pick lower half 
+    /scoreboard players set x_CPU x_R3 1
+
+
+    /// If weight is unset,
+    if(!'score x_RNG x_R3 matches 0..') {
+
+        /// Use 50%
+        /scoreboard players set x_RNG x_R3 50
+    }
+
+    /// If weight is 10% and 10% random check is true
+    if('score x_RNG x_R3 matches 10' && 'predicate x_core:random_10') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 20% and 20% random check is true
+    if('score x_RNG x_R3 matches 20' && 'predicate x_core:random_20') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 30% and 30% random check is true
+    if('score x_RNG x_R3 matches 30' && 'predicate x_core:random_30') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 40% and 40% random check is true
+    if('score x_RNG x_R3 matches 40' && 'predicate x_core:random_40') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 50% and 50% random check is true
+    if('score x_RNG x_R3 matches 50' && 'predicate x_core:random_50') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 60% and 60% random check is true
+    if('score x_RNG x_R3 matches 60' && 'predicate x_core:random_60') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 70% and 70% random check is true
+    if('score x_RNG x_R3 matches 70' && 'predicate x_core:random_70') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 80% and 80% random check is true
+    if('score x_RNG x_R3 matches 80' && 'predicate x_core:random_80') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+    /// If weight is 90% and 90% random check is true
+    if('score x_RNG x_R3 matches 90' && 'predicate x_core:random_90') {
+
+        /// Set control variable to pick upper half
+        /scoreboard players set x_CPU x_R3 2
+    }
+
+
+    /// If control variable set to lower half,
+    if('score x_CPU x_R3 matches 1') {
+
+        /// Set upper limit to mid-value
+        /scoreboard players operation x_RNG x_R2 = x_RNG x_R0
+
+    /// If control variable set to upper half,
+    } else {
+
+        /// Set lower limit to mid-value
+        /scoreboard players operation x_RNG x_R1 = x_RNG x_R0
+    }
+
+
+    /// Recurse
+    /function x_core:__random_number
+}
+
+/// Reset control variable
+/scoreboard players reset x_CPU x_R3

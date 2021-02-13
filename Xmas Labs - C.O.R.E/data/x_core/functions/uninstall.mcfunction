@@ -21,6 +21,7 @@ scoreboard objectives remove x_R3
 scoreboard objectives remove x_EID__T
 scoreboard objectives remove x_EID
 scoreboard objectives remove x_PID
+scoreboard objectives remove x_TICK
 scoreboard objectives remove x_SEARCH_KEY
 scoreboard objectives remove x_NO_COLLIDE__T
 scoreboard objectives remove x_COLLISION_A__T

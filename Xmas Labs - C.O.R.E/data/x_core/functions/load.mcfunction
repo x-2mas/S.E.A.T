@@ -14,7 +14,7 @@ function x_core:mcscript/load
 
 execute unless data storage x_core packs run data modify storage x_core packs set value {}
 
-execute unless data storage x_core packs.x_core run data modify storage x_core packs merge value {x_core:116503}
+execute unless data storage x_core packs.x_core run data modify storage x_core packs merge value {x_core:116505}
 
 execute unless data storage x_core flags run data modify storage x_core flags set value {}
 
@@ -25,6 +25,8 @@ execute unless data storage x_core shared.entities run data modify storage x_cor
 execute unless data storage x_core flags.loadCPU__Packs run data modify storage x_core flags merge value {loadCPU__Packs:[]}
 
 execute unless data storage x_core flags.loadEIDs__Packs run data modify storage x_core flags merge value {loadEIDs__Packs:[]}
+
+execute unless data storage x_core flags.loadTickRegister__Packs run data modify storage x_core flags merge value {loadTickRegister__Packs:[]}
 
 execute unless data storage x_core flags.loadSearchKey__Packs run data modify storage x_core flags merge value {loadSearchKey__Packs:[]}
 
@@ -38,6 +40,8 @@ execute unless data storage x_core flags.loadRotationRegisters__Packs run data m
 
 execute unless data storage x_core flags.loadScrollbarRegisters__Packs run data modify storage x_core flags merge value {loadScrollbarRegisters__Packs:[]}
 
+execute unless data storage x_core flags.ticker__Packs run data modify storage x_core flags merge value {ticker__Packs:[]}
+
 execute unless data storage x_core flags.attach__Packs run data modify storage x_core flags merge value {attach__Packs:[]}
 
 execute unless data storage x_core flags.blockCollisions__Packs run data modify storage x_core flags merge value {blockCollisions__Packs:[]}
@@ -50,13 +54,12 @@ execute unless data storage x_core flags.tpKill__Packs run data modify storage x
 
 execute unless data storage x_core flags.scrollBar__Packs run data modify storage x_core flags merge value {scrollBar__Packs:[]}
 
-execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags.loadCPU run scoreboard objectives add x_R0 dummy "Xmas Labs: CPU Register 0"
-execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags.loadCPU run scoreboard objectives add x_R1 dummy "Xmas Labs: CPU Register 1"
-execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags.loadCPU run scoreboard objectives add x_R2 dummy "Xmas Labs: CPU Register 2"
-execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags.loadCPU run scoreboard objectives add x_R3 dummy "Xmas Labs: CPU Register 3"
-
 execute if data storage x_core flags{loadCPU:0} run data remove storage x_core flags.loadCPU
 
+execute if data storage x_core flags.loadCPU run scoreboard objectives add x_R0 dummy "Xmas Labs: CPU Register 0"
+execute if data storage x_core flags.loadCPU run scoreboard objectives add x_R1 dummy "Xmas Labs: CPU Register 1"
+execute if data storage x_core flags.loadCPU run scoreboard objectives add x_R2 dummy "Xmas Labs: CPU Register 2"
+execute if data storage x_core flags.loadCPU run scoreboard objectives add x_R3 dummy "Xmas Labs: CPU Register 3"
 execute unless data storage x_core flags.loadCPU run scoreboard objectives remove x_R0
 execute unless data storage x_core flags.loadCPU run scoreboard objectives remove x_R1
 execute unless data storage x_core flags.loadCPU run scoreboard objectives remove x_R2
@@ -68,13 +71,11 @@ execute unless data storage x_core flags.loadCPU run data remove storage x_core 
 execute unless data storage x_core flags.loadCPU run data remove storage x_core flags.scrollBar
 execute unless data storage x_core flags.loadCPU run data remove storage x_core flags.trackRotation
 execute unless data storage x_core flags.loadCPU run data remove storage x_core flags.loadRotationRegisters
-
-execute unless data storage x_core flags{loadEIDs:0} if data storage x_core flags.loadEIDs run scoreboard objectives add x_EID dummy "Xmas Labs: Entity ID Register"
-execute unless data storage x_core flags{loadEIDs:0} if data storage x_core flags.loadEIDs run scoreboard objectives add x_PID dummy "Xmas Labs: Parent ID Register" 
-execute unless data storage x_core flags{loadEIDs:0} if data storage x_core flags.loadEIDs run scoreboard objectives add x_EID__T dummy "Xmas Labs: Entity ID Tag Register"
-
 execute if data storage x_core flags{loadEIDs:0} run data remove storage x_core flags.loadEIDs
 
+execute if data storage x_core flags.loadEIDs run scoreboard objectives add x_EID dummy "Xmas Labs: Entity ID Register"
+execute if data storage x_core flags.loadEIDs run scoreboard objectives add x_PID dummy "Xmas Labs: Parent ID Register" 
+execute if data storage x_core flags.loadEIDs run scoreboard objectives add x_EID__T dummy "Xmas Labs: Entity ID Tag Register"
 execute unless data storage x_core flags.loadEIDs run scoreboard objectives remove x_EID__T
 execute unless data storage x_core flags.loadEIDs run scoreboard objectives remove x_EID
 execute unless data storage x_core flags.loadEIDs run scoreboard objectives remove x_PID
@@ -96,26 +97,28 @@ execute unless data storage x_core flags.loadEIDs run kill @e[tag=x_INV_OFFHAND]
 execute unless data storage x_core flags.loadEIDs run data remove storage x_core flags.loadAttachmentRegisters
 execute unless data storage x_core flags.loadEIDs run data remove storage x_core flags.attach
 execute unless data storage x_core flags.loadEIDs run data remove storage x_core flags.loadSearchKeyRegister
+execute if data storage x_core flags{loadTickRegister:0} run data remove storage x_core flags.loadTickRegister
 
-execute unless data storage x_core flags{loadSearchKeyRegister:0} if data storage x_core flags.loadSearchKeyRegister run scoreboard objectives add x_SEARCH_KEY dummy "Xmas Labs: Search Key Register"
-
+execute if data storage x_core flags.loadTickRegister run scoreboard objectives add x_TICK dummy "Xmas Labs: Tick Register"
+execute unless data storage x_core flags.loadTickRegister run scoreboard objectives remove x_TICK
 execute if data storage x_core flags{loadSearchKeyRegister:0} run data remove storage x_core flags.loadSearchKeyRegister
+
+execute if data storage x_core flags.loadSearchKeyRegister run scoreboard objectives add x_SEARCH_KEY dummy "Xmas Labs: Search Key Register"
 
 execute unless data storage x_core flags.loadSearchKeyRegister run scoreboard objectives remove x_SEARCH_KEY
 execute unless data storage x_core flags.loadSearchKeyRegister run tag @e remove x_SEARCH 
 execute unless data storage x_core flags.loadSearchKeyRegister run tag @e remove x_SEARCHING 
 execute unless data storage x_core flags.loadSearchKeyRegister run tag @e remove x_FOUND 
 
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run team add x_NO_COLLIDE "Xmas Labs: Collision Blocked Entities"
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run team modify x_NO_COLLIDE collisionRule never
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run team modify x_NO_COLLIDE seeFriendlyInvisibles false
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run team modify x_NO_COLLIDE nametagVisibility never
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run scoreboard objectives add x_NO_COLLIDE__T dummy "Xmas Labs: No Collide Tag Register"
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run scoreboard objectives add x_COLLISION_A__T dummy "Xmas Labs: Collide Armor Stand Tag Register"
-execute unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run scoreboard objectives add x_COLLISION_B__T dummy "Xmas Labs: Collide Barrier Tag Register"
-
 execute if data storage x_core flags{loadCollisionRegisters:0} run data remove storage x_core flags.loadCollisionRegisters
 
+execute if data storage x_core flags.loadCollisionRegisters run team add x_NO_COLLIDE "Xmas Labs: Collision Blocked Entities"
+execute if data storage x_core flags.loadCollisionRegisters run team modify x_NO_COLLIDE collisionRule never
+execute if data storage x_core flags.loadCollisionRegisters run team modify x_NO_COLLIDE seeFriendlyInvisibles false
+execute if data storage x_core flags.loadCollisionRegisters run team modify x_NO_COLLIDE nametagVisibility never
+execute if data storage x_core flags.loadCollisionRegisters run scoreboard objectives add x_NO_COLLIDE__T dummy "Xmas Labs: No Collide Tag Register"
+execute if data storage x_core flags.loadCollisionRegisters run scoreboard objectives add x_COLLISION_A__T dummy "Xmas Labs: Collide Armor Stand Tag Register"
+execute if data storage x_core flags.loadCollisionRegisters run scoreboard objectives add x_COLLISION_B__T dummy "Xmas Labs: Collide Barrier Tag Register"
 execute unless data storage x_core flags.loadCollisionRegisters run team remove x_NO_COLLIDE
 execute unless data storage x_core flags.loadCollisionRegisters run scoreboard objectives remove x_NO_COLLIDE__T
 execute unless data storage x_core flags.loadCollisionRegisters run scoreboard objectives remove x_COLLISION_A__T
@@ -125,24 +128,20 @@ execute unless data storage x_core flags.loadCollisionRegisters run tag @e remov
 execute unless data storage x_core flags.loadCollisionRegisters run tag @e remove x_DRAW_COLLISION_ARMOR_STAND
 execute unless data storage x_core flags.loadCollisionRegisters run kill @e[tag=x_COLLISION_ARMOR_STAND]
 execute unless data storage x_core flags.loadCollisionRegisters run kill @e[tag=x_COLLISION_BARRIER]
-
-execute unless data storage x_core flags{loadSneakTimeRegisters:0} if data storage x_core flags.loadSneakTimeRegisters run scoreboard objectives add x_SNEAK_TIME minecraft.custom:minecraft.sneak_time "Xmas Labs: Sneak Time Tracker"
-execute unless data storage x_core flags{loadSneakTimeRegisters:0} if data storage x_core flags.loadSneakTimeRegisters run scoreboard objectives add x__SNEAK_TIME dummy "Xmas Labs: Sneak Time During Last Tick"
-
 execute if data storage x_core flags{loadSneakTimeRegisters:0} run data remove storage x_core flags.loadSneakTimeRegisters
 
+execute if data storage x_core flags.loadSneakTimeRegisters run scoreboard objectives add x_SNEAK_TIME minecraft.custom:minecraft.sneak_time "Xmas Labs: Sneak Time Tracker"
+execute if data storage x_core flags.loadSneakTimeRegisters run scoreboard objectives add x__SNEAK_TIME dummy "Xmas Labs: Sneak Time During Last Tick"
 execute unless data storage x_core flags.loadSneakTimeRegisters run scoreboard objectives remove x_SNEAK_TIME
 execute unless data storage x_core flags.loadSneakTimeRegisters run scoreboard objectives remove x__SNEAK_TIME
-
-execute unless data storage x_core flags{loadAttachmentRegisters:0} if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH__T dummy "Xmas Labs: Attach Tag Register"
-execute unless data storage x_core flags{loadAttachmentRegisters:0} if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_X dummy "Xmas Labs: X Attachment Offset"
-execute unless data storage x_core flags{loadAttachmentRegisters:0} if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_Y dummy "Xmas Labs: Y Attachment Offset"
-execute unless data storage x_core flags{loadAttachmentRegisters:0} if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_Z dummy "Xmas Labs: Z Attachment Offset"
-execute unless data storage x_core flags{loadAttachmentRegisters:0} if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_RX dummy "Xmas Labs: X-Rotation Attachment Offset"
-execute unless data storage x_core flags{loadAttachmentRegisters:0} if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_RY dummy "Xmas Labs: Y-Rotation Attachment Offset"
-
 execute if data storage x_core flags{loadAttachmentRegisters:0} run data remove storage x_core flags.loadAttachmentRegisters
 
+execute if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH__T dummy "Xmas Labs: Attach Tag Register"
+execute if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_X dummy "Xmas Labs: X Attachment Offset"
+execute if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_Y dummy "Xmas Labs: Y Attachment Offset"
+execute if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_Z dummy "Xmas Labs: Z Attachment Offset"
+execute if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_RX dummy "Xmas Labs: X-Rotation Attachment Offset"
+execute if data storage x_core flags.loadAttachmentRegisters run scoreboard objectives add x_ATTACH_RY dummy "Xmas Labs: Y-Rotation Attachment Offset"
 execute unless data storage x_core flags.loadAttachmentRegisters run scoreboard objectives remove x_ATTACH__T
 execute unless data storage x_core flags.loadAttachmentRegisters run scoreboard objectives remove x_ATTACH_X
 execute unless data storage x_core flags.loadAttachmentRegisters run scoreboard objectives remove x_ATTACH_Y
@@ -156,28 +155,23 @@ execute unless data storage x_core flags.loadAttachmentRegisters run tag @e remo
 execute unless data storage x_core flags.loadAttachmentRegisters run tag @e remove x_ATTACH_NEW_PRIMARY
 execute unless data storage x_core flags.loadAttachmentRegisters run tag @e remove x_ATTACH_NEW_SECONDARY
 execute unless data storage x_core flags.loadAttachmentRegisters run kill @e[tag=x_ATTACHING_ANCHOR]
-
-execute unless data storage x_core flags{loadRotationRegisters:0} if data storage x_core flags.loadRotationRegisters run scoreboard objectives add x_ROT_TRACK__T dummy "Xmas Labs: Rotation Tracking Tag Register"
-execute unless data storage x_core flags{loadRotationRegisters:0} if data storage x_core flags.loadRotationRegisters run scoreboard objectives add x_ROT_X dummy "Xmas Labs: X Rotation Tracker"
-execute unless data storage x_core flags{loadRotationRegisters:0} if data storage x_core flags.loadRotationRegisters run scoreboard objectives add x_ROT_Y dummy "Xmas Labs: Y Rotation Tracker"
-
 execute if data storage x_core flags{loadRotationRegisters:0} run data remove storage x_core flags.loadRotationRegisters
 
+execute if data storage x_core flags.loadRotationRegisters run scoreboard objectives add x_ROT_TRACK__T dummy "Xmas Labs: Rotation Tracking Tag Register"
+execute if data storage x_core flags.loadRotationRegisters run scoreboard objectives add x_ROT_X dummy "Xmas Labs: X Rotation Tracker"
+execute if data storage x_core flags.loadRotationRegisters run scoreboard objectives add x_ROT_Y dummy "Xmas Labs: Y Rotation Tracker"
 execute unless data storage x_core flags.loadRotationRegisters run scoreboard objectives remove x_ROT_TRACK__T
 execute unless data storage x_core flags.loadRotationRegisters run scoreboard objectives remove x_ROT_X
 execute unless data storage x_core flags.loadRotationRegisters run scoreboard objectives remove x_ROT_Y
 execute unless data storage x_core flags.loadRotationRegisters run tag @e remove x_TRACK_ROTATION
-
-execute unless data storage x_core flags{loadScrollBarRegisters:0} if data storage x_core flags.loadScrollBarRegisters run scoreboard objectives add x_SCROLLBAR__T dummy "Xmas Labs: Scrollbar Tag Register"
-execute unless data storage x_core flags{loadScrollBarRegisters:0} if data storage x_core flags.loadScrollBarRegisters run scoreboard objectives add x_SCROLL_POS dummy "Xmas Labs: Scrollbar Poition Tracker"
-execute unless data storage x_core flags{loadScrollBarRegisters:0} if data storage x_core flags.loadScrollBarRegisters run scoreboard objectives add x_SCROLL_DIR dummy "Xmas Labs: Scrollbar Direction Tracker"
-
 execute if data storage x_core flags{loadScrollBarRegisters:0} run data remove storage x_core flags.loadScrollBarRegisters
 
+execute if data storage x_core flags.loadScrollBarRegisters run scoreboard objectives add x_SCROLLBAR__T dummy "Xmas Labs: Scrollbar Tag Register"
+execute if data storage x_core flags.loadScrollBarRegisters run scoreboard objectives add x_SCROLL_POS dummy "Xmas Labs: Scrollbar Poition Tracker"
+execute if data storage x_core flags.loadScrollBarRegisters run scoreboard objectives add x_SCROLL_DIR dummy "Xmas Labs: Scrollbar Direction Tracker"
 execute unless data storage x_core flags.loadScrollBarRegisters run scoreboard objectives remove x_SCROLLBAR__T
 execute unless data storage x_core flags.loadScrollBarRegisters run scoreboard objectives remove x_SCROLL_POS
 execute unless data storage x_core flags.loadScrollBarRegisters run scoreboard objectives remove x_SCROLL_DIR
 execute unless data storage x_core flags.loadScrollBarRegisters run tag @e remove x_SCROLLBAR
-
 data remove storage x_core flags.loadNotified
 schedule function x_core:load_notify 3s

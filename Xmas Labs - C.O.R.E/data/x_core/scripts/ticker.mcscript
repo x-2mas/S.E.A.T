@@ -1,0 +1,29 @@
+
+#
+#
+# C.O.R.E | ticker
+# Manage tickers.
+#
+#
+
+
+
+/// If CPU tick register is overflowing, reset
+if('score x_CPU x_TICK matches 2147483647..'){
+    /scoreboard players set x_CPU x_TICK 0
+}
+
+/// If CPU ticker was started, advance tick
+if('score x_CPU x_TICK matches ..2147483647'){
+    /scoreboard players add x_CPU x_TICK 1
+}
+
+/// Reset tickers of all entities with overflowing tickers
+asat('@e[scores={x_TICK=2147483647..}]'){
+    /scoreboard players set @s x_TICK 0
+}
+
+/// Advance tickers of all entities with active tickers
+asat('@e[scores={x_TICK=..2147483647}]'){
+    /scoreboard players add @s x_TICK 1
+}

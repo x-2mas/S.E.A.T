@@ -15,7 +15,7 @@ positioned('as @s'){
 
     /// Teleport summoned S.E.A.T below player, positioned so that S.E.A.T surface is slightly below player's butt and facing straight
     rotated('~ 0') {
-        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_BASE,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] ~ ~-1.4 ~ facing ^ ^-1.6 ^2
+        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_BASE,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] ~ ~-1.3 ~ facing ^ ^-1.6 ^2
     }
 
     /// As the closest un-linked S.E.A.T Surface,
@@ -35,7 +35,7 @@ positioned('as @s'){
         /scoreboard players operation @s x_SEAT_ID = @a[tag=x_EID,tag=x_SEAT_NS,tag=x_MAY_SIT,tag=!x_MAY_SIT_SKIP,sort=nearest,limit=1] x_EID
         
         /// Start (or extend) a auto-kill timeout on it
-        /scoreboard players set @s x_SEAT_TICK 40
+        /scoreboard players set @s x_TICK 0
         
         /// Remove unlinked tag
         /tag @s remove x_SEAT_UNLINKED

@@ -26,7 +26,7 @@ if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR]'){
 
 
 /// If sensor clock is at 30 ticks,
-if('score @s x_SEAT_TICK matches 30..') {
+if('score @s x_TICK matches 30..') {
 
     /// If sensor's anchor is moving or missing,
     if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR,tag=!x_SEAT_ANCHOR_MOVING,distance=..0.15]'){
@@ -35,9 +35,6 @@ if('score @s x_SEAT_TICK matches 30..') {
         /function x_seat:kill_seat
     }
 
-    /// Reset sensor clock
-    /scoreboard players set @s x_SEAT_TICK 0
+    /// Rewind sensor clock
+    /scoreboard players set @s x_TICK 0
 }
-
-/// Advance seat clock by 1 tick
-/scoreboard players add @s x_SEAT_TICK 1

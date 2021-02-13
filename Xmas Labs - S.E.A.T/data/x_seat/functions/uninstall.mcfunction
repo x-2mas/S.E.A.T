@@ -14,10 +14,12 @@ execute if data storage x_core packs.x_seat run tellraw @a ["",{"text":"\n\nUnin
 
 data remove storage x_core flags.loadCPU__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadEIDs__Packs[{x_SEAT:1}]
+data remove storage x_core flags.loadTickRegister__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadSneakTimeRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadAttachmentRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadCollisionRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}]
+data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
 data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
 data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
 data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]

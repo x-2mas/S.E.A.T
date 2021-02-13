@@ -14,7 +14,5 @@ data modify entity @s Rotation[0] set from entity @a[tag=x_SEAT_ANCHOR_PLAYER,li
 execute unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR] run function x_seat:kill_seat
 
 data modify entity @s {} merge value {Sleeping:1,Glowing:0}
-execute if score @s x_SEAT_TICK matches 30.. unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR,tag=!x_SEAT_ANCHOR_MOVING,distance=..0.15] run function x_seat:kill_seat
-execute if score @s x_SEAT_TICK matches 30.. run scoreboard players set @s x_SEAT_TICK 0
-
-scoreboard players add @s x_SEAT_TICK 1
+execute if score @s x_TICK matches 30.. unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR_ANCHOR,tag=!x_SEAT_ANCHOR_MOVING,distance=..0.15] run function x_seat:kill_seat
+execute if score @s x_TICK matches 30.. run scoreboard players set @s x_TICK 0

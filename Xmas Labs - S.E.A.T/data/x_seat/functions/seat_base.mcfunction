@@ -10,10 +10,8 @@
 # Handles S.E.A.T base tasks
 
 
-execute if entity @s[tag=!x_SEAT_OCCUPIED] run scoreboard players remove @s x_SEAT_TICK 1
-
-execute if score @s x_SEAT_TICK matches ..0 unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
-execute if score @s x_SEAT_TICK matches ..0 unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
+execute if score @s x_TICK matches 40.. unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
+execute if score @s x_TICK matches 40.. unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
 
 execute unless entity @s[tag=x_KILL_SEAT] unless entity @a[tag=x_SEAT_BASE_PLAYER] run schedule function x_seat:kill_seat 2t
 execute unless entity @s[tag=x_KILL_SEAT] unless entity @a[tag=x_SEAT_BASE_PLAYER] run tag @s add x_KILL_SEAT
@@ -75,6 +73,7 @@ execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_TOO_CLOSE] if block ^ ^1.4 ^ #minecraft:fence_gates run tag @s add x_SEAT_ON_FENCE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_TOO_CLOSE] if block ^ ^1.4 ^ #minecraft:walls run tag @s add x_SEAT_ON_FENCE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_ON_FENCE] run tp @s ^ ^0.5 ^
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s run tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] add x_SEAT_NO_RIDE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s positioned ^ ^ ^-0.5 if entity @s[tag=x_SEAT_SIT_BACK,tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FENCE,tag=x_SEAT_ON_FLOOR] if entity @e[dy=2.9,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_RIDE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s positioned ^ ^ ^-0.5 if entity @s[tag=x_SEAT_SIT_BACK,tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FENCE,tag=x_SEAT_ON_FLOOR] if entity @e[dy=2.9,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @s add x_SEAT_ON_RIDE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_ON_RIDE] run tp @s ^ ^1 ^
@@ -83,7 +82,9 @@ execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_ANCHORED] run tag @s add x_ATTACH_ROTATE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_ANCHORED] run tag @s add x_SEAT_ANCHORED
 execute if entity @s[tag=x_SEAT_SEATING] run tag @s add x_SEAT_OCCUPIED
+execute if entity @s[tag=x_SEAT_SEATING] run scoreboard players reset @s x_TICK
 execute if entity @s[tag=x_SEAT_SEATING] run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_OCCUPIED
+execute if entity @s[tag=x_SEAT_SEATING] run tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] remove x_SEAT_NO_RIDE
 execute if entity @s[tag=x_SEAT_SEATING] run tag @s remove x_SEAT_SEATING
 
 execute if entity @s[tag=x_SEAT_OCCUPIED] unless entity @a[tag=x_SEAT_BASE_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED,x_SEAT_BASE]}}},nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_BASE_SKIP]}}}] unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t

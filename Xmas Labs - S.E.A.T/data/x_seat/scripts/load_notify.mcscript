@@ -16,14 +16,14 @@ if(!'data storage x_core packs.x_core') {
 }
 
 
-if('data storage x_core packs{x_seat:116503}') {
+if('data storage x_core packs{x_seat:116505}') {
 
 
     /// Get the current C.O.R.E version number
     /execute store result score x_CPU x_R0 run data get storage x_core packs.x_core 1
 
     /// Set the required C.O.R.E version number
-    /scoreboard players set x_CPU x_R1 116501
+    /scoreboard players set x_CPU x_R1 116504
 
     /// Subtract required version number from current version number
     /scoreboard players operation x_CPU x_R0 -= x_CPU x_R1

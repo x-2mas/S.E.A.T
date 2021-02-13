@@ -20,6 +20,8 @@ execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags
 execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags.loadCPU unless data storage x_core flags{scrollBar:0} if data storage x_core flags.scrollBar unless data storage x_core flags{loadScrollBarRegisters:0} if data storage x_core flags.loadScrollBarRegisters run function x_core:scrollbar
 execute unless data storage x_core flags{loadCPU:0} if data storage x_core flags.loadCPU unless data storage x_core flags{trackRotation:0} if data storage x_core flags.trackRotation unless data storage x_core flags{loadRotationRegisters:0} if data storage x_core flags.loadRotationRegisters run function x_core:rotation_tracking
 
+execute unless data storage x_core flags{ticker:0} if data storage x_core flags.ticker unless data storage x_core flags{loadTickRegister:0} if data storage x_core flags.loadTickRegister run function x_core:ticker
+
 execute unless data storage x_core flags{blockCollisions:0} if data storage x_core flags.blockCollisions unless data storage x_core flags{loadCollisionRegisters:0} if data storage x_core flags.loadCollisionRegisters run function x_core:collision_blocking
 
 execute unless data storage x_core flags{monitorItems:0} if data storage x_core flags.monitorItems run function x_core:monitor_items

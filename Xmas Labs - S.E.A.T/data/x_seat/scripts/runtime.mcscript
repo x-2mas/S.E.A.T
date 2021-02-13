@@ -76,6 +76,16 @@ if('entity @a[tag=x_SEATED]') {
 /// If there is atleast one seat,
 if('entity @e[tag=x_SEAT_NS]') {
 
+    /// Activate C.O.R.E ticker
+    if(!'data storage x_core flags.ticker') {
+        /data modify storage x_core flags merge value {ticker:1}
+    }
+
+    /// Queue pack for ticker
+    if(!'data storage x_core flags.ticker__Packs[{x_SEAT:1}]'){
+        /data modify storage x_core flags.ticker__Packs append value {x_SEAT:1}
+    }
+
     /// Activate C.O.R.E collision-blocking
     if(!'data storage x_core flags.blockCollisions') {
         /data modify storage x_core flags merge value {blockCollisions:1}
@@ -108,6 +118,11 @@ if('entity @e[tag=x_SEAT_NS]') {
 
 /// If no seat blocking interactions, 
 } else {
+
+    /// Unqueue pack from ticker
+    if('data storage x_core flags.ticker__Packs[{x_SEAT:1}]'){
+        /data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
+    }
 
     /// Unqueue pack from collison-blocking
     if('data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]'){

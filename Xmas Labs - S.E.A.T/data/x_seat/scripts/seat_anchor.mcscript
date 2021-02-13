@@ -320,8 +320,8 @@ if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]') {
             /// Turn on anchor's marker mode (no longer responds to physics)
             /data modify entity @s Marker set value 1
 
-            /// Reset seat clock 
-            /scoreboard players reset @s x_SEAT_TICK
+            /// Reset (disable) seat clock 
+            /scoreboard players reset @s x_TICK
 
 
             /// Tag seat and ride for attachment creation
@@ -350,7 +350,7 @@ if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]') {
 
 
 /// If physics anchor is not attached to any entity and is not being adjusted by player and some time has passed,
-if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_TICK matches 10'){
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_TICK matches 10'){
     
     /// If seat physics is enabled
     if('data storage x_seat flags{physics:1}'){
@@ -368,12 +368,15 @@ if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_T
         /// Assign seat ID
         /scoreboard players operation @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_SEAT_ID = @s x_SEAT_ID
 
+        /// Start sensor clock
+        /scoreboard players set @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_TICK 0
+
         /// Remove unlinked tag 
         /tag @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] remove x_SEAT_UNLINKED
     }
 }
 
-/// If anchor is unattached and is not being adjusted by player and there its sensor is near the anchor (indicates seat at rest),
+/// If anchor is unattached and is not being adjusted by player and its sensor is near the anchor (indicates seat at rest),
 if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15]'){
 
     /// If anchor previously tagged as moving,
@@ -387,13 +390,13 @@ if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'entity @e[tag=x_S
     }
 
     /// Set seat clock to 20
-    /scoreboard players set @s x_SEAT_TICK 20
+    /scoreboard players set @s x_TICK 20
 }
 
 
 
 /// If anchor is unattached and is not being adjusted by player and some time has passed since sensor created, but its sensor not found near anchor (indicates motion),
-if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_TICK matches 20..' && !'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15]'){
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_TICK matches 20..' && !'entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15]'){
 
     /// If anchor not previously tagged as moving, 
     if(!'entity @s[tag=x_SEAT_ANCHOR_MOVING]'){
@@ -409,17 +412,17 @@ if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_SEAT_T
         /tag @s add x_SEAT_ANCHOR_MOVING    
     }
 
-    /// Reset seat clock
-    /scoreboard players reset @s x_SEAT_TICK
+    /// Rewind seat clock
+    /scoreboard players set @s x_TICK 0
 } 
 
 
 
-/// If anchor is un-attached and is not being adjusted by player,
-if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]'){
+/// If anchor is un-attached and is not being adjusted by player, but clock is frozen,
+if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && !'score @s x_TICK matches 0..'){
 
-    /// Advance seat clock by 1 tick
-    /scoreboard players add @s x_SEAT_TICK 1
+    /// Restart seat clock
+    /scoreboard players set @s x_TICK 1
 }
 
 

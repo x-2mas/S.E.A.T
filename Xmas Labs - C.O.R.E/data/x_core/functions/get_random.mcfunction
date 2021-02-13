@@ -9,3 +9,19 @@
 # C.O.R.E | get_random
 # Generates a random number and stores it in the x_RNG player unit
 
+
+scoreboard players operation x_RNG x_R0 = x_RNG x_R2
+scoreboard players operation x_RNG x_R0 -= x_RNG x_R1
+execute if score x_RNG x_R0 matches ..0 run scoreboard players set x_RNG x_R3 -1
+execute if score x_RNG x_R0 matches ..0 run scoreboard players operation x_RNG x_R0 = x_RNG x_R1
+
+execute unless score x_RNG x_R3 matches ..-1 run scoreboard players set x_CPU x_R0 2
+execute unless score x_RNG x_R3 matches ..-1 run scoreboard players operation x_RNG x_R0 /= x_CPU x_R0
+execute unless score x_RNG x_R3 matches ..-1 run scoreboard players operation x_RNG x_R0 += x_RNG x_R1
+execute unless score x_RNG x_R3 matches ..-1 run scoreboard players set x_RNG x_R3 1
+execute unless score x_RNG x_R3 matches ..-1 if predicate x_core:random run scoreboard players set x_RNG x_R3 2
+execute unless score x_RNG x_R3 matches ..-1 if score x_RNG x_R3 matches 1 run scoreboard players operation x_RNG x_R1 = x_RNG x_R0
+execute unless score x_RNG x_R3 matches ..-1 unless score x_RNG x_R3 matches 1 run scoreboard players operation x_RNG x_R2 = x_RNG x_R0
+execute unless score x_RNG x_R3 matches ..-1 run function x_core:get_random
+
+scoreboard players reset x_RNG x_R3

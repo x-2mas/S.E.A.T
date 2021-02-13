@@ -204,18 +204,17 @@ asat('@a[tag=x_SEAT_NS,tag=x_MAY_SIT,tag=!x_MAY_SIT_SKIP,limit=1]') {
     }
 
 
-
     /// If player's seat missing, 
     if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_PLAYER_BASE]') {
 
-        /// If only-if-sneaking is disabled or else, if player is sneaking
+        /// If only-if-sneaking is enabled and player is sneaking
         if('data storage x_seat flags{onlyIfSneaking:0}'){
 
             /// Create a new S.E.A.T
             /function x_seat:create_seat
         }  
-
-        /// If only-if-sneaking is disabled or else, if player is sneaking
+        
+        /// If only-if-sneaking is enabled and player is sneaking 
         if('data storage x_seat flags{onlyIfSneaking:1}' && 'score @s x_SNEAK_TIME matches 1..'){
 
             /// Create a new S.E.A.T
@@ -223,19 +222,29 @@ asat('@a[tag=x_SEAT_NS,tag=x_MAY_SIT,tag=!x_MAY_SIT_SKIP,limit=1]') {
         }
     }
 
+    
+    /// If only-if-sneaking is enabled and player is sneaking and seat base about to time-out
+    if('data storage x_seat flags{onlyIfSneaking:1}' && 'score @s x_SNEAK_TIME matches 1..' && 'score @e[tag=x_SEAT_PLAYER_BASE,limit=1] x_TICK matches 30'){
+
+        /// Create a new S.E.A.T
+        /function x_seat:create_seat
+    }
+
 
 
     /// Teleport player's S.E.A.T below player, positioned so that S.E.A.T surface is slightly below player's butt and facing straight
+    /// If seat about to time-out, teleport slightly lower (prevents a bug with the only-if-sneaking method)
     rotated('~ 0'){
-        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_PLAYER_BASE,sort=nearest,limit=1] ~ ~-1.4 ~ facing ^ ^-1.6 ^2
+        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_PLAYER_BASE,scores={x_TICK=..28},sort=nearest,limit=1] ~ ~-1.4 ~ facing ^ ^-1.6 ^2
+        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_PLAYER_BASE,scores={x_TICK=29..},sort=nearest,limit=1] ~ ~-1.5 ~ facing ^ ^-1.6 ^2
     }
 
 
     /// If only-if-sneaking is off,
     if('data storage x_seat flags{onlyIfSneaking:0}') { 
 
-        /// Start (or extend) a auto-kill timeout on player's seat
-        /scoreboard players set @e[tag=x_SEAT_NS,tag=x_SEAT_PLAYER_BASE,sort=nearest,limit=1] x_SEAT_TICK 40
+        /// Start (or extend) an auto-kill timeout on player's seat
+        /scoreboard players set @e[tag=x_SEAT_NS,tag=x_SEAT_PLAYER_BASE,sort=nearest,limit=1] x_TICK 0
     }
 
 
@@ -456,6 +465,9 @@ asat('@a[tag=x_SEAT_NS,tag=x_MAY_ADJUST_SEAT,tag=!x_MAY_ADJUST_SEAT_SKIP,limit=1
         /// As all seat anchors with seat ID matching player,
         asat('@e[tag=x_SEAT_ANCHOR]'), if('score @s x_SEAT_ID = @a[tag=x_MAY_ADJUST_SEAT,tag=!x_MAY_ADJUST_SEAT_SKIP,limit=1,sort=nearest] x_EID'){
 
+            /// Reset (disable) anchor clock
+            /scoreboard players reset @s x_TICK
+
             /// Tag as being adjusted
             /tag @s add x_SEAT_ANCHOR_ADJUSTING
         }
@@ -666,9 +678,6 @@ asat('@a[tag=x_SEAT_NS,tag=x_SEATED,nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_NS,x
     /// As all seat bases with seat ID matching player,
     asat('@e[tag=x_SEAT_NS,tag=x_SEAT_OCCUPIED,tag=x_SEAT_BASE]'), if('score @s x_SEAT_ID = @a[tag=x_UNSEATING,limit=1,sort=nearest] x_EID'){
 
-        /// Eject the surface riding this base
-        /tp @e[tag=x_SEAT_NS,tag=x_SEAT_OCCUPIED,tag=x_SEAT_SURFACE,limit=1,distance=..1,sort=nearest] ~ ~0.5 ~
-
         /// Tag and schedule for disposal
         /tag @s add x_KILL_SEAT
         /schedule function x_seat:kill_seat 2t
@@ -680,6 +689,9 @@ asat('@a[tag=x_SEAT_NS,tag=x_SEATED,nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_NS,x
     /// As all seat surfaces with seat ID matching player,
     asat('@e[tag=x_SEAT_NS,tag=x_SEAT_OCCUPIED,tag=x_SEAT_SURFACE]'), if('score @s x_SEAT_ID = @a[tag=x_UNSEATING,limit=1,sort=nearest] x_EID'){
 
+
+        /// Eject surface from base
+        /tp @s ~ ~0.5 ~
 
         /// If player sat back on this seat and roof is low,
         if('entity @s[tag=x_SEAT_SIT_BACK,tag=x_SEAT_LOW_ROOF]'){

@@ -19,7 +19,7 @@ if(!'data storage x_core packs'){
 /// If no other versions of this pack already added,
 /// Add C.O.R.E pack to 'packs' folder
 if(!'data storage x_core packs.x_core'){
-    /data modify storage x_core packs merge value {x_core:116503}
+    /data modify storage x_core packs merge value {x_core:116505}
 }
 
 
@@ -57,6 +57,9 @@ if(!'data storage x_core flags.loadCPU__Packs'){
 if(!'data storage x_core flags.loadEIDs__Packs'){
     /data modify storage x_core flags merge value {loadEIDs__Packs:[]}
 }
+if(!'data storage x_core flags.loadTickRegister__Packs'){
+    /data modify storage x_core flags merge value {loadTickRegister__Packs:[]}
+}
 if(!'data storage x_core flags.loadSearchKey__Packs'){
     /data modify storage x_core flags merge value {loadSearchKey__Packs:[]}
 }
@@ -82,6 +85,9 @@ if(!'data storage x_core flags.loadScrollbarRegisters__Packs'){
 /// These queues tell the C.O.R.E how many packs require a particular feature during runtime
 /// Features aren't run every tick unless required by atleast one pack
 
+if(!'data storage x_core flags.ticker__Packs'){
+    /data modify storage x_core flags merge value {ticker__Packs:[]}
+}
 if(!'data storage x_core flags.attach__Packs'){
     /data modify storage x_core flags merge value {attach__Packs:[]}
 }
@@ -110,22 +116,21 @@ if(!'data storage x_core flags.scrollBar__Packs'){
 /// Scoreboard register values might get overwritten by other packs every tick 
 /// They are only safe to use immediately within the same tick, within the same function
 
-if(!'data storage x_core flags{loadCPU:0}' && 'data storage x_core flags.loadCPU') {
-
-    /// Add scoreboard registers
-    /scoreboard objectives add x_R0 dummy "Xmas Labs: CPU Register 0"
-    /scoreboard objectives add x_R1 dummy "Xmas Labs: CPU Register 1"
-    /scoreboard objectives add x_R2 dummy "Xmas Labs: CPU Register 2"
-    /scoreboard objectives add x_R3 dummy "Xmas Labs: CPU Register 3"
-}
-
 
 /// If loadCPU is set to 0, remove the flag
 if('data storage x_core flags{loadCPU:0}'){
     /data remove storage x_core flags.loadCPU
 }
 
-if(!'data storage x_core flags.loadCPU') {
+if('data storage x_core flags.loadCPU') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_R0 dummy "Xmas Labs: CPU Register 0"
+    /scoreboard objectives add x_R1 dummy "Xmas Labs: CPU Register 1"
+    /scoreboard objectives add x_R2 dummy "Xmas Labs: CPU Register 2"
+    /scoreboard objectives add x_R3 dummy "Xmas Labs: CPU Register 3"
+
+} else {
     
     /// Remove scoreboard registers
     /scoreboard objectives remove x_R0
@@ -151,21 +156,19 @@ if(!'data storage x_core flags.loadCPU') {
 /// Used to dynamically assign unique IDs to entities and link them somewhere
 /// EIDs get reset if no entity is using them, to prevent overflow
 
-if(!'data storage x_core flags{loadEIDs:0}' && 'data storage x_core flags.loadEIDs') {
-    
-    /// Add scoreboard registers
-    /scoreboard objectives add x_EID dummy "Xmas Labs: Entity ID Register"
-    /scoreboard objectives add x_PID dummy "Xmas Labs: Parent ID Register" 
-    /scoreboard objectives add x_EID__T dummy "Xmas Labs: Entity ID Tag Register"
-}
-
-
 /// If loadEIDs is set to 0, remove the flag
 if('data storage x_core flags{loadEIDs:0}'){
     /data remove storage x_core flags.loadEIDs
 }
 
-if(!'data storage x_core flags.loadEIDs') {
+if('data storage x_core flags.loadEIDs') {
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_EID dummy "Xmas Labs: Entity ID Register"
+    /scoreboard objectives add x_PID dummy "Xmas Labs: Parent ID Register" 
+    /scoreboard objectives add x_EID__T dummy "Xmas Labs: Entity ID Tag Register"
+
+} else {
     
     /// Remove scoreboard registers
     /scoreboard objectives remove x_EID__T
@@ -199,19 +202,41 @@ if(!'data storage x_core flags.loadEIDs') {
 
 
 
-/// Create search key registers 
-/// Holding search-key values when perform dynamic entity searches
+/// Creates tick register for measuring ticks
+/// Every tick score is incremented each tick
 
-if(!'data storage x_core flags{loadSearchKeyRegister:0}' && 'data storage x_core flags.loadSearchKeyRegister') {
-    
-    /// Add scoreboard registers
-    /scoreboard objectives add x_SEARCH_KEY dummy "Xmas Labs: Search Key Register"
+/// If loadTickRegister is set to 0, remove the flag
+if('data storage x_core flags{loadTickRegister:0}'){
+    /data remove storage x_core flags.loadTickRegister
 }
 
+if('data storage x_core flags.loadTickRegister') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_TICK dummy "Xmas Labs: Tick Register"
+
+} else {
+    
+    /// Remove scoreboard registers
+    /scoreboard objectives remove x_TICK
+
+    /// Disable features depending on tick registers
+}
+
+
+
+/// Create search key registers 
+/// Holding search-key values when perform dynamic entity searches
 
 /// If loadSearchKeyRegister is set to 0, remove the flag
 if('data storage x_core flags{loadSearchKeyRegister:0}'){
     /data remove storage x_core flags.loadSearchKeyRegister
+}
+
+if('data storage x_core flags.loadSearchKeyRegister') {
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_SEARCH_KEY dummy "Xmas Labs: Search Key Register"
 }
 
 if(!'data storage x_core flags.loadSearchKeyRegister') {
@@ -230,7 +255,12 @@ if(!'data storage x_core flags.loadSearchKeyRegister') {
 /// Create the 'No Collide' team and registers required by collision-related tasks
 /// Used to disable entity collisions or add artifical colliders
 
-if(!'data storage x_core flags{loadCollisionRegisters:0}' && 'data storage x_core flags.loadCollisionRegisters') {
+/// If loadCollisionRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadCollisionRegisters:0}'){
+    /data remove storage x_core flags.loadCollisionRegisters
+}
+
+if('data storage x_core flags.loadCollisionRegisters') {
 
     /// Add No-Collide team
     /team add x_NO_COLLIDE "Xmas Labs: Collision Blocked Entities"
@@ -242,15 +272,8 @@ if(!'data storage x_core flags{loadCollisionRegisters:0}' && 'data storage x_cor
     /scoreboard objectives add x_NO_COLLIDE__T dummy "Xmas Labs: No Collide Tag Register"
     /scoreboard objectives add x_COLLISION_A__T dummy "Xmas Labs: Collide Armor Stand Tag Register"
     /scoreboard objectives add x_COLLISION_B__T dummy "Xmas Labs: Collide Barrier Tag Register"
-}
 
-
-/// If loadCollisionRegisters is set to 0, remove the flag
-if('data storage x_core flags{loadCollisionRegisters:0}'){
-    /data remove storage x_core flags.loadCollisionRegisters
-}
-
-if(!'data storage x_core flags.loadCollisionRegisters') {
+} else {
     
     /// Remove No-Collide team
     /team remove x_NO_COLLIDE
@@ -275,20 +298,18 @@ if(!'data storage x_core flags.loadCollisionRegisters') {
 /// Create 'Sneak Time' registers 
 /// Tracks how long player has been sneaking
 
-if(!'data storage x_core flags{loadSneakTimeRegisters:0}' && 'data storage x_core flags.loadSneakTimeRegisters') {
-
-    /// Add scoreboard registers
-    /scoreboard objectives add x_SNEAK_TIME minecraft.custom:minecraft.sneak_time "Xmas Labs: Sneak Time Tracker"
-    /scoreboard objectives add x__SNEAK_TIME dummy "Xmas Labs: Sneak Time During Last Tick"
-}
-
-
 /// If loadSneakTimeRegisters is set to 0, remove the flag
 if('data storage x_core flags{loadSneakTimeRegisters:0}'){
     /data remove storage x_core flags.loadSneakTimeRegisters
 }
 
-if(!'data storage x_core flags.loadSneakTimeRegisters') {
+if('data storage x_core flags.loadSneakTimeRegisters') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_SNEAK_TIME minecraft.custom:minecraft.sneak_time "Xmas Labs: Sneak Time Tracker"
+    /scoreboard objectives add x__SNEAK_TIME dummy "Xmas Labs: Sneak Time During Last Tick"
+
+} else {
     
     /// Remove scoreboard registers
     /scoreboard objectives remove x_SNEAK_TIME
@@ -301,7 +322,12 @@ if(!'data storage x_core flags.loadSneakTimeRegisters') {
 /// Tracks entity attachment offsets
 /// Attached entites are teleported to their parent entities every tick, at the offset specified
 
-if(!'data storage x_core flags{loadAttachmentRegisters:0}' && 'data storage x_core flags.loadAttachmentRegisters') {
+/// If loadAttachmentRegisters is set to 0, remove the flag
+if('data storage x_core flags{loadAttachmentRegisters:0}'){
+    /data remove storage x_core flags.loadAttachmentRegisters
+}
+
+if('data storage x_core flags.loadAttachmentRegisters') {
 
     /// Add scoreboard registers
     /scoreboard objectives add x_ATTACH__T dummy "Xmas Labs: Attach Tag Register"
@@ -310,15 +336,8 @@ if(!'data storage x_core flags{loadAttachmentRegisters:0}' && 'data storage x_co
     /scoreboard objectives add x_ATTACH_Z dummy "Xmas Labs: Z Attachment Offset"
     /scoreboard objectives add x_ATTACH_RX dummy "Xmas Labs: X-Rotation Attachment Offset"
     /scoreboard objectives add x_ATTACH_RY dummy "Xmas Labs: Y-Rotation Attachment Offset"
-}
 
-
-/// If loadAttachmentRegisters is set to 0, remove the flag
-if('data storage x_core flags{loadAttachmentRegisters:0}'){
-    /data remove storage x_core flags.loadAttachmentRegisters
-}
-
-if(!'data storage x_core flags.loadAttachmentRegisters') {
+} else {
     
     /// Remove scoreboard registers
     /scoreboard objectives remove x_ATTACH__T
@@ -345,21 +364,19 @@ if(!'data storage x_core flags.loadAttachmentRegisters') {
 /// Create 'Rotation' scoreboard registers 
 /// Used to track entity rotations
 
-if(!'data storage x_core flags{loadRotationRegisters:0}' && 'data storage x_core flags.loadRotationRegisters') {
-
-    /// Add scoreboard registers
-    /scoreboard objectives add x_ROT_TRACK__T dummy "Xmas Labs: Rotation Tracking Tag Register"
-    /scoreboard objectives add x_ROT_X dummy "Xmas Labs: X Rotation Tracker"
-    /scoreboard objectives add x_ROT_Y dummy "Xmas Labs: Y Rotation Tracker"
-}
-
-
 /// If loadRotationRegisters is set to 0, remove the flag
 if('data storage x_core flags{loadRotationRegisters:0}'){
     /data remove storage x_core flags.loadRotationRegisters
 }
 
-if(!'data storage x_core flags.loadRotationRegisters') {
+if('data storage x_core flags.loadRotationRegisters') {
+
+    /// Add scoreboard registers
+    /scoreboard objectives add x_ROT_TRACK__T dummy "Xmas Labs: Rotation Tracking Tag Register"
+    /scoreboard objectives add x_ROT_X dummy "Xmas Labs: X Rotation Tracker"
+    /scoreboard objectives add x_ROT_Y dummy "Xmas Labs: Y Rotation Tracker"
+
+} else  {
     
     /// Remove scoreboard registers
     /scoreboard objectives remove x_ROT_TRACK__T
@@ -375,21 +392,19 @@ if(!'data storage x_core flags.loadRotationRegisters') {
 /// Create 'ScrollBar' scoreboard registers 
 /// Used to track player hotbar-scrolling
 
-if(!'data storage x_core flags{loadScrollBarRegisters:0}' && 'data storage x_core flags.loadScrollBarRegisters') {
-    
-    /// Add scoreboard registers
-    /scoreboard objectives add x_SCROLLBAR__T dummy "Xmas Labs: Scrollbar Tag Register"
-    /scoreboard objectives add x_SCROLL_POS dummy "Xmas Labs: Scrollbar Poition Tracker"
-    /scoreboard objectives add x_SCROLL_DIR dummy "Xmas Labs: Scrollbar Direction Tracker"
-}
-
-
 /// If loadScrollBarRegisters is set to 0, remove the flag
 if('data storage x_core flags{loadScrollBarRegisters:0}'){
     /data remove storage x_core flags.loadScrollBarRegisters
 }
 
-if(!'data storage x_core flags.loadScrollBarRegisters') {
+if('data storage x_core flags.loadScrollBarRegisters') {
+    
+    /// Add scoreboard registers
+    /scoreboard objectives add x_SCROLLBAR__T dummy "Xmas Labs: Scrollbar Tag Register"
+    /scoreboard objectives add x_SCROLL_POS dummy "Xmas Labs: Scrollbar Poition Tracker"
+    /scoreboard objectives add x_SCROLL_DIR dummy "Xmas Labs: Scrollbar Direction Tracker"
+
+} else  {
     
     /// Remove scoreboard registers
     /scoreboard objectives remove x_SCROLLBAR__T

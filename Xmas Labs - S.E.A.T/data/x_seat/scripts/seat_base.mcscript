@@ -8,15 +8,8 @@
 
 
 
-/// Advance seat timeout if not occupied
-if('entity @s[tag=!x_SEAT_OCCUPIED]'){
-
-    /scoreboard players remove @s x_SEAT_TICK 1
-}
-
-
 /// If seat has exceeded its time-out 
-if('score @s x_SEAT_TICK matches ..0'){
+if('score @s x_TICK matches 40..'){
 
     /// If not already tagged for disposal
     if(!'entity @s[tag=x_KILL_SEAT]'){
@@ -250,6 +243,11 @@ if('entity @s[tag=x_SEAT_SEATING]'){
         }
 
 
+        /// Add a ride skip tag to the seated player
+        /// Prevents seat from riding player 
+        /tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] add x_SEAT_NO_RIDE
+
+
         /// If sitting back and on the floor,
         positioned('^ ^ ^-0.5'), if('entity @s[tag=x_SEAT_SIT_BACK,tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FENCE,tag=x_SEAT_ON_FLOOR]') {
             
@@ -289,8 +287,14 @@ if('entity @s[tag=x_SEAT_SEATING]'){
     /// Tag base as occupied
     /tag @s add x_SEAT_OCCUPIED
 
+    /// Reset kill-timeout (disable)
+    /scoreboard players reset @s x_TICK
+
     /// Tag surface as occupied
     /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_OCCUPIED
+
+    /// Remove no-ride tag from the player (no longer needed)
+    /tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] remove x_SEAT_NO_RIDE
 
     /// Remove seating tag
     /tag @s remove x_SEAT_SEATING

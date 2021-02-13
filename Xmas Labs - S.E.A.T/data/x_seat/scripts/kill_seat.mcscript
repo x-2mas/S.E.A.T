@@ -18,7 +18,7 @@
 asat('@a[nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT]}}}]'), if('score @s x_EID = @e[tag=x_KILL_SEAT,tag=x_SEAT_SURFACE,limit=1,sort=nearest] x_SEAT_ID'){
 
     /// Teleports player to a safe height 
-    /tp @a ~ ~1.5 ~
+    /tp @s ~ ~1.5 ~
 }
 
 /// Dispose S.E.A.T entities tagged for killing

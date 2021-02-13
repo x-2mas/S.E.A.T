@@ -19,12 +19,15 @@ execute unless data storage x_seat flags{onlyIfSneaking:1} if data storage x_cor
 execute if entity @a[tag=x_SEATED] unless data storage x_core flags.scrollBar run data modify storage x_core flags merge value {scrollBar:1}
 execute if entity @a[tag=x_SEATED] unless data storage x_core flags.scrollBar__Packs[{x_SEAT:1}] run data modify storage x_core flags.scrollBar__Packs append value {x_SEAT:1}
 execute unless entity @a[tag=x_SEATED] if data storage x_core flags.scrollBar__Packs[{x_SEAT:1}] run data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
+execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.ticker run data modify storage x_core flags merge value {ticker:1}
+execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.ticker__Packs[{x_SEAT:1}] run data modify storage x_core flags.ticker__Packs append value {x_SEAT:1}
 execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.blockCollisions run data modify storage x_core flags merge value {blockCollisions:1}
 execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}] run data modify storage x_core flags.blockCollisions__Packs append value {x_SEAT:1}
 execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.attach run data modify storage x_core flags merge value {attach:1}
 execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.attach__Packs[{x_SEAT:1}] run data modify storage x_core flags.attach__Packs append value {x_SEAT:1}
 execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.monitorItems run data modify storage x_core flags merge value {monitorItems:1}
 execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.monitorItems__Packs[{x_SEAT:1}] run data modify storage x_core flags.monitorItems__Packs append value {x_SEAT:1}
+execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.ticker__Packs[{x_SEAT:1}] run data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
 execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}] run data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
 execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.attach__Packs[{x_SEAT:1}] run data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
 execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.monitorItems__Packs[{x_SEAT:1}] run data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]

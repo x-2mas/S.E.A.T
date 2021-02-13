@@ -9,7 +9,7 @@
 
 
 /// If the right C.O.R.E pack entry and version detected in storage (properly loaded),
-if('data storage x_core packs{x_core:116503}') {
+if('data storage x_core packs{x_core:116505}') {
 
     /// Perform runtime tasks    
     /function x_core:runtime
@@ -20,3 +20,6 @@ if('data storage x_core packs{x_core:116503}') {
     /// Run uninstaller every tick until datapack is removed/disabled/reloaded 
     /function x_core:uninstall
 } 
+
+
+/function x_core:test

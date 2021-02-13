@@ -72,6 +72,13 @@ if(!'data storage x_core flags{loadCPU:0}' && 'data storage x_core flags.loadCPU
 
 
 /// If using collision-blocking,
+if(!'data storage x_core flags{ticker:0}' && 'data storage x_core flags.ticker' && !'data storage x_core flags{loadTickRegister:0}' && 'data storage x_core flags.loadTickRegister') {
+
+    /// Run collision-blocking tasks
+    /function x_core:ticker
+}
+
+/// If using collision-blocking,
 if(!'data storage x_core flags{blockCollisions:0}' && 'data storage x_core flags.blockCollisions' && !'data storage x_core flags{loadCollisionRegisters:0}' && 'data storage x_core flags.loadCollisionRegisters') {
 
     /// Run collision-blocking tasks
