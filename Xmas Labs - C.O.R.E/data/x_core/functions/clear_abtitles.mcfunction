@@ -10,6 +10,6 @@
 # Clear action bar titles from tagged entities
 
 
-execute as @a[tag=x_CLEAR_ABTITLE] at @s run title @s actionbar " "
-execute as @a[tag=x_CLEAR_ABTITLE] at @s run title @s clear
+execute as @a[tag=x_CLEAR_ABTITLE] at @s run title @s[tag=!global.ignore.gui] actionbar " "
+execute as @a[tag=x_CLEAR_ABTITLE] at @s run title @s[tag=!global.ignore.gui] clear
 execute as @a[tag=x_CLEAR_ABTITLE] at @s run tag @s remove x_CLEAR_ABTITLE

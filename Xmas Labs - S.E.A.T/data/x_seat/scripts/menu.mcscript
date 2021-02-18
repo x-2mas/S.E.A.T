@@ -8,7 +8,12 @@
 
 
 
-/// If menu just opened,
+/// Reset menu trigger to switch to global mode
+/scoreboard players reset @s S.E.A.T
+
+
+
+/// If menu just opened for the first time,
 if(!'score @s x_SEAT_MENU matches 100..'){
 
     /// Set menu to page 1
@@ -16,41 +21,60 @@ if(!'score @s x_SEAT_MENU matches 100..'){
 } 
 
 
-
+/// If menu opened to any page,
+if('score @s x_SEAT_MENU matches 100..499') {
+    
+    /// Menu header
+    if('data storage x_seat flags{enabled:1}'){
+        /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T v1.16.5.06 \n","color":"gold","bold":true},{"text":" • GLOBAL Menu •   ","color":"aqua"},{"text":" ⏸ ","color":"aqua","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 11"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Pause Pack for ALL players","color":"white"}]}},{"text":"⏏ ","color":"aqua","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 21"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Uninstall Pack","color":"white"}]}},"\n"]
+    } else {
+        /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T v1.16.5.06\n","color":"gold","bold":true},{"text":" • GLOBAL Menu •   ","color":"aqua"},{"text":" ▶ ","color":"aqua","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 12"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Unpause Pack","color":"white"}]}},{"text":"⏏ ","color":"aqua","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 21"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Uninstall Pack","color":"white"}]}},"\n"]
+    }
+}
 
 
 /// If menu turned to page 1,
 if('score @s x_SEAT_MENU matches 100..199') {
 
-    /// Menu header
-    /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T\n","color":"gold","bold":true},{"text":"     • Pack Menu • ","color":"aqua"},"\n"]
 
     /// Seat physics toggle
+    if('data storage x_seat flags{physics:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Physics  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 111"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature FORCES ALL players to be responsive to world physics while seated. Keep it ON if you want them to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+    }
     if('data storage x_seat flags{physics:1}'){
-        /tellraw @s [{"text":" ✎ Use Physics  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 111"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Use Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature makes you responsive to world physics while seated. Keep it ON if you want to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
-    } else {
-        /tellraw @s [{"text":" ✎ Use Physics  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 112"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Use Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature makes you responsive to world physics while seated. Keep it ON if you want to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+        /tellraw @s [{"text":" ☑ ALLOW Physics  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 112"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature ALLOWS ALL players to be responsive to world physics while seated. Keep it ON if you want to allow them to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+    }
+    if('data storage x_seat flags{physics:0}'){
+        /tellraw @s [{"text":" ☒ ALLOW Physics  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 113"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature makes ALL players responsive to world physics while seated. Keep it ON if you want to allow them to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
     }
 
 
     /// Seat rotation toggle
+    if('data storage x_seat flags{rotationLock:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Rotation Lock  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 121"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to FORCE-lock S.E.A.T rotation for ALL players. Makes seated movement look more natural, especially when riding mobs, but restricts their freedom of rotation. Also causes a bug where their inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode. "]}}]
+    }
     if('data storage x_seat flags{rotationLock:1}'){
-        /tellraw @s [{"text":" ✎ Rotation Lock  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 121"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode. "]}}]
-    } else {
-        /tellraw @s [{"text":" ✎ Rotation Lock  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 122"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode."]}}]
+        /tellraw @s [{"text":" ☑ ALLOW Rotation Lock  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 122"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to ALLOW ALL players to lock their S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts their freedom of rotation. Also causes a bug where their inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode. "]}}]
+    }
+    if('data storage x_seat flags{rotationLock:0}'){
+        /tellraw @s [{"text":" ☒ ALLOW Rotation Lock  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 123"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to ALLOW ALL players to lock their S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts their freedom of rotation. Also causes a bug where their inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode."]}}]
     }
 
 
     /// Sneak-to-sit toggle
+    if('data storage x_seat flags{onlyIfSneaking:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Only If Sneaking  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 131"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, FORCES ALL players to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops them from unintentionally sitting on things. Also looks more realistic."]}}]
+    }
     if('data storage x_seat flags{onlyIfSneaking:1}'){
-        /tellraw @s [{"text":" ✎ Only If Sneaking  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 131"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, players need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also looks more realistic."]}}]
-    } else {
-        /tellraw @s [{"text":" ✎ Only If Sneaking  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 132"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, players need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also looks more realistic."]}}]
+        /tellraw @s [{"text":" ☑ ALLOW Only If Sneaking  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 132"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, ALLOWS ALL players to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops them from unintentionally sitting on things. Also looks more realistic."]}}]
+    }
+    if('data storage x_seat flags{onlyIfSneaking:0}'){
+        /tellraw @s [{"text":" ☒ ALLOW Only If Sneaking  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 133"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, ALLOWS ALL players to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops them from unintentionally sitting on things. Also looks more realistic."]}}]
     }
 
 
     /// Page navigation and exit buttons
-    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 300"}},{"text":"Page 1/3","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 200"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 400"}}]
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 400"}},{"text":"Page 1/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 200"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 500"}}]
 
 }
 
@@ -58,72 +82,126 @@ if('score @s x_SEAT_MENU matches 100..199') {
 /// If menu turned to page 2,
 if('score @s x_SEAT_MENU matches 200..299') {
 
-    /// Menu header
-    /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T\n","color":"gold","bold":true},{"text":"     • Pack Menu • ","color":"aqua"},"\n"]
-
     /// Seat floor-bounce toggle
+    if('data storage x_seat flags{bounceOffFloor:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Bounce Off Floor  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 211"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this ON will FORCE-fix that for ALL players but might cause the bounce to look less realistic."]}}]
+    } 
     if('data storage x_seat flags{bounceOffFloor:1}'){
-        /tellraw @s [{"text":" ✎ Bounce Off Floor  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 211"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this ON will fix that but might cause the bounce to look less realistic."]}}]
+        /tellraw @s [{"text":" ☑ ALLOW Bounce Off Floor  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 212"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this ON will ALLOW ALL players to fix that but might cause the bounce to look less realistic."]}}]
     } 
     if('data storage x_seat flags{bounceOffFloor:0}') {
-        /tellraw @s [{"text":" ✎ Bounce Off Floor  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 212"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this ON will fix that but might cause the bounce to look less realistic."]}}]
+        /tellraw @s [{"text":" ☒ ALLOW Bounce Off Floor  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 213"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as the player seems to bounce mid-air. Turning this ON will ALLOW ALL players to fix that but might cause the bounce to look less realistic."]}}]
     }
     
-    /// Seat feet-only toggle
+    /// Seat only-sit-down toggle
+    if('data storage x_seat flags{onlySitDown:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Only Sit Down  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 221"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat players on any sittable surface directly behind them. If it doesn't find any, it seats them on/in whatever block they're standing on/in. Turning this ON makes S.E.A.T FORCE ALL players to only use the block they're standing on/in."]}}]
+    } 
     if('data storage x_seat flags{onlySitDown:1}'){
-        /tellraw @s [{"text":" ✎ Only Sit Down  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 221"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this ON forces S.E.A.T to only use the block you're standing on/in."]}}]
+        /tellraw @s [{"text":" ☑ ALLOW Only Sit Down  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 222"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat players on any sittable surface directly behind them. If it doesn't find any, it seats them on/in whatever block they're standing on/in. Turning this ON makes S.E.A.T ALLOW ALL players to only use the block they're standing on/in."]}}]
     } 
     if('data storage x_seat flags{onlySitDown:0}') {
-        /tellraw @s [{"text":" ✎ Only Sit Down  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 222"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this ON forces S.E.A.T to only use the block you're standing on/in."]}}]
+        /tellraw @s [{"text":" ☒ ALLOW Only Sit Down  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 223"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat players on any sittable surface directly behind them. If it doesn't find any, it seats them on/in whatever block they're standing on/in. Turning this ON makes S.E.A.T ALLOW ALL players to only use the block they're standing on/in."]}}]
     }
     
     /// freeze-ride-on-adjust toggle
+    if('data storage x_seat flags{freezeRideOnAdjust:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Freeze Ride On Adjust  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 231"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will FORCE ALL players to temporarily disable AI in the entity/mob they're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity they're sitting on since it resets their state."]}}]
+    } 
     if('data storage x_seat flags{freezeRideOnAdjust:1}'){
-        /tellraw @s [{"text":" ✎ Freeze Ride On Adjust  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 231"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+        /tellraw @s [{"text":" ☑ ALLOW Freeze Ride On Adjust  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 232"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will ALLOW ALL players to temporarily disable AI in the entity/mob they're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity they're sitting on since it resets their state."]}}]
     } 
     if('data storage x_seat flags{freezeRideOnAdjust:0}') {
-        /tellraw @s [{"text":" ✎ Freeze Ride On Adjust  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 232"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+        /tellraw @s [{"text":" ☒ ALLOW Freeze Ride On Adjust  ]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 233"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will ALLOW ALL players to temporarily disable AI in the entity/mob they're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity they're sitting on since it resets their state."]}}]
     }
 
     /// Page navigation and exit buttons
-    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 100"}},{"text":"Page 2/3","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 300"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 400"}}]
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 100"}},{"text":"Page 2/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 300"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 500"}}]
 }
 
 
 /// If menu turned to page 3,
 if('score @s x_SEAT_MENU matches 300..399') {
 
-    /// Menu header
-    /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T\n","color":"gold","bold":true},{"text":"     • Pack Menu • ","color":"aqua"},"\n"]
-
-    /// Seat floor-bounce toggle
-    if('data storage x_seat flags{fallDamage:1}'){
-        /tellraw @s [{"text":" ✎ Fall Damage  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 311"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to apply fall damage to seated players when falling. No reason to turn this OFF unless you're playing it super safe."]}}]
+    /// Seat adjustment toggle
+    if('data storage x_seat flags{seatAdjustment:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Seated Adjustment  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 311"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Seated Adjustment","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to FORCE-enable S.E.A.T Adjustment Mode for ALL players. Seated players can scroll while looking down to start adjusting."]}}]
     } 
-    if('data storage x_seat flags{fallDamage:0}') {
-        /tellraw @s [{"text":" ✎ Fall Damage  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 312"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to apply fall damage to seated players when falling. No reason to turn this OFF unless you're playing it super safe."]}}]
+    if('data storage x_seat flags{seatAdjustment:1}'){
+        /tellraw @s [{"text":" ☑ ALLOW Seated Adjustment  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 312"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Seated Adjustment","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to ALLOW S.E.A.T Adjustment Mode for ALL players. Seated players can scroll while looking down to start adjusting."]}}]
+    } 
+    if('data storage x_seat flags{seatAdjustment:0}') {
+        /tellraw @s [{"text":" ☒ ALLOW Seated Adjustment  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 313"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Seated Adjustment","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to ALLOW S.E.A.T Adjustment Mode for ALL players. Seated players can scroll while looking down to start adjusting."]}}]
     }
     
-    /// Inventory-blocking toggle
-    if('data storage x_seat flags{blockInventory:1}'){
-        /tellraw @s [{"text":" ✎ Block Inventory  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 321"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nPrevents players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    /// Sitting-On-Mobs toggle
+    if('data storage x_seat flags{sitOnMobs:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Sit On Mobs  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 321"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Sit On Mobs","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to ALLOW ALL players to sit on mobs. This might prevent sitting in some spots that are too close to mobs."]}}]
     } 
-    if('data storage x_seat flags{blockInventory:0}') {
-        /tellraw @s [{"text":" ✎ Block Inventory  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 322"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nPrevents players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    if('data storage x_seat flags{sitOnMobs:1}'){
+        /tellraw @s [{"text":" ☑ ALLOW Sit On Mobs  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 322"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Sit On Mobs","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to ALLOW ALL players to sit on mobs. This might prevent sitting in some spots that are too close to mobs."]}}]
+    } 
+    if('data storage x_seat flags{sitOnMobs:0}') {
+        /tellraw @s [{"text":" ☒ ALLOW Sit On Mobs  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 323"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Sit On Mobs","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to ALLOW ALL players to sit on mobs. This might prevent sitting in some spots that are too close to mobs."]}}]
     }
     
-    /// Show-prompt toggle
-    if('data storage x_seat flags{showPrompts:1}'){
-        /tellraw @s [{"text":" ✎ Show Prompts  [ON]","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 331"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this OFF to disable sitting instruction prompts. This might make things difficult for players new to the pack."]}}]
+    /// Adjustment limits toggle
+    if('data storage x_seat flags{adjustmentLimits:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Adjustment Limits  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 331"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Adjustment Limits","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON FORCE-prevents ALL players from adjusting too far away from their initial position. This stops players from exploiting Adjustment Mode to fly or move through walls."]}}]
     } 
-    if('data storage x_seat flags{showPrompts:0}') {
-        /tellraw @s [{"text":" ✎ Show Prompts  [OFF]","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 332"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this OFF to disable sitting instruction prompts. This might make things difficult for players new to the pack."]}}]
+    if('data storage x_seat flags{adjustmentLimits:1}'){
+        /tellraw @s [{"text":" ☑ ALLOW Adjustment Limits  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 332"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Adjustment Limits","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON ALLOWS ALL players to avoid adjusting too far away from their initial position. This stops players from exploiting Adjustment Mode to fly or move through walls."]}}]
+    } 
+    if('data storage x_seat flags{adjustmentLimits:0}') {
+        /tellraw @s [{"text":" ☒ ALLOW Adjustment Limits  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 333"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Adjustment Limits","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON ALLOWS ALL players to avoid adjusting too far away from their initial position. This stops players from exploiting Adjustment Mode to fly or move through walls."]}}]
     }
 
     /// Page navigation and exit buttons
-    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 200"}},{"text":"Page 3/3","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 100"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 400"}}]
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 200"}},{"text":"Page 3/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 400"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 500"}}]
 }
 
+
+
+
+/// If menu turned to page 4,
+if('score @s x_SEAT_MENU matches 400..499') {
+
+    /// Seat fall-damage toggle
+    if('data storage x_seat flags{fallDamage:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Fall Damage  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 311"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to FORCE-apply fall damage to ALL seated players when falling. No reason to turn this OFF unless you're playing it super safe."]}}]
+    } 
+    if('data storage x_seat flags{fallDamage:1}'){
+        /tellraw @s [{"text":" ☑ ALLOW Fall Damage  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 412"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to ALLOW ALL seated players to take fall damage while falling. No reason to turn this OFF unless you're playing it super safe."]}}]
+    } 
+    if('data storage x_seat flags{fallDamage:0}') {
+        /tellraw @s [{"text":" ☒ ALLOW Fall Damage  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 413"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to ALLOW ALL seated players to take fall damage while falling. No reason to turn this OFF unless you're playing it super safe."]}}]
+    }
+    
+    /// Inventory-blocking toggle
+    if('data storage x_seat flags{blockInventory:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Block Inventory  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 421"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nFORCE-prevents ALL players from accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    } 
+    if('data storage x_seat flags{blockInventory:1}'){
+        /tellraw @s [{"text":" ☑ ALLOW Block Inventory  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 422"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nALLOWS ALL players to avoid accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    } 
+    if('data storage x_seat flags{blockInventory:0}') {
+        /tellraw @s [{"text":" ☒ ALLOW Block Inventory  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 423"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nALLOWS ALL players to avoid accessing their inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    }
+    
+    /// Show-prompt toggle
+    if('data storage x_seat flags{showPrompts:2}'){
+        /tellraw @s [{"text":" ☑ FORCE Show Prompts  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 431"},"hoverEvent":{"action":"show_text","contents":["",{"text":"FORCE Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this ON to FORCE sitting instruction prompts for ALL players. This will make things easier for players new to the pack."]}}]
+    } 
+    if('data storage x_seat flags{showPrompts:1}'){
+        /tellraw @s [{"text":" ☑ ALLOW Show Prompts  ","color":"green","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 432"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this ON to ALLOW sitting instruction prompts for ALL players.This will make things easier for players new to the pack."]}}]
+    } 
+    if('data storage x_seat flags{showPrompts:0}') {
+        /tellraw @s [{"text":" ☒ ALLOW Show Prompts  ","color":"red","clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 433"},"hoverEvent":{"action":"show_text","contents":["",{"text":"ALLOW Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this ON to ALLOW sitting instruction prompts for ALL players. This will make things easier for players new to the pack."]}}]
+    }
+
+    /// Page navigation and exit buttons
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 300"}},{"text":"Page 4/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 100"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/scoreboard players set @s x_SEAT_MENU 500"}}]
+}
 
 /// Bottom margin
 /tellraw @s ""

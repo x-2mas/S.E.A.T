@@ -8,6 +8,27 @@
 
 
 
+
+/// Tag whether blocking inventory
+if('data storage x_seat flags{blockInventory:0}'){
+    /tag @s add x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK
+}
+
+if('data storage x_seat flags{blockInventory:1}' && 'entity @e[tag=x_SEAT_SURFACE_PLAYER,tag=!x_SEAT_DISABLED_INVENTORY_BLOCK,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK
+}
+
+if('data storage x_seat flags{blockInventory:1}' && 'entity @e[tag=x_SEAT_SURFACE_PLAYER,tag=x_SEAT_DISABLED_INVENTORY_BLOCK,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK
+}
+
+if('data storage x_seat flags{blockInventory:2}'){
+    /tag @s remove x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK
+}
+
+
+
+
 /// Get Y-Rotations of surface and base
 /execute store result score @s x_R0 run data get entity @s Rotation[0] 1
 /execute store result score @s x_R1 run data get entity @e[tag=x_SEAT_SURFACE_BASE,sort=nearest,limit=1] Rotation[0] 1
@@ -18,6 +39,7 @@ if(!'score @s x_R0 = @s x_R1'){
     /// Rotate S.E.A.T surface with base
     /data modify entity @s Rotation[0] set from entity @e[tag=x_SEAT_SURFACE_BASE,sort=nearest,limit=1] Rotation[0]
 }
+
 
 
 /// Get X-Rotation of surface 
@@ -31,6 +53,7 @@ if(!'score @s x_R0 matches 0'){
 }
 
 
+
 /// If surface is glowing,
 if('data entity @s {Glowing:1b}'){
 
@@ -38,22 +61,6 @@ if('data entity @s {Glowing:1b}'){
     /data modify entity @s {} merge value {Glowing:0}  
 }
 
-
-/// If blocking inventory, and surface tamed,
-if('data storage x_seat flags{blockInventory:1}' && 'data entity @s {Tame:1b}'){
-    
-    /// Untame surface (llama)
-    /// Prevents seated player to access inventory
-    /data modify entity @s {} merge value {Tame:0} 
-}
-
-/// If not blocking inventory, and surface untamed,
-if('data storage x_seat flags{blockInventory:0}' && !'data entity @s {Tame:1b}'){
-
-    /// Tame surface (llama)
-    /// Allows seated player to access inventory
-    /data modify entity @s {} merge value {Tame:1} 
-}
 
 
 /// Do if S.E.A.T surface is ready,
@@ -112,6 +119,7 @@ if('entity @s[tag=x_SEAT_SURFACE_READY]'){
 }
 
 
+
 /// If llama gets carpeted, 
 if('entity @s[nbt={DecorItem:{}}]'){
 
@@ -128,8 +136,9 @@ if('entity @s[nbt={DecorItem:{}}]'){
 }
 
 
-/// If llama gets chests added to it,
-if('entity @s[nbt={ChestedHorse:1b}]'){
+
+/// If llama gets chests added to it, but not by seat controls,
+if('entity @s[nbt={ChestedHorse:1b}]' && 'entity @s[tag=!x_SEAT_CONTROLS]'){
 
     /// Create a chest item drop
     /summon minecraft:item ~ ~1.5 ~ {Tags:[x_INV_LOADER,x_KILL_ON_UNINSTALL],PickupDelay:0,Item:{id:"minecraft:chest",Count:1b}}
@@ -139,12 +148,149 @@ if('entity @s[nbt={ChestedHorse:1b}]'){
 }
 
 
+
+/// If blocking inventory, and seat surface tamed
+if('entity @s[tag=!x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK]' && 'entity @s[nbt={Tame:1b}]'){
+
+    /// Untame surface (llama)
+    /// Prevents seated player from accessing inventory
+    /data modify entity @s {} merge value {Tame:0} 
+}
+
+
+/// If not blocking inventory, and is occupied and is not tamed,
+if('entity @s[tag=x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK]' && 'entity @s[tag=x_SEAT_OCCUPIED]' && !'entity @s[nbt={Tame:1b}]'){
+
+    /// Tame surface (llama)
+    /// Allows seated player to access inventory
+    /data modify entity @s {} merge value {Tame:1} 
+}
+
+
+
+// /// If given controls,
+// if('entity @s[tag=x_SEAT_CONTROLS]'){
+
+//     /// If blocking inventory, or tagged with locked controls
+//    if('entity @s[tag=!x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK]' || 'entity @s[tag=x_SEAT_CONTROLS_LOCK]'){
+
+//         /// Untame surface (llama)
+//         /// Prevents seated player from accessing inventory
+//         /data modify entity @s {} merge value {Tame:0,ChestedHorse:0,CustomName:"[\"\",{\"text\":\" \"}]"} 
+
+//         /// Tag as having seat controls
+//         /tag @s remove x_SEAT_CONTROLS
+//     }
+// }
+
+
+// /// If not blocking inventory, is occupied and not given controls,
+// if('entity @s[tag=x_SEAT_SURFACE_DISABLED_INVENTORY_BLOCK]' && 'entity @s[tag=x_SEAT_OCCUPIED,tag=!x_SEAT_CONTROLS,tag=!x_SEAT_CONTROLS_LOCK]'){
+
+//     /// Tame surface (llama)
+//     /// Allows seated player to access inventory
+//     /data modify entity @s {} merge value {Tame:1,ChestedHorse:1b,CustomName:"[\"\",{\"text\":\"S.E.A.T Controls\"}]"} 
+
+//     /// Tag as having seat controls
+//     /tag @s add x_SEAT_ADDING_CONTROLS
+//     /tag @s add x_SEAT_CONTROLS
+// }
+
+
+
+// /// If having controls
+// if('entity @s[tag=x_SEAT_SURFACE,tag=x_SEAT_CONTROLS,tag=!x_SEAT_ADDING_CONTROLS]'){
+    
+
+//     /// If any slot clicked, perform corresponding action and replace slot
+
+//     if(!'data entity @s Items[{Slot:2b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:3b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:4b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:5b}]'){
+        
+//     }
+
+//     if(!'data entity @s Items[{Slot:6b}]'){
+//     }
+
+
+//     if(!'data entity @s Items[{Slot:7b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:8b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:9b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:10b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:11b}]'){
+//     }
+
+
+//     if(!'data entity @s Items[{Slot:12b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:13b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:14b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:15b}]'){
+//     }
+
+//     if(!'data entity @s Items[{Slot:16b}]'){
+//         /tag @s add x_SEAT_CONTROLS_LOCK
+//     }
+// }
+
+
+
+// /// If tagged for adding controls
+// if('entity @s[tag=x_SEAT_SURFACE,tag=x_SEAT_CONTROLS]'){
+
+//     /// Add seat controls
+//     /replaceitem entity @s horse.0 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_TOG_ROT,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773201} 1
+//     /replaceitem entity @s horse.1 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_ROT_AC,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773202} 1
+//     /replaceitem entity @s horse.2 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_SHIFT_FORWARD,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773203} 1
+//     /replaceitem entity @s horse.3 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_ROT_CC,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773204} 1
+//     /replaceitem entity @s horse.4 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_TOG_ADJ_LIMITS,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773205} 1
+
+//     /replaceitem entity @s horse.5 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_TOG_RIDING,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773206} 1
+//     /replaceitem entity @s horse.6 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_SHIFT_LEFT,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773207} 1
+//     /replaceitem entity @s horse.7 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_RESET,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773208} 1
+//     /replaceitem entity @s horse.8 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_SHIFT_RIGHT,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773209} 1
+//     /replaceitem entity @s horse.9 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_TOG_FREEZE_RIDE,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773210} 1
+
+//     /replaceitem entity @s horse.10 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_TOG_PHYSICS,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773211} 1
+//     /replaceitem entity @s horse.11 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_SHIFT_DOWN,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773212} 1
+//     /replaceitem entity @s horse.12 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_SHIFT_BACKWARD,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773213} 1
+//     /replaceitem entity @s horse.13 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_SHIFT_UP,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773214} 1
+//     /replaceitem entity @s horse.14 minecraft:oak_button{x_ITEM_TAGS:[x_GUI,x_SEAT_CTRL_LOCK,x_CLEAR_FROM_INV,x_KILL_ON_DROP],CustomModelData:962773215} 1
+
+//     /tag @s remove x_SEAT_ADDING_CONTROLS
+// }
+
+
+
+
 /// If nearest player holding something that messes with S.E.A.T components, 
 if('entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:sweet_berries"}}]' || 'entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:wheat"}}]' || 'entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:hay_bale"}}]' || 'entity @a[tag=x_SEAT_SURFACE_PLAYER,nbt={SelectedItem:{id:"minecraft:lead"}}]'){
     
     /// Tag nearest player as blocking seat interactions
     /tag @a[tag=x_SEAT_SURFACE_PLAYER,limit=1,sort=nearest] add x_SEAT_BLOCKING_INTERACTIONS     
 } 
+
 
 
 /// Tag S.E.A.T surface as ready 

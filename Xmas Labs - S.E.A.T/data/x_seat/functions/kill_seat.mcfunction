@@ -13,5 +13,6 @@
 tag @s[tag=x_SEAT] add x_KILL_SEAT
 tag @s[tag=x_SEAT_ANCHOR] add x_KILL_SEAT
 tag @s[tag=x_SEAT_SENSOR] add x_KILL_SEAT
+data merge entity @s[tag=x_SEAT_SURFACE] {ChestedHorse:0}
 execute as @a[nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT]}}}] at @s if score @s x_EID = @e[tag=x_KILL_SEAT,tag=x_SEAT_SURFACE,limit=1,sort=nearest] x_SEAT_ID run tp @s ~ ~1.5 ~
 kill @e[tag=x_KILL_SEAT]

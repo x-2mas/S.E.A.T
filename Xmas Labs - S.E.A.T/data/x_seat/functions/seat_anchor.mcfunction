@@ -10,7 +10,47 @@
 # Handles S.E.A.T anchor tasks
 
 
-execute if data storage x_seat flags{rotationLock:0} run data modify entity @s Rotation[0] set from entity @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] Rotation[0]
+execute if data storage x_seat flags{rotationLock:0} run tag @s add x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+
+execute if data storage x_seat flags{rotationLock:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_ENABLED_ROTATION_LOCK,limit=1,sort=nearest] run tag @s add x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+
+execute if data storage x_seat flags{rotationLock:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_ENABLED_ROTATION_LOCK,limit=1,sort=nearest] run tag @s remove x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+
+execute if data storage x_seat flags{rotationLock:2} run tag @s remove x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+
+execute if data storage x_seat flags{physics:0} run tag @s add x_SEAT_ANCHOR_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{physics:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest] run tag @s remove x_SEAT_ANCHOR_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{physics:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest] run tag @s add x_SEAT_ANCHOR_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{physics:2} run tag @s remove x_SEAT_ANCHOR_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{fallDamage:0} run tag @s add x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+
+execute if data storage x_seat flags{fallDamage:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_FALL_DAMAGE,limit=1,sort=nearest] run tag @s remove x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+
+execute if data storage x_seat flags{fallDamage:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_FALL_DAMAGE,limit=1,sort=nearest] run tag @s add x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+
+execute if data storage x_seat flags{fallDamage:2} run tag @s remove x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+
+execute if data storage x_seat flags{freezeRideOnAdjust:0} run tag @s add x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+
+execute if data storage x_seat flags{freezeRideOnAdjust:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_FREEZE_RIDE,limit=1,sort=nearest] run tag @s remove x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+
+execute if data storage x_seat flags{freezeRideOnAdjust:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_FREEZE_RIDE,limit=1,sort=nearest] run tag @s add x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+
+execute if data storage x_seat flags{freezeRideOnAdjust:2} run tag @s remove x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+
+execute if data storage x_seat flags{sitOnMobs:0} run tag @s add x_SEAT_ANCHOR_DISABLED_ON_MOBS
+
+execute if data storage x_seat flags{sitOnMobs:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_ON_MOBS,limit=1,sort=nearest] run tag @s remove x_SEAT_ANCHOR_DISABLED_ON_MOBS
+
+execute if data storage x_seat flags{sitOnMobs:1} if entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_ON_MOBS,limit=1,sort=nearest] run tag @s add x_SEAT_ANCHOR_DISABLED_ON_MOBS
+
+execute if data storage x_seat flags{sitOnMobs:2} run tag @s remove x_SEAT_ANCHOR_DISABLED_ON_MOBS
+
+execute if entity @s[tag=x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK] run data modify entity @s Rotation[0] set from entity @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] Rotation[0]
 
 execute unless entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED]}}}] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_BASE] unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
 execute unless entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED]}}}] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_BASE] unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
@@ -50,9 +90,9 @@ execute if block ^ ^-1 ^ #minecraft:walls unless entity @s[tag=x_SEAT_ANCHOR_ON_
 execute if entity @s[tag=x_SEAT_ANCHOR_ON_WALL] unless block ^ ^-1 ^ #minecraft:walls run scoreboard players set @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] x_ATTACH_Y -190
 execute if entity @s[tag=x_SEAT_ANCHOR_ON_WALL] unless block ^ ^-1 ^ #minecraft:walls run tag @s remove x_SEAT_ANCHOR_ON_WALL
 
-execute if data storage x_seat flags{fallDamage:1} store result score @s x_R0 run data get entity @s FallDistance 1
-execute unless data storage x_seat flags{fallDamage:1} run scoreboard players set @s x_R0 0
-execute if score @s x_R0 matches 3.. unless entity @s[tag=x_ATTACH] if data storage x_seat flags{physics:1} run data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] {} merge value {NoAI:0}  
+execute if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE] store result score @s x_R0 run data get entity @s FallDistance 1
+execute unless entity @s[tag=!x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE] run scoreboard players set @s x_R0 0
+execute if score @s x_R0 matches 3.. unless entity @s[tag=x_ATTACH] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] run data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] {} merge value {NoAI:0}  
 execute if score @s x_R0 matches 3.. unless entity @s[tag=x_ATTACH] run data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] Motion set from entity @s Motion 
 execute if score @s x_R0 matches 3.. unless entity @s[tag=x_ATTACH] run data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] FallDistance set from entity @s FallDistance 
 execute if score @s x_R0 matches 3.. unless entity @s[tag=x_ATTACH] run tag @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] add x_SEAT_FALLING
@@ -62,41 +102,43 @@ execute if score @s x_R0 matches 3.. unless entity @s[tag=x_ATTACH] run tag @e[t
 
 execute if entity @s[tag=x_ATTACH] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_RIDE] run tag @s remove x_ATTACH_ROTATE
 execute if entity @s[tag=x_ATTACH] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_RIDE] run tag @s remove x_ATTACH
+execute if entity @s[tag=x_ATTACH] if entity @s[tag=x_SEAT_ANCHOR_DISABLED_ON_MOBS] run tag @s remove x_ATTACH_ROTATE
+execute if entity @s[tag=x_ATTACH] if entity @s[tag=x_SEAT_ANCHOR_DISABLED_ON_MOBS] run tag @s remove x_ATTACH
 
-execute if entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING] if data storage x_seat flags{freezeRideOnAdjust:1} as @e[tag=x_SEAT_ANCHOR_RIDE,sort=nearest,limit=1] at @s if entity @s[nbt=!{NoAI:1}] run tag @s add x_SEAT_ANCHOR_RIDE_FROZEN
-execute if entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING] if data storage x_seat flags{freezeRideOnAdjust:1} as @e[tag=x_SEAT_ANCHOR_RIDE,sort=nearest,limit=1] at @s if entity @s[nbt=!{NoAI:1}] run data merge entity @s {NoAI:1} 
+execute if entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE] as @e[tag=x_SEAT_ANCHOR_RIDE,sort=nearest,limit=1] at @s if entity @s[nbt=!{NoAI:1}] run tag @s add x_SEAT_ANCHOR_RIDE_FROZEN
+execute if entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE] as @e[tag=x_SEAT_ANCHOR_RIDE,sort=nearest,limit=1] at @s if entity @s[nbt=!{NoAI:1}] run data merge entity @s {NoAI:1} 
 
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] run tag @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] add x_SEAT_NO_RIDE
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] unless score @s x_EID matches 1.. run function x_core:assign_eid
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s run tag @s add x_SEAT_NS
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s run tag @s add x_SEAT_RIDE
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s unless entity @s[tag=x_NO_COLLIDE] run tag @s add x_NO_COLLIDE__SEAT
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s run scoreboard players add @s x_NO_COLLIDE__T 1
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s run tag @s add x_NO_COLLIDE
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run tag @s add x_EID__SEAT
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run scoreboard players add @s x_EID__T 1
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run tag @s add x_EID
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run function x_core:assign_eid
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run data modify entity @s Marker set value 1
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run scoreboard players reset @s x_TICK
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @s add x_ATTACH_NEW_SECONDARY
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @e[tag=x_SEAT_RIDE,limit=1,sort=nearest] add x_ATTACH_NEW_PRIMARY
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run function x_core:create_attachment
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run scoreboard players add @s x_ATTACH__T 1
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @s add x_ATTACH
-execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] run tag @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] remove x_SEAT_NO_RIDE
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] run tag @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] add x_SEAT_NO_RIDE
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] unless score @s x_EID matches 1.. run function x_core:assign_eid
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s run tag @s add x_SEAT_NS
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s run tag @s add x_SEAT_RIDE
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s unless entity @s[tag=x_NO_COLLIDE] run tag @s add x_NO_COLLIDE__SEAT
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s run scoreboard players add @s x_NO_COLLIDE__T 1
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s run tag @s add x_NO_COLLIDE
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run tag @s add x_EID__SEAT
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run scoreboard players add @s x_EID__T 1
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run tag @s add x_EID
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] as @e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest] at @s unless score @s x_EID matches 1.. run function x_core:assign_eid
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run data modify entity @s Marker set value 1
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run scoreboard players reset @s x_TICK
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @s add x_ATTACH_NEW_SECONDARY
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @e[tag=x_SEAT_RIDE,limit=1,sort=nearest] add x_ATTACH_NEW_PRIMARY
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run function x_core:create_attachment
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run scoreboard players add @s x_ATTACH__T 1
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] if entity @s[tag=!x_ATTACH] if entity @e[dy=-0.5,tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_SEAT_NO_RIDE,type=!#x_seat:non_rideables] run tag @s add x_ATTACH
+execute if entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS] run tag @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] remove x_SEAT_NO_RIDE
 
-execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,distance=..1] run summon minecraft:fox ^ ^999 ^ {Tags:[x_SYSTEM,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
-execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if data storage x_seat flags{physics:1} run tp @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] ^ ^ ^
-execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if data storage x_seat flags{physics:1} run scoreboard players operation @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_SEAT_ID = @s x_SEAT_ID
-execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if data storage x_seat flags{physics:1} run scoreboard players set @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_TICK 0
-execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if data storage x_seat flags{physics:1} run tag @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] remove x_SEAT_UNLINKED
+execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,distance=..1] run summon minecraft:fox ^ ^999 ^ {Tags:[x_SYSTEM,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL,global.ignore,x_IGNORE_OVERRIDE],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
+execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] run tp @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] ^ ^ ^
+execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] run scoreboard players operation @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_SEAT_ID = @s x_SEAT_ID
+execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] run scoreboard players set @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] x_TICK 0
+execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 10 if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] run tag @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,tag=!x_TP_KILL,sort=nearest,limit=1] remove x_SEAT_UNLINKED
 
 execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] if entity @s[tag=x_SEAT_ANCHOR_MOVING] run data modify entity @s Marker set value 1
 execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] if entity @s[tag=x_SEAT_ANCHOR_MOVING] run tag @s remove x_SEAT_ANCHOR_MOVING
 execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] run scoreboard players set @s x_TICK 20
 
-execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 20.. unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] unless entity @s[tag=x_SEAT_ANCHOR_MOVING] if data storage x_seat flags{physics:1} run data modify entity @s Marker set value 0
+execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 20.. unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] unless entity @s[tag=x_SEAT_ANCHOR_MOVING] if entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS] run data modify entity @s Marker set value 0
 execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 20.. unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] unless entity @s[tag=x_SEAT_ANCHOR_MOVING] run tag @s add x_SEAT_ANCHOR_MOVING    
 execute if entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING] if score @s x_TICK matches 20.. unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_SENSOR,distance=..0.15] run scoreboard players set @s x_TICK 0
 

@@ -115,7 +115,7 @@ if(!'data storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}]'){
 if(!'data storage x_core flags{reload:1}') {
 
     /// Add the S.E.A.T pack to the C.O.R.E 'packs' folder
-    /data modify storage x_core packs merge value {x_seat:116505} 
+    /data modify storage x_core packs merge value {x_seat:116506} 
 } 
 
 
@@ -142,9 +142,11 @@ if('data storage x_core packs.x_seat') {
     /// Subtract required version number from current version number
     /scoreboard players operation x_CPU x_R0 -= x_CPU x_R1
 
+
     /// If result positive (current version >= required version)
     if(!'score x_CPU x_R0 matches ..-1'){
         
+
         /// Create 'id' scoreboard register
         /// Used by S.E.A.T to link components
         /scoreboard objectives add x_SEAT_ID dummy "Xmas Labs: S.E.A.T ID Register"
@@ -158,14 +160,18 @@ if('data storage x_core packs.x_seat') {
         /scoreboard objectives add x_SEAT_SCROLLED dummy "Xmas Labs: S.E.A.T Scroll Tracking Register"
 
         /// Create 'menu' scoreboard register
-        /// Used by the S.E.A.T menu to track which page player is looking at 
+        /// Used by the global S.E.A.T menu to track which page player is looking at 
         /scoreboard objectives add x_SEAT_MENU dummy "Xmas Labs: S.E.A.T Menu Register"
+
+        /// Create 'menu' trigger
+        /// Allows non-op players to open their local menu
+        /scoreboard objectives add S.E.A.T trigger ["",{"text":"Open S.E.A.T Player Menu","color":"gold","bold":true}]
 
 
         /// Create the 'flags' folder
         /// Holds current S.E.A.T config and status info
         if(!'data storage x_seat flags'){
-            /data modify storage x_seat flags set value {physics:1, rotationLock:0, bounceOffFloor:0, onlySitDown:0, onlyIfSneaking:0, safetyEjects:1, fallDamage:1, blockInventory:1, freezeRideOnAdjust:1, showPrompts:1}
+            /data modify storage x_seat flags set value {enabled:1, physics:1, rotationLock:1, bounceOffFloor:1, onlySitDown:1, onlyIfSneaking:1, fallDamage:1, seatAdjustment:1, sitOnMobs:1, adjustmentLimits:1, blockInventory:1, freezeRideOnAdjust:1, showPrompts:1}
         }
     }
 } 

@@ -1,0 +1,17 @@
+{
+    "display": {
+        "title": "Xmas Labs - C.O.R.E",
+        "description": "Xmas Labs - Co-ordinated Runtime Environment (C.O.R.E) v1.16.5.06. Required by packs from Xmas Labs.",
+        "icon": {
+            "item": "minecraft:saddle"
+        },
+        "announce_to_chat": false,
+        "show_toast": false
+    },
+    "parent": "global:x__mas",
+    "criteria": {
+        "trigger": {
+            "trigger": "minecraft:tick"
+        }
+    }
+}

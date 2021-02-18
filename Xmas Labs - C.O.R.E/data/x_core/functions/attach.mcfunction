@@ -13,23 +13,26 @@
 execute unless score @s x_EID matches 1.. run function x_core:assign_eid
 
 execute unless entity @s[type=minecraft:player] run tag @s add x_ATTACHING
-execute if entity @s[type=minecraft:player] run summon minecraft:armor_stand ~ ~ ~ {Tags:[x_EID,x_ATTACHING,x_ATTACHING_ANCHOR],Invisible:1,Small:1,Marker:1}
-execute if entity @s[type=minecraft:player] run scoreboard players operation @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest] x_PID = @s x_PID
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[0] 100
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_X
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,limit=1] Pos[0] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[1] 100
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Y
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,limit=1] Pos[1] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[2] 100
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Z
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,limit=1] Pos[2] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 run data get entity @s Rotation[0] 10
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 += @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_ATTACH_RY
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] Rotation[0] float 0.1 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 run data get entity @s Rotation[1] 10
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 += @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_ATTACH_RX
-execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] Rotation[1] float 0.1 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+execute unless entity @s[type=minecraft:player] if entity @s[tag=global.ignore,tag=!x_IGNORE_OVERRIDE] run tag @s remove x_ATTACHING
+
+execute if entity @s[type=minecraft:player,tag=!global.ignore,tag=!global.ignore.pos] run summon minecraft:armor_stand ~ ~ ~ {Tags:[x_EID,x_ATTACHING,x_ATTACHING_ANCHOR],Invisible:1,Small:1,Marker:1}
+execute if entity @s[type=minecraft:player,tag=!global.ignore,tag=!global.ignore.pos] run scoreboard players operation @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest] x_PID = @s x_PID
+
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[0] 100
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_X
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,limit=1] Pos[0] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[1] 100
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Y
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,limit=1] Pos[1] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,limit=1] x_R0 run data get entity @s Pos[2] 100
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,limit=1] x_R0 += @e[tag=x_ATTACHING,limit=1] x_ATTACH_Z
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,limit=1] Pos[2] double 0.01 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 run data get entity @s Rotation[0] 10
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 += @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_ATTACH_RY
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] Rotation[0] float 0.1 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result score @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 run data get entity @s Rotation[1] 10
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID run scoreboard players operation @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_R0 += @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] x_ATTACH_RX
+execute as @e[tag=x_EID,tag=!x_TP_KILL] at @s if score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID store result entity @e[tag=x_ATTACHING,tag=x_ATTACH_ROTATE,limit=1] Rotation[1] float 0.1 run scoreboard players get @e[tag=x_ATTACHING,limit=1] x_R0 
 execute rotated as @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest] run tp @s[type=minecraft:player] @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest]
 kill @e[tag=x_ATTACHING_ANCHOR,limit=1,sort=nearest]
 tag @s add x_ATTACH_SKIP

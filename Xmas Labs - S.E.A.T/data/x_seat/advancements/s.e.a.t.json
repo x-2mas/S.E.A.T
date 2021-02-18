@@ -1,0 +1,17 @@
+{
+    "display": {
+        "title": "Xmas Labs - S.E.A.T",
+        "description": "Xmas Labs - Sitting Enabled Anywhere Technology (S.E.A.T) Pack v1.16.5.06. Lets you sit anywhere in Minecraft",
+        "icon": {
+            "item": "minecraft:nether_star"
+        },
+        "announce_to_chat": false,
+        "show_toast": false
+    },
+    "parent": "global:x__mas",
+    "criteria": {
+        "trigger": {
+            "trigger": "minecraft:tick"
+        }
+    }
+}

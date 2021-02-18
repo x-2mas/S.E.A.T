@@ -49,7 +49,7 @@ execute unless data storage x_core flags.loadScrollBarRegisters run data modify 
 
 execute unless data storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}] run data modify storage x_core flags.loadScrollBarRegisters__Packs append value {x_SEAT:1}
 
-execute unless data storage x_core flags{reload:1} run data modify storage x_core packs merge value {x_seat:116505} 
+execute unless data storage x_core flags{reload:1} run data modify storage x_core packs merge value {x_seat:116506} 
 
 execute if data storage x_core packs.x_seat run data remove storage x_seat flags.loadNotified
 execute if data storage x_core packs.x_seat run schedule function x_seat:load_notify 3s
@@ -60,4 +60,5 @@ execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1
 execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_TICK dummy "Xmas Labs: S.E.A.T Tick Register"
 execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_SCROLLED dummy "Xmas Labs: S.E.A.T Scroll Tracking Register"
 execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add x_SEAT_MENU dummy "Xmas Labs: S.E.A.T Menu Register"
-execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 unless data storage x_seat flags run data modify storage x_seat flags set value {physics:1, rotationLock:0, bounceOffFloor:0, onlySitDown:0, onlyIfSneaking:0, safetyEjects:1, fallDamage:1, blockInventory:1, freezeRideOnAdjust:1, showPrompts:1}
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 run scoreboard objectives add S.E.A.T trigger ["",{"text":"Open S.E.A.T Player Menu","color":"gold","bold":true}]
+execute if data storage x_core packs.x_seat unless score x_CPU x_R0 matches ..-1 unless data storage x_seat flags run data modify storage x_seat flags set value {enabled:1, physics:1, rotationLock:1, bounceOffFloor:1, onlySitDown:1, onlyIfSneaking:1, fallDamage:1, seatAdjustment:1, sitOnMobs:1, adjustmentLimits:1, blockInventory:1, freezeRideOnAdjust:1, showPrompts:1}

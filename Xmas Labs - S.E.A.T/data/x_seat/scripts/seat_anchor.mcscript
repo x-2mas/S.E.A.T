@@ -8,8 +8,110 @@
 
 
 
-/// If not attached to anything and rotations unlocked
+
+/// Tag whether rotations locked
 if('data storage x_seat flags{rotationLock:0}'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+}
+
+if('data storage x_seat flags{rotationLock:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_ENABLED_ROTATION_LOCK,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+}
+
+if('data storage x_seat flags{rotationLock:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_ENABLED_ROTATION_LOCK,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+}
+
+if('data storage x_seat flags{rotationLock:2}'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK
+}
+
+
+
+
+/// Tag whether physics
+if('data storage x_seat flags{physics:0}'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_PHYSICS
+}
+
+if('data storage x_seat flags{physics:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_PHYSICS
+}
+
+if('data storage x_seat flags{physics:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_PHYSICS
+}
+
+if('data storage x_seat flags{physics:2}'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_PHYSICS
+}
+
+
+
+
+/// Tag whether fall-damage
+if('data storage x_seat flags{fallDamage:0}'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+}
+
+if('data storage x_seat flags{fallDamage:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_FALL_DAMAGE,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+}
+
+if('data storage x_seat flags{fallDamage:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_FALL_DAMAGE,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+}
+
+if('data storage x_seat flags{fallDamage:2}'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE
+}
+
+
+
+
+/// Tag whether freeze-ride-on-adjust
+if('data storage x_seat flags{freezeRideOnAdjust:0}'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+}
+
+if('data storage x_seat flags{freezeRideOnAdjust:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_FREEZE_RIDE,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+}
+
+if('data storage x_seat flags{freezeRideOnAdjust:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_FREEZE_RIDE,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+}
+
+if('data storage x_seat flags{freezeRideOnAdjust:2}'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE
+}
+
+
+
+
+/// Tag whether sitting on mobs
+if('data storage x_seat flags{sitOnMobs:0}'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_ON_MOBS
+}
+
+if('data storage x_seat flags{sitOnMobs:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_DISABLED_ON_MOBS,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_ON_MOBS
+}
+
+if('data storage x_seat flags{sitOnMobs:1}' && 'entity @e[tag=x_SEAT_ANCHOR_PLAYER,tag=x_SEAT_DISABLED_ON_MOBS,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_ANCHOR_DISABLED_ON_MOBS
+}
+
+if('data storage x_seat flags{sitOnMobs:2}'){
+    /tag @s remove x_SEAT_ANCHOR_DISABLED_ON_MOBS
+}
+
+
+
+
+
+/// If rotation lock off
+if('entity @s[tag=x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK]'){
 
     /// Copy anchor's player's rotation to anchor
     /data modify entity @s Rotation[0] set from entity @a[tag=x_SEAT_ANCHOR_PLAYER,limit=1,sort=nearest] Rotation[0]
@@ -163,13 +265,13 @@ if('entity @s[tag=x_SEAT_ANCHOR_ON_WALL]'){
 
 
 
-/// If fall-damage is ON,
-if('data storage x_seat flags{fallDamage:1}') {
+/// If fall-damage is enabled,
+if('entity @s[tag=!x_SEAT_ANCHOR_DISABLED_FALL_DAMAGE]') {
 
     /// Get fall distance
     /execute store result score @s x_R0 run data get entity @s FallDistance 1
-    
-/// If fall-damage is OFF,
+
+/// If fall-damage is disabled,
 } else {
 
     /// Set fall damage to 0
@@ -182,11 +284,12 @@ if('score @s x_R0 matches 3..' && !'entity @s[tag=x_ATTACH]'){
 
 
     /// If seat physics is enabled
-    if('data storage x_seat flags{physics:1}'){
+    if('entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS]'){
         
         /// Turn on base AI (making it directly responsive to physics)
         /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] {} merge value {NoAI:0}  
-    }
+    } 
+
 
     /// Copy motion from anchor to S.E.A.T Base (Fox)
     /data modify entity @e[tag=x_SEAT_ANCHOR_BASE,sort=nearest,limit=1] Motion set from entity @s Motion 
@@ -225,13 +328,21 @@ if('entity @s[tag=x_ATTACH]'){
         /tag @s remove x_ATTACH_ROTATE
         /tag @s remove x_ATTACH
     }
+
+    /// If sitting on mobs is disabled,
+    if('entity @s[tag=x_SEAT_ANCHOR_DISABLED_ON_MOBS]'){
+
+        /// Remove the attach tags
+        /tag @s remove x_ATTACH_ROTATE
+        /tag @s remove x_ATTACH
+    }
 }
 
 
 
 
 /// If being adjusted on a ride and freeze-ride-on-adjust is enabled,
-if('entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING]' && 'data storage x_seat flags{freezeRideOnAdjust:1}'){
+if('entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING]' && 'entity @s[tag=!x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE]'){
 
     /// As the anchor's ride,
     asat('@e[tag=x_SEAT_ANCHOR_RIDE,sort=nearest,limit=1]'){
@@ -249,10 +360,8 @@ if('entity @s[tag=x_ATTACH,tag=x_SEAT_ANCHOR_ADJUSTING]' && 'data storage x_seat
 }
 
 
-
-
-/// If there is a seated player,
-if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]') {
+/// If there is a seated player, and sit on mobs is enabled,
+if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]' && 'entity @s[tag=!x_SEAT_ANCHOR_DISABLED_ON_MOBS]') {
 
 
     /// Add a ride skip tag to the seated player
@@ -274,7 +383,7 @@ if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]') {
 
             
             /// Do as rideable entity closest to seat,
-            asat('@e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,dy=-0.5,limit=1,sort=nearest]'){
+            asat('@e[type=!#x_seat:non_rideables,tag=!x_SEAT_NO_RIDE,tag=!global.ignore,dy=-0.5,limit=1,sort=nearest]'){
                 
 
                 /// Add S.E.A.T namespace tag (helps prevent tag conflicts with other packs)
@@ -353,13 +462,13 @@ if('entity @a[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR_PLAYER]') {
 if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_TICK matches 10'){
     
     /// If seat physics is enabled
-    if('data storage x_seat flags{physics:1}'){
+    if('entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS]'){
     
         /// If no existing unlinked physics sensors (explained below) found near physics anchor, 
         if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR,tag=x_SEAT_UNLINKED,distance=..1]'){
 
             /// Summon a new physics sensor (Fox) (underground to hide summoning animation)
-            /summon minecraft:fox ^ ^999 ^ {Tags:[x_SYSTEM,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
+            /summon minecraft:fox ^ ^999 ^ {Tags:[x_SYSTEM,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_SENSOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL,global.ignore,x_IGNORE_OVERRIDE],CustomName:"[\"\",{\"text\":\"S.E.A.T SENSOR\"}]",ActiveEffects:[{Id:14,Duration:2147483647 ,ShowParticles:0b,Ambient:1b}],Health:0.1,Silent:1,Invulnerable:1,DeathLootTable:"minecraft:empty", Age:-2147483648, Sleeping:1, DeathTime:10, ForcedAge:-2147483648, InLove:0, Attributes:[{Name:"generic.movement_speed",Base:-1000}]}     
         }
 
         /// Teleport nearest unlinked physics sensor to anchor
@@ -402,7 +511,7 @@ if('entity @s[tag=!x_ATTACH,tag=!x_SEAT_ANCHOR_ADJUSTING]' && 'score @s x_TICK m
     if(!'entity @s[tag=x_SEAT_ANCHOR_MOVING]'){
 
         /// If seat physics is enabled
-        if('data storage x_seat flags{physics:1}'){
+        if('entity @s[tag=!x_SEAT_ANCHOR_DISABLED_PHYSICS]'){
 
             /// Turn off armor stand marker mode (now responds to physics)
             /data modify entity @s Marker set value 0

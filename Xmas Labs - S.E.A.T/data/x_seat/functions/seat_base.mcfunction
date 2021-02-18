@@ -10,6 +10,30 @@
 # Handles S.E.A.T base tasks
 
 
+execute if data storage x_seat flags{onlySitDown:0} run tag @s remove x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+
+execute if data storage x_seat flags{onlySitDown:1} if entity @e[tag=x_SEAT_BASE_PLAYER,tag=!x_SEAT_ENABLED_FORCE_SIT_DOWN,limit=1,sort=nearest] run tag @s remove x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+
+execute if data storage x_seat flags{onlySitDown:1} if entity @e[tag=x_SEAT_BASE_PLAYER,tag=x_SEAT_ENABLED_FORCE_SIT_DOWN,limit=1,sort=nearest] run tag @s add x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+
+execute if data storage x_seat flags{onlySitDown:2} run tag @s add x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+
+execute if data storage x_seat flags{physics:0} run tag @s add x_SEAT_BASE_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{physics:1} if entity @e[tag=x_SEAT_BASE_PLAYER,tag=!x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest] run tag @s remove x_SEAT_BASE_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{physics:1} if entity @e[tag=x_SEAT_BASE_PLAYER,tag=x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest] run tag @s add x_SEAT_BASE_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{physics:2} run tag @s remove x_SEAT_BASE_DISABLED_PHYSICS
+
+execute if data storage x_seat flags{bounceOffFloor:0} run tag @s remove x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+
+execute if data storage x_seat flags{bounceOffFloor:1} if entity @e[tag=x_SEAT_BASE_PLAYER,tag=!x_SEAT_ENABLED_FLOOR_BOUNCE,limit=1,sort=nearest] run tag @s remove x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+
+execute if data storage x_seat flags{bounceOffFloor:1} if entity @e[tag=x_SEAT_BASE_PLAYER,tag=x_SEAT_ENABLED_FLOOR_BOUNCE,limit=1,sort=nearest] run tag @s add x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+
+execute if data storage x_seat flags{bounceOffFloor:2} run tag @s add x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+
 execute if score @s x_TICK matches 40.. unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
 execute if score @s x_TICK matches 40.. unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
 
@@ -20,8 +44,8 @@ execute unless entity @s[tag=x_KILL_SEAT] unless entity @e[tag=x_SEAT_BASE_SURFA
 execute unless entity @s[tag=x_KILL_SEAT] if entity @s[nbt={Leash:{}}] run schedule function x_seat:kill_seat 2t
 execute unless entity @s[tag=x_KILL_SEAT] if entity @s[nbt={Leash:{}}] run tag @s add x_KILL_SEAT
 
-execute if data storage x_seat flags{physics:1} if entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING] unless entity @e[tag=x_SEAT_BASE_ANCHOR] unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
-execute if data storage x_seat flags{physics:1} if entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING] unless entity @e[tag=x_SEAT_BASE_ANCHOR] unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
+execute if entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS] if entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING] unless entity @e[tag=x_SEAT_BASE_ANCHOR] unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
+execute if entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS] if entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING] unless entity @e[tag=x_SEAT_BASE_ANCHOR] unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
 
 data modify entity @s Rotation[1] set value 0
 data modify entity @s {} merge value {Sleeping:1,Glowing:0}    
@@ -31,38 +55,35 @@ execute if entity @s[tag=x_SEAT_SEATING] run tag @s remove x_KILL_SEAT
 execute if entity @s[tag=x_SEAT_SEATING] run tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] add x_SEAT_NS
 execute if entity @s[tag=x_SEAT_SEATING] run tag @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] add x_SEATED
 execute if entity @s[tag=x_SEAT_SEATING] run advancement grant @a[tag=x_SEAT_BASE_PLAYER,limit=1,sort=nearest] only x_seat:take_a_seat
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^1.9 ^-0.7 #x_core:non_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^2.9 ^-0.7 #x_core:non_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^1.9 ^-0.7 #x_core:semi_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^2.9 ^-0.7 #x_core:semi_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^1.9 ^-0.7 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^2.9 ^-0.7 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^1.9 ^-0.7 #x_core:non_solids run tag @s add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^2.9 ^-0.7 #x_core:non_solids run tag @s add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^1.9 ^-0.7 #x_core:semi_solids run tag @s add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^2.9 ^-0.7 #x_core:semi_solids run tag @s add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^1.9 ^-0.7 minecraft:snow run tag @s add x_SEAT_SIT_BACK
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless data storage x_seat flags{onlySitDown:1} if block ^ ^2.9 ^-0.7 minecraft:snow run tag @s add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^1.9 ^-0.7 #x_core:non_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^2.9 ^-0.7 #x_core:non_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^1.9 ^-0.7 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^2.9 ^-0.7 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^1.9 ^-0.7 #x_core:non_solids run tag @s add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^2.9 ^-0.7 #x_core:non_solids run tag @s add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^1.9 ^-0.7 minecraft:snow run tag @s add x_SEAT_SIT_BACK
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN] if block ^ ^2.9 ^-0.7 minecraft:snow run tag @s add x_SEAT_SIT_BACK
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] run tp @s ^ ^-0.5 ^-0.5
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless entity @s[tag=x_SEAT_SIT_BACK] run tp @s ^ ^-0.5 ^
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] unless block ^ ^3.9 ^-0.5 #x_core:non_solids unless block ^ ^3.9 ^-0.5 #x_core:semi_solids unless block ^ ^3.9 ^-0.5 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] unless block ^ ^3.9 ^-0.5 #x_core:non_solids unless block ^ ^3.9 ^-0.5 #x_core:semi_solids unless block ^ ^3.9 ^-0.5 minecraft:snow run tag @s add x_SEAT_LOW_ROOF
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] unless block ^ ^3.9 ^ #x_core:non_solids unless block ^ ^3.9 ^ #x_core:semi_solids unless block ^ ^3.9 ^ minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] unless block ^ ^3.9 ^ #x_core:non_solids unless block ^ ^3.9 ^ #x_core:semi_solids unless block ^ ^3.9 ^ minecraft:snow run tag @s add x_SEAT_LOW_ROOF
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] unless block ^ ^3.9 ^-0.5 #x_core:non_solids unless block ^ ^3.9 ^-0.5 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] unless block ^ ^3.9 ^-0.5 #x_core:non_solids unless block ^ ^3.9 ^-0.5 minecraft:snow run tag @s add x_SEAT_LOW_ROOF
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] unless block ^ ^3.9 ^ #x_core:non_solids unless block ^ ^3.9 ^ minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] unless block ^ ^3.9 ^ #x_core:non_solids unless block ^ ^3.9 ^ minecraft:snow run tag @s add x_SEAT_LOW_ROOF
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_core:non_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_core:semi_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_core:non_solids run tag @s add x_SEAT_ON_FLOOR
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_core:semi_solids run tag @s add x_SEAT_ON_FLOOR
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 minecraft:snow run tag @s add x_SEAT_ON_FLOOR
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_seat:half_height run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_HALF_HEIGHT
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_seat:half_height run tag @s add x_SEAT_HALF_HEIGHT
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^ #x_core:non_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^ #x_core:semi_solids run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^ minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^ #x_core:non_solids run tag @s add x_SEAT_ON_FLOOR
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^ #x_core:semi_solids run tag @s add x_SEAT_ON_FLOOR
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^ minecraft:snow run tag @s add x_SEAT_ON_FLOOR
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_seat:half_height run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_HALF_HEIGHT
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_SIT_BACK] if block ^ ^1.9 ^-0.5 #x_seat:half_height run tag @s add x_SEAT_HALF_HEIGHT
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR] run tp @s ^ ^0.8 ^
-execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR] run tp @s ^ ^1 ^
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_HALF_HEIGHT] run tp @s ^ ^0.6 ^
+execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR,tag=!x_SEAT_HALF_HEIGHT] run tp @s ^ ^1 ^
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless block ^ ^1.9 ^-0.6 #x_core:non_solids unless block ^ ^1.9 ^-0.6 #x_core:semi_solids unless block ^ ^1.9 ^-0.6 minecraft:snow run tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_TOO_CLOSE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s unless block ^ ^1.9 ^-0.6 #x_core:non_solids unless block ^ ^1.9 ^-0.6 #x_core:semi_solids unless block ^ ^1.9 ^-0.6 minecraft:snow run tag @s add x_SEAT_TOO_CLOSE
 execute if entity @s[tag=x_SEAT_SEATING] positioned as @s if entity @s[tag=x_SEAT_TOO_CLOSE] run tp @s ^ ^ ^0.3
@@ -89,4 +110,4 @@ execute if entity @s[tag=x_SEAT_SEATING] run tag @s remove x_SEAT_SEATING
 
 execute if entity @s[tag=x_SEAT_OCCUPIED] unless entity @a[tag=x_SEAT_BASE_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED,x_SEAT_BASE]}}},nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_BASE_SKIP]}}}] unless entity @s[tag=x_KILL_SEAT] run schedule function x_seat:kill_seat 2t
 execute if entity @s[tag=x_SEAT_OCCUPIED] unless entity @a[tag=x_SEAT_BASE_PLAYER,nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT_OCCUPIED,x_SEAT_BASE]}}},nbt=!{RootVehicle:{Entity:{Tags:[x_SEAT_BASE_SKIP]}}}] unless entity @s[tag=x_KILL_SEAT] run tag @s add x_KILL_SEAT
-execute if entity @s[tag=x_SEAT_OCCUPIED] if data storage x_seat flags{physics:1} run function x_seat:seat_physics
+execute if entity @s[tag=x_SEAT_OCCUPIED] if entity @s[tag=x_SEAT_BASE_DISABLED_PHYSICS] run function x_seat:seat_physics

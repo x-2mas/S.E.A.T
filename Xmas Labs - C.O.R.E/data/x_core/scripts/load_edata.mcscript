@@ -7,8 +7,10 @@
 #
 
 
+
 /// Tag calling entity for loading
 /tag @s add x_LOAD_EDATA
+/tag @s[tag=global.ignore,tag=!x_IGNORE_OVERRIDE] remove x_LOAD_EDATA
 
 
 /// Only do for as long as calling entity is tagged for loading (needed to exit recursion)

@@ -17,7 +17,28 @@ if('data storage x_core packs.x_seat') {
 }
 
 
+/// Disable pack from runtime
+/function x_seat:disable
 
+
+/// Remove tags from players
+/tag @e remove x_SEAT_PLAYER_DISABLED
+/tag @e remove x_SEAT_PLAYER_DISABLED_ADJUSTMENT
+/tag @e remove x_SEAT_PLAYER_DISABLED_ADJUSTMENT_LIMITS
+/tag @e remove x_SEAT_PLAYER_DISABLED_PROMPTS
+/tag @e remove x_SEAT_PLAYER_ENABLED_FORCE_SNEAKING
+/tag @e remove x_SEAT_DISABLED_PHYSICS
+/tag @e remove x_SEAT_ENABLED_ROTATION_LOCK
+/tag @e remove x_SEAT_ENABLED_FORCE_SIT_DOWN
+/tag @e remove x_SEAT_ENABLED_FORCE_SNEAKING
+/tag @e remove x_SEAT_ENABLED_FLOOR_BOUNCE
+/tag @e remove x_SEAT_DISABLED_FALL_DAMAGE
+/tag @e remove x_SEAT_DISABLED_ADJUSTMENT
+/tag @e remove x_SEAT_DISABLED_ON_MOBS
+/tag @e remove x_SEAT_DISABLED_ADJUSTMENT_LIMITS
+/tag @e remove x_SEAT_DISABLED_FREEZE_RIDE
+/tag @e remove x_SEAT_DISABLED_INVENTORY_BLOCK
+/tag @e remove x_SEAT_DISABLED_PROMPTS
 
 
 /// Unqueue from C.O.R.E register loading
@@ -31,27 +52,11 @@ if('data storage x_core packs.x_seat') {
 
 
 
-/// Unqueue from C.O.R.E runtime features
-/data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
-/data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
-/data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
-/data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
-/data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
-/data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]
-
-
-
-
-
 /// Remove folders
 /data remove storage x_seat flags
 
-
 /// Remove from packs folder
 /data remove storage x_core packs.x_seat
-
-
-
 
 
 /// Remove scoreboard registers
@@ -59,98 +64,10 @@ if('data storage x_core packs.x_seat') {
 /scoreboard objectives remove x_SEAT_TICK
 /scoreboard objectives remove x_SEAT_SCROLLED
 /scoreboard objectives remove x_SEAT_MENU
-
-
-
-
-
-/// Remove tags from players
-/tag @e remove x_MAY_SIT
-/tag @e remove x_MAY_SIT_SKIP
-/tag @e remove x_MAY_NOT_SIT
-/tag @e remove x_MAY_ADJUST_SEAT
-/tag @e remove x_MAY_ADJUST_SEAT_SKIP
-/tag @e remove x_ADJUSTING_SEAT
-/tag @e remove x_ADJUSTING_SEAT_SKIP
-/tag @e remove x_SEATED
-/tag @e remove x_SEAT_BLOCKING_INTERACTIONS    
-/tag @e remove x_SEAT_BASE_PLAYER
-/tag @e remove x_SEAT_SURFACE_PLAYER
-/tag @e remove x_SEAT_ANCHOR_PLAYER
-
-
-
-/// Remove tags from entities
-/tag @e remove x_SEAT_RIDE
-/tag @e remove x_SEAT_NO_RIDE
-/tag @e remove x_SEAT_ANCHOR_RIDE
-/tag @e remove x_SEAT_ANCHOR_RIDE_FROZEN
-
-
-
-
-
-/// As entities tagged for EID by this pack
-asat('@e[tag=x_EID__SEAT]'){
-
-    /// Unqueue EID tag
-    /scoreboard players remove @s x_EID__T 1
-
-    /// Remove EID 'added by seat' tag
-    /tag @s remove x_EID__SEAT
-}
-
-
-
-/// As entities tagged for collision-blocking by this pack
-asat('@e[tag=x_NO_COLLIDE__SEAT]'){
-
-    /// Unqueue no-collide tag
-    /scoreboard players remove @s x_NO_COLLIDE__T 1
-
-    /// Remove no-collide 'added by seat' tag
-    /tag @s remove x_NO_COLLIDE__SEAT
-}
-
-
-
-/// As entities tagged for attachment by this pack
-asat('@e[tag=x_ATTACH__SEAT]'){
-
-    /// Unqueue attachment tag
-    /scoreboard players remove @s x_ATTACH__T 1
-
-    /// Remove attachment 'added by seat' tag
-    /tag @s remove x_ATTACH__SEAT
-}
-
-
-
-/// As entities tagged for scroll-bar by this pack
-asat('@e[tag=x_SCROLLBAR__SEAT]'){
-
-    /// Unqueue scroll-bar tag
-    /scoreboard players remove @s x_SCROLLBAR__T 1
-
-    /// Remove scroll-bar 'added by seat' tag
-    /tag @s remove x_SCROLLBAR__SEAT
-}
-
-
-
-/// Kill all S.E.A.T components
-/kill @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR]
-/kill @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]
-/kill @e[tag=x_SEAT_NS,tag=x_SEAT_INTERACTION_BLOCKER]
-/kill @e[tag=x_SEAT_NS,tag=x_SEAT]
-
-
+/scoreboard objectives remove S.E.A.T
 
 /// Remove the S.E.A.T namespace tag from all entities
 /tag @e remove x_SEAT_NS
-
-
-
 
 
 /// Remove this pack from the Xmas Labs Advancements tab

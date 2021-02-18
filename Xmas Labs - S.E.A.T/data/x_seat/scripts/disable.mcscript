@@ -1,0 +1,109 @@
+
+#
+#
+# S.E.A.T | disable
+# Removes/disables nearly all of S.E.A.T pack from world but can still be re-enabled without reloading
+#
+#
+
+
+
+/// Unqueue from C.O.R.E runtime features
+/data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
+/data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
+/data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
+/data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
+/data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
+/data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]
+
+
+
+/// Reset scoreboard registers
+/scoreboard players reset * x_SEAT_ID
+/scoreboard players reset * x_SEAT_TICK
+/scoreboard players reset * x_SEAT_SCROLLED
+
+
+
+/// Remove tags from players
+/tag @e remove x_MAY_SIT
+/tag @e remove x_MAY_SIT_SKIP
+/tag @e remove x_MAY_NOT_SIT
+/tag @e remove x_MAY_ADJUST_SEAT
+/tag @e remove x_MAY_ADJUST_SEAT_SKIP
+/tag @e remove x_ADJUSTING_SEAT
+/tag @e remove x_ADJUSTING_SEAT_SKIP
+/tag @e remove x_SEATED
+/tag @e remove x_SEAT_BLOCKING_INTERACTIONS    
+/tag @e remove x_SEAT_BASE_PLAYER
+/tag @e remove x_SEAT_SURFACE_PLAYER
+/tag @e remove x_SEAT_ANCHOR_PLAYER
+
+
+
+/// Remove tags from entities
+/tag @e remove x_SEAT_RIDE
+/tag @e remove x_SEAT_NO_RIDE
+/tag @e remove x_SEAT_ANCHOR_RIDE
+/tag @e remove x_SEAT_ANCHOR_RIDE_FROZEN
+
+
+
+/// As entities tagged for EID by this pack
+asat('@e[tag=x_EID__SEAT]'){
+
+    /// Unqueue EID tag
+    /scoreboard players remove @s x_EID__T 1
+
+    /// Remove EID 'added by seat' tag
+    /tag @s remove x_EID__SEAT
+}
+
+
+
+/// As entities tagged for collision-blocking by this pack
+asat('@e[tag=x_NO_COLLIDE__SEAT]'){
+
+    /// Unqueue no-collide tag
+    /scoreboard players remove @s x_NO_COLLIDE__T 1
+
+    /// Remove no-collide 'added by seat' tag
+    /tag @s remove x_NO_COLLIDE__SEAT
+}
+
+
+
+/// As entities tagged for attachment by this pack
+asat('@e[tag=x_ATTACH__SEAT]'){
+
+    /// Unqueue attachment tag
+    /scoreboard players remove @s x_ATTACH__T 1
+
+    /// Remove attachment 'added by seat' tag
+    /tag @s remove x_ATTACH__SEAT
+}
+
+
+
+/// As entities tagged for scroll-bar by this pack
+asat('@e[tag=x_SCROLLBAR__SEAT]'){
+
+    /// Unqueue scroll-bar tag
+    /scoreboard players remove @s x_SCROLLBAR__T 1
+
+    /// Remove scroll-bar 'added by seat' tag
+    /tag @s remove x_SCROLLBAR__SEAT
+}
+
+
+
+/// Kill all S.E.A.T components
+/kill @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR]
+/kill @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]
+/kill @e[tag=x_SEAT_NS,tag=x_SEAT_INTERACTION_BLOCKER]
+/kill @e[tag=x_SEAT_NS,tag=x_SEAT]
+
+
+
+/// Remove enabled flag
+/data modify storage x_seat flags.enabled set value 0

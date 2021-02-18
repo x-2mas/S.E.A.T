@@ -9,10 +9,10 @@
 
      
 /// If no C.O.R.E reloads queued,
-if('data storage x_core flags{reload:0}') {
+if(!'data storage x_core flags{reload:1}' && !'data storage x_core flags{reload:-1}') {
 
     /// If the right C.O.R.E & S.E.A.T pack entries and versions detected in storage (properly loaded),
-    if('data storage x_core packs.x_core' && 'data storage x_core packs{x_seat:116505}') {
+    if('data storage x_core packs.x_core' && 'data storage x_core packs{x_seat:116506}') {
 
         /// Perform runtime tasks    
         /function x_seat:runtime
@@ -23,4 +23,8 @@ if('data storage x_core flags{reload:0}') {
         /// Run uninstaller every tick until datapack is removed/disabled/reloaded 
         /function x_seat:uninstall
     } 
+}
+
+
+asat('@e[tag=x_MAY_SIT]'){
 }

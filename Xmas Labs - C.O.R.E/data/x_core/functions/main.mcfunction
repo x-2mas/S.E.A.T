@@ -10,6 +10,5 @@
 # Runs on every tick. About 20 times a second.
 
 
-execute if data storage x_core packs{x_core:116505} run function x_core:runtime
-execute unless data storage x_core packs{x_core:116505} run function x_core:uninstall
-function x_core:test
+execute if data storage x_core packs{x_core:116506} run function x_core:runtime
+execute unless data storage x_core packs{x_core:116506} run function x_core:uninstall

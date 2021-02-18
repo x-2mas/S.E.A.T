@@ -1,0 +1,381 @@
+
+#
+#
+# S.E.A.T | ui
+# Handles user interface
+#
+#
+
+
+
+
+/// Player Menu
+
+/// As all players who selected an option from menu toolbar, 
+asat('@a[scores={S.E.A.T=1..99}]'){
+
+    /// Execute menu option
+    if('score @s S.E.A.T matches 11'){
+        /tag @s add x_SEAT_PLAYER_DISABLED
+    }
+    if('score @s S.E.A.T matches 12'){
+        /tag @s remove x_SEAT_PLAYER_DISABLED
+    }
+
+    /// Set menu to page 1
+    /scoreboard players set @s S.E.A.T 100
+}
+
+/// As all players who selected an option from menu page 1, 
+asat('@a[scores={S.E.A.T=101..199}]'){
+
+    /// Execute menu option
+    if('score @s S.E.A.T matches 111'){
+        /tag @s add x_SEAT_DISABLED_PHYSICS
+    }
+    if('score @s S.E.A.T matches 112'){
+        /tag @s remove x_SEAT_DISABLED_PHYSICS
+    }
+    if('score @s S.E.A.T matches 121'){
+        /tag @s remove x_SEAT_ENABLED_ROTATION_LOCK
+    }
+    if('score @s S.E.A.T matches 122'){
+        /tag @s add x_SEAT_ENABLED_ROTATION_LOCK
+    }
+    if('score @s S.E.A.T matches 131'){
+        /tag @s remove x_SEAT_ENABLED_FORCE_SNEAKING
+    }
+    if('score @s S.E.A.T matches 132'){
+        /tag @s add x_SEAT_ENABLED_FORCE_SNEAKING
+    }
+
+    /// Restore menu to page 1
+    /scoreboard players set @s S.E.A.T 100
+}
+
+
+/// As all players who selected an option from menu page 2, 
+asat('@a[scores={S.E.A.T=201..299}]'){
+
+    /// Execute menu option
+    if('score @s S.E.A.T matches 211'){
+        /tag @s remove x_SEAT_ENABLED_FLOOR_BOUNCE
+    }
+    if('score @s S.E.A.T matches 212'){
+        /tag @s add x_SEAT_ENABLED_FLOOR_BOUNCE
+    }
+    if('score @s S.E.A.T matches 221'){
+        /tag @s remove x_SEAT_ENABLED_FORCE_SIT_DOWN
+    }
+    if('score @s S.E.A.T matches 222'){
+        /tag @s add x_SEAT_ENABLED_FORCE_SIT_DOWN
+    }
+    if('score @s S.E.A.T matches 231'){
+        /tag @s add x_SEAT_DISABLED_FREEZE_RIDE
+    }
+    if('score @s S.E.A.T matches 232'){
+        /tag @s remove x_SEAT_DISABLED_FREEZE_RIDE
+    }
+
+    /// Restore menu to page 2
+    /scoreboard players set @s S.E.A.T 200
+}
+
+
+/// As all players who selected an option from menu page 3, 
+asat('@a[scores={S.E.A.T=301..399}]'){
+
+    /// Execute menu option
+    if('score @s S.E.A.T matches 311'){
+        /tag @s add x_SEAT_DISABLED_ADJUSTMENT
+    }
+    if('score @s S.E.A.T matches 312'){
+        /tag @s remove x_SEAT_DISABLED_ADJUSTMENT
+    }
+    if('score @s S.E.A.T matches 321'){
+        /tag @s add x_SEAT_DISABLED_ON_MOBS
+    }
+    if('score @s S.E.A.T matches 322'){
+        /tag @s remove x_SEAT_DISABLED_ON_MOBS
+    }
+    if('score @s S.E.A.T matches 331'){
+        /tag @s add x_SEAT_DISABLED_ADJUSTMENT_LIMITS
+    }
+    if('score @s S.E.A.T matches 332'){
+        /tag @s remove x_SEAT_DISABLED_ADJUSTMENT_LIMITS
+    }
+
+    /// Restore menu to page 3
+    /scoreboard players set @s S.E.A.T 300
+}
+
+
+/// As all players who selected an option from menu page 4, 
+asat('@a[scores={S.E.A.T=401..499}]'){
+
+    /// Execute menu option
+    if('score @s S.E.A.T matches 411'){
+        /tag @s add x_SEAT_DISABLED_FALL_DAMAGE
+    }
+    if('score @s S.E.A.T matches 412'){
+        /tag @s remove x_SEAT_DISABLED_FALL_DAMAGE
+    }
+    if('score @s S.E.A.T matches 421'){
+        /tag @s add x_SEAT_DISABLED_INVENTORY_BLOCK
+    }
+    if('score @s S.E.A.T matches 422'){
+        /tag @s remove x_SEAT_DISABLED_INVENTORY_BLOCK
+    }
+    if('score @s S.E.A.T matches 431'){
+        /tag @s add x_SEAT_DISABLED_PROMPTS
+    }
+    if('score @s S.E.A.T matches 432'){
+        /tag @s remove x_SEAT_DISABLED_PROMPTS
+    }
+
+    /// Restore menu to page 4
+    /scoreboard players set @s S.E.A.T 400
+}
+
+
+/// As all players who selected an option from anywhere in the menu, 
+asat('@a[scores={S.E.A.T=1..499}]'){
+
+    /// Clear chat
+    /tellraw @s "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    
+    /// Run player menu
+    /function x_seat:player_menu
+
+    /// Break menu loop
+    /scoreboard players reset @s S.E.A.T
+}
+
+
+
+/// As all players who triggered S.E.A.T menu
+asat('@a[scores={S.E.A.T=1..}]'){
+
+    /// Clear chat
+    /tellraw @s "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    
+    /// Run player menu
+    /function x_seat:player_menu
+
+    /// Tag as opened menu
+    /scoreboard players reset @s S.E.A.T
+}
+
+
+/// As all players who have selected to close/clear the menu, 
+asat('@a[scores={S.E.A.T=500}]'){
+
+    /// Clear chat
+    /tellraw @s "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+
+    /// Break menu loop
+    /scoreboard players reset @s S.E.A.T
+}
+
+
+
+
+
+
+
+///  Global Menu
+
+/// As all players who selected an option from menu toolbar, 
+asat('@a[scores={x_SEAT_MENU=1..99}]'){
+
+    /// Execute menu option
+    if('score @s x_SEAT_MENU matches 11'){
+        /data modify storage x_seat flags.enabled set value 0
+    }
+    if('score @s x_SEAT_MENU matches 12'){
+        /data modify storage x_seat flags.enabled set value 1
+    }
+    if('score @s x_SEAT_MENU matches 21'){
+        /function x_seat:uninstall
+    }
+
+    /// Set menu to page 1
+    /scoreboard players set @s x_SEAT_MENU 100
+}
+
+/// As all players who selected an option from menu page 1, 
+asat('@a[scores={x_SEAT_MENU=101..199}]'){
+
+    /// Execute menu option
+    if('score @s x_SEAT_MENU matches 111'){
+        /data modify storage x_seat flags.physics set value 1
+    }
+    if('score @s x_SEAT_MENU matches 112'){
+        /data modify storage x_seat flags.physics set value 0
+    }
+    if('score @s x_SEAT_MENU matches 113'){
+        /data modify storage x_seat flags.physics set value 2
+    }
+    if('score @s x_SEAT_MENU matches 121'){
+        /data modify storage x_seat flags.rotationLock set value 1
+    }
+    if('score @s x_SEAT_MENU matches 122'){
+        /data modify storage x_seat flags.rotationLock set value 0
+    }
+    if('score @s x_SEAT_MENU matches 123'){
+        /data modify storage x_seat flags.rotationLock set value 2
+    }
+    if('score @s x_SEAT_MENU matches 131'){
+        /data modify storage x_seat flags.onlyIfSneaking set value 1
+    }
+    if('score @s x_SEAT_MENU matches 132'){
+        /data modify storage x_seat flags.onlyIfSneaking set value 0
+    }
+    if('score @s x_SEAT_MENU matches 133'){
+        /data modify storage x_seat flags.onlyIfSneaking set value 2
+    }
+
+    /// Restore menu to page 1
+    /scoreboard players set @s x_SEAT_MENU 100
+}
+
+
+/// As all players who selected an option from menu page 2, 
+asat('@a[scores={x_SEAT_MENU=201..299}]'){
+
+    /// Execute menu option
+    if('score @s x_SEAT_MENU matches 211'){
+        /data modify storage x_seat flags.bounceOffFloor set value 1
+    }
+    if('score @s x_SEAT_MENU matches 212'){
+        /data modify storage x_seat flags.bounceOffFloor set value 0
+    }
+    if('score @s x_SEAT_MENU matches 213'){
+        /data modify storage x_seat flags.bounceOffFloor set value 2
+    }
+    if('score @s x_SEAT_MENU matches 221'){
+        /data modify storage x_seat flags.onlySitDown set value 1
+    }
+    if('score @s x_SEAT_MENU matches 222'){
+        /data modify storage x_seat flags.onlySitDown set value 0
+    }
+    if('score @s x_SEAT_MENU matches 223'){
+        /data modify storage x_seat flags.onlySitDown set value 2
+    }
+    if('score @s x_SEAT_MENU matches 231'){
+        /data modify storage x_seat flags.freezeRideOnAdjust set value 1
+    }
+    if('score @s x_SEAT_MENU matches 232'){
+        /data modify storage x_seat flags.freezeRideOnAdjust set value 0
+    }
+    if('score @s x_SEAT_MENU matches 233'){
+        /data modify storage x_seat flags.freezeRideOnAdjust set value 2
+    }
+
+    /// Restore menu to page 2
+    /scoreboard players set @s x_SEAT_MENU 200
+}
+
+
+/// As all players who selected an option from menu page 3, 
+asat('@a[scores={x_SEAT_MENU=301..399}]'){
+
+    /// Execute menu option
+    if('score @s x_SEAT_MENU matches 311'){
+        /data modify storage x_seat flags.seatAdjustment set value 1
+    }
+    if('score @s x_SEAT_MENU matches 312'){
+        /data modify storage x_seat flags.seatAdjustment set value 0
+    }
+    if('score @s x_SEAT_MENU matches 313'){
+        /data modify storage x_seat flags.seatAdjustment set value 2
+    }
+    if('score @s x_SEAT_MENU matches 321'){
+        /data modify storage x_seat flags.sitOnMobs set value 1
+    }
+    if('score @s x_SEAT_MENU matches 322'){
+        /data modify storage x_seat flags.sitOnMobs set value 0
+    }
+    if('score @s x_SEAT_MENU matches 323'){
+        /data modify storage x_seat flags.sitOnMobs set value 2
+    }
+    if('score @s x_SEAT_MENU matches 331'){
+        /data modify storage x_seat flags.adjustmentLimits set value 1
+    }
+    if('score @s x_SEAT_MENU matches 332'){
+        /data modify storage x_seat flags.adjustmentLimits set value 0
+    }
+    if('score @s x_SEAT_MENU matches 333'){
+        /data modify storage x_seat flags.adjustmentLimits set value 2
+    }
+
+    /// Restore menu to page 3
+    /scoreboard players set @s x_SEAT_MENU 300
+}
+
+
+/// As all players who selected an option from menu page 4, 
+asat('@a[scores={x_SEAT_MENU=401..499}]'){
+
+    /// Execute menu option
+    if('score @s x_SEAT_MENU matches 411'){
+        /data modify storage x_seat flags.fallDamage set value 1
+    }
+    if('score @s x_SEAT_MENU matches 412'){
+        /data modify storage x_seat flags.fallDamage set value 0
+    }
+    if('score @s x_SEAT_MENU matches 413'){
+        /data modify storage x_seat flags.fallDamage set value 2
+    }
+    if('score @s x_SEAT_MENU matches 421'){
+        /data modify storage x_seat flags.blockInventory set value 1
+    }
+    if('score @s x_SEAT_MENU matches 422'){
+        /data modify storage x_seat flags.blockInventory set value 0
+    }
+    if('score @s x_SEAT_MENU matches 423'){
+        /data modify storage x_seat flags.blockInventory set value 2
+    }
+    if('score @s x_SEAT_MENU matches 431'){
+        /data modify storage x_seat flags.showPrompts set value 1
+    }
+    if('score @s x_SEAT_MENU matches 432'){
+        /data modify storage x_seat flags.showPrompts set value 0
+    }
+    if('score @s x_SEAT_MENU matches 433'){
+        /data modify storage x_seat flags.showPrompts set value 2
+    }
+
+    /// Restore menu to page 4
+    /scoreboard players set @s x_SEAT_MENU 400
+}
+
+
+/// As all players who selected an option from anywhere in the menu, 
+asat('@a[scores={x_SEAT_MENU=1..499}]'){
+
+    /// Clear chat
+    /tellraw @s "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+
+    /// Run global menu
+    /function x_seat:menu
+
+    /// Break menu loop
+    /scoreboard players reset @s x_SEAT_MENU
+}
+
+
+/// As all players who have selected to close/clear the menu, 
+asat('@a[scores={x_SEAT_MENU=500}]'){
+
+    /// Clear chat
+    /tellraw @s "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+
+    /// Break menu loop
+    /scoreboard players reset @s x_SEAT_MENU
+}
+
+
+
+
+

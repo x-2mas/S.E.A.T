@@ -10,11 +10,11 @@
 # Handles S.E.A.T base physics
 
 
-execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{bounceOffFloor:1} run tp @s ~ ~-1.9 ~ 
-execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] run function x_seat:create_anchor
-execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] run tag @s add x_SEAT_ANCHORED
-execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] as @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] at @s if score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_EID run data modify entity @s FallDistance set from entity @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] FallDistance
-execute if entity @s[tag=x_SEAT_POST_FALLING] if data storage x_seat flags{physics:1} unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] as @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] at @s if score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_EID run data modify entity @s Motion set from entity @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] Motion
+execute if entity @s[tag=x_SEAT_POST_FALLING] if entity @s[tag=x_SEAT_BASE_ENABLED_FLOOR_BOUNCE] run tp @s ~ ~-1.9 ~ 
+execute if entity @s[tag=x_SEAT_POST_FALLING] if entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] run function x_seat:create_anchor
+execute if entity @s[tag=x_SEAT_POST_FALLING] if entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] run tag @s add x_SEAT_ANCHORED
+execute if entity @s[tag=x_SEAT_POST_FALLING] if entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] as @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] at @s if score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_EID run data modify entity @s FallDistance set from entity @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] FallDistance
+execute if entity @s[tag=x_SEAT_POST_FALLING] if entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS] unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR] as @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] at @s if score @s x_SEAT_ID = @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] x_EID run data modify entity @s Motion set from entity @e[tag=x_SEAT_BASE,tag=!x_SEAT_BASE_SKIP,limit=1] Motion
 execute if entity @s[tag=x_SEAT_POST_FALLING] run data modify entity @s {} merge value {NoAI:1}
 execute if entity @s[tag=x_SEAT_POST_FALLING] run scoreboard players set @s x_ATTACH_Y -190
 execute if entity @s[tag=x_SEAT_POST_FALLING] run tag @s add x_ATTACH
@@ -31,6 +31,3 @@ execute if entity @s[tag=x_SEAT_FALLING] if entity @s[nbt={OnGround:1b}] run tag
 execute if entity @s[tag=x_SEAT_FALLING] if entity @e[tag=x_SEAT_BASE_ANCHOR,tag=x_ATTACH] run tag @s remove x_ATTACH
 execute if entity @s[tag=x_SEAT_FALLING] if entity @s[nbt={OnGround:1b}] run tag @s add x_SEAT_POST_FALLING
 execute if entity @s[tag=x_SEAT_FALLING] if entity @e[tag=x_SEAT_BASE_ANCHOR,tag=x_ATTACH] run tag @s add x_SEAT_POST_FALLING
-
-execute positioned ^ ^1.9 ^ unless entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR,distance=..0.15] run tag @s add x_SEAT_MOVING
-execute positioned ^ ^1.9 ^ if entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR,distance=..0.15] run tag @s remove x_SEAT_MOVING

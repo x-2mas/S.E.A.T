@@ -6,6 +6,9 @@
 #
 #
 
+/tag @e[tag=x_TP_KILL,tag=!global.ignore.kill,tag=!x_IGNORE_OVERRIDE] remove x_TP_KILL
+/tag @e[tag=x_TP_KILL,tag=!global.ignore.pos,tag=!x_IGNORE_OVERRIDE] remove x_TP_KILL
+/tag @e[tag=x_TP_KILL,tag=!global.ignore,tag=!x_IGNORE_OVERRIDE] remove x_TP_KILL
 
 /// Teleport all TP-Kill tagged entities below world
 /tp @e[tag=x_TP_KILL] ~ ~999 ~

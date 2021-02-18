@@ -12,10 +12,10 @@
 asat('@a[tag=x_CLEAR_ABTITLE]'){
 
     /// Set action-bar title to blank string (cancels clear delay)
-    /title @s actionbar " "
+    /title @s[tag=!global.ignore.gui] actionbar " "
 
     /// Clear action-bar title
-    /title @s clear
+    /title @s[tag=!global.ignore.gui] clear
 
     /// Remove clear tag
     /tag @s remove x_CLEAR_ABTITLE

@@ -10,5 +10,8 @@
 # Teleports and kills entity below world (to hide death animation))
 
 
+tag @e[tag=x_TP_KILL,tag=!global.ignore.kill,tag=!x_IGNORE_OVERRIDE] remove x_TP_KILL
+tag @e[tag=x_TP_KILL,tag=!global.ignore.pos,tag=!x_IGNORE_OVERRIDE] remove x_TP_KILL
+tag @e[tag=x_TP_KILL,tag=!global.ignore,tag=!x_IGNORE_OVERRIDE] remove x_TP_KILL
 tp @e[tag=x_TP_KILL] ~ ~999 ~
 kill @e[tag=x_TP_KILL]

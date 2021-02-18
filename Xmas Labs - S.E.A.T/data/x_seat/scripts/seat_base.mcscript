@@ -8,6 +8,67 @@
 
 
 
+
+/// Tag whether sit-down-only
+if('data storage x_seat flags{onlySitDown:0}'){
+    /tag @s remove x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+}
+
+if('data storage x_seat flags{onlySitDown:1}' && 'entity @e[tag=x_SEAT_BASE_PLAYER,tag=!x_SEAT_ENABLED_FORCE_SIT_DOWN,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+}
+
+if('data storage x_seat flags{onlySitDown:1}' && 'entity @e[tag=x_SEAT_BASE_PLAYER,tag=x_SEAT_ENABLED_FORCE_SIT_DOWN,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+}
+
+if('data storage x_seat flags{onlySitDown:2}'){
+    /tag @s add x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN
+}
+
+
+
+
+/// Tag whether physics
+if('data storage x_seat flags{physics:0}'){
+    /tag @s add x_SEAT_BASE_DISABLED_PHYSICS
+}
+
+if('data storage x_seat flags{physics:1}' && 'entity @e[tag=x_SEAT_BASE_PLAYER,tag=!x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_BASE_DISABLED_PHYSICS
+}
+
+if('data storage x_seat flags{physics:1}' && 'entity @e[tag=x_SEAT_BASE_PLAYER,tag=x_SEAT_DISABLED_PHYSICS,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_BASE_DISABLED_PHYSICS
+}
+
+if('data storage x_seat flags{physics:2}'){
+    /tag @s remove x_SEAT_BASE_DISABLED_PHYSICS
+}
+
+
+
+
+/// Tag whether bouncing off floors
+if('data storage x_seat flags{bounceOffFloor:0}'){
+    /tag @s remove x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+}
+
+if('data storage x_seat flags{bounceOffFloor:1}' && 'entity @e[tag=x_SEAT_BASE_PLAYER,tag=!x_SEAT_ENABLED_FLOOR_BOUNCE,limit=1,sort=nearest]'){
+    /tag @s remove x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+}
+
+if('data storage x_seat flags{bounceOffFloor:1}' && 'entity @e[tag=x_SEAT_BASE_PLAYER,tag=x_SEAT_ENABLED_FLOOR_BOUNCE,limit=1,sort=nearest]'){
+    /tag @s add x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+}
+
+if('data storage x_seat flags{bounceOffFloor:2}'){
+    /tag @s add x_SEAT_BASE_ENABLED_FLOOR_BOUNCE
+}
+
+
+
+
 /// If seat has exceeded its time-out 
 if('score @s x_TICK matches 40..'){
 
@@ -60,7 +121,7 @@ if(!'entity @s[tag=x_KILL_SEAT]'){
 
 
 /// If seat physics is on, seat is anchored and isn't falling,
-if('data storage x_seat flags{physics:1}' && 'entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING]') {
+if('entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS]' && 'entity @s[tag=x_SEAT_ANCHORED,tag=!x_SEAT_FALLING]') {
 
     /// If no matching anchor found,
     if(!'entity @e[tag=x_SEAT_BASE_ANCHOR]'){     
@@ -116,13 +177,13 @@ if('entity @s[tag=x_SEAT_SEATING]'){
     /// Force positioning (in case of tp-lag)
     positioned('as @s'){
 
-        /// If 'only sit down' option is not enabled
-        if(!'data storage x_seat flags{onlySitDown:1}'){
+        /// If 'only sit down' option is disabled
+        if('entity @s[tag=!x_SEAT_BASE_ENABLED_FORCE_SIT_DOWN]'){
 
 
-            /// If the block directly behind player or the block above that is a non-solid/semi-solid/snow, 
+            /// If the block directly behind player or the block above that is non-solid/snow, 
             /// Accounting for anchor positioning at (^ ^1.9 ^-0.2), checks blocks (^ ^1.9 ^-0.7) & (^ ^2.9 ^-0.7)
-            if('block ^ ^1.9 ^-0.7 #x_core:non_solids' || 'block ^ ^2.9 ^-0.7 #x_core:non_solids' || 'block ^ ^1.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^2.9 ^-0.7 #x_core:semi_solids' || 'block ^ ^1.9 ^-0.7 minecraft:snow' || 'block ^ ^2.9 ^-0.7 minecraft:snow'){
+            if('block ^ ^1.9 ^-0.7 #x_core:non_solids' || 'block ^ ^2.9 ^-0.7 #x_core:non_solids' || 'block ^ ^1.9 ^-0.7 minecraft:snow' || 'block ^ ^2.9 ^-0.7 minecraft:snow'){
                 
                 /// Tag as sit back
                 /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_SIT_BACK
@@ -146,7 +207,7 @@ if('entity @s[tag=x_SEAT_SEATING]'){
 
 
         /// If sitting back and block above and behind player is a solid
-        if('entity @s[tag=x_SEAT_SIT_BACK]' && !'block ^ ^3.9 ^-0.5 #x_core:non_solids' && !'block ^ ^3.9 ^-0.5 #x_core:semi_solids' && !'block ^ ^3.9 ^-0.5 minecraft:snow') {
+        if('entity @s[tag=x_SEAT_SIT_BACK]' && !'block ^ ^3.9 ^-0.5 #x_core:non_solids' && !'block ^ ^3.9 ^-0.5 minecraft:snow') {
 
             /// Tag as low roof
             /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
@@ -154,7 +215,7 @@ if('entity @s[tag=x_SEAT_SEATING]'){
         }
 
         /// If sitting down and block above player is a solid
-        if('entity @s[tag=!x_SEAT_SIT_BACK]' && !'block ^ ^3.9 ^ #x_core:non_solids' && !'block ^ ^3.9 ^ #x_core:semi_solids' && !'block ^ ^3.9 ^ minecraft:snow') {
+        if('entity @s[tag=!x_SEAT_SIT_BACK]' && !'block ^ ^3.9 ^ #x_core:non_solids' && !'block ^ ^3.9 ^ minecraft:snow') {
 
             /// Tag as low roof
             /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_LOW_ROOF
@@ -164,24 +225,40 @@ if('entity @s[tag=x_SEAT_SEATING]'){
         /// If sitting back
         if('entity @s[tag=x_SEAT_SIT_BACK]'){
 
-            /// If block behind player is a non-solid/semi-solid/snow
-            if('block ^ ^1.9 ^-0.5 #x_core:non_solids' || 'block ^ ^1.9 ^-0.5 #x_core:semi_solids' || 'block ^ ^1.9 ^-0.5 minecraft:snow') {
+            /// If block behind player is non-solid/snow
+            if('block ^ ^1.9 ^-0.5 #x_core:non_solids' || 'block ^ ^1.9 ^-0.5 minecraft:snow') {
 
                 /// Tag as on floor
                 /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
                 /tag @s add x_SEAT_ON_FLOOR
+            }
+
+            /// If block behind player is a semi-solid, half-height or below
+            if('block ^ ^1.9 ^-0.5 #x_seat:half_height') {
+
+                /// Tag as half-height
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_HALF_HEIGHT
+                /tag @s add x_SEAT_HALF_HEIGHT
             }
         }
 
         /// If sitting down and block at player is a non-solid/semi-solid
         if('entity @s[tag=!x_SEAT_SIT_BACK]') {
             
-            /// If block at player is a non-solid/semi-solid/snow
-            if('block ^ ^1.9 ^ #x_core:non_solids' || 'block ^ ^1.9 ^ #x_core:semi_solids' || 'block ^ ^1.9 ^ minecraft:snow') {
+            /// If block at player is non-solid/snow
+            if('block ^ ^1.9 ^ #x_core:non_solids' || 'block ^ ^1.9 ^ minecraft:snow') {
 
                 /// Tag as on floor
                 /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_ON_FLOOR
                 /tag @s add x_SEAT_ON_FLOOR
+            }
+
+            /// If block at player is a semi-solid, half-height or below
+            if('block ^ ^1.9 ^-0.5 #x_seat:half_height') {
+
+                /// Tag as half-height
+                /tag @e[tag=x_SEAT_BASE_SURFACE,limit=1,sort=nearest] add x_SEAT_HALF_HEIGHT
+                /tag @s add x_SEAT_HALF_HEIGHT
             }
         }
     
@@ -195,8 +272,17 @@ if('entity @s[tag=x_SEAT_SEATING]'){
             /tp @s ^ ^0.8 ^
         }
 
-        /// If not tagged as low roof nor on floor
-        if('entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR]'){
+        /// If tagged as half-height
+        if('entity @s[tag=x_SEAT_HALF_HEIGHT]'){
+
+            /// Teleport seat 1/2 block higher 
+            /// Seat surface spawn position (relative to player feet)       (^ ^0.5 ^)                  =>  0.5 blocks above feet
+            /// Position after this tp                                      (^ ^1 ^)                    =>  1 block above feet
+            /tp @s ^ ^0.6 ^
+        }
+
+        /// If not tagged as low roof nor on floor nor half-height
+        if('entity @s[tag=!x_SEAT_LOW_ROOF,tag=!x_SEAT_ON_FLOOR,tag=!x_SEAT_HALF_HEIGHT]'){
 
             /// Teleport seat 1 block higher 
             /// Seat surface spawn position (relative to player feet)       (^ ^0.5 ^)                  =>  0.5 blocks above feet
@@ -322,7 +408,7 @@ if('entity @s[tag=x_SEAT_OCCUPIED]') {
 
 
     /// If S.E.A.T physics enabled,
-    if('data storage x_seat flags{physics:1}'){
+    if('entity @s[tag=x_SEAT_BASE_DISABLED_PHYSICS]'){
 
         /// Run base physics tasks
         /function x_seat:seat_physics

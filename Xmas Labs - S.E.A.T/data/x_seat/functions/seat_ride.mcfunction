@@ -10,10 +10,8 @@
 # Handles S.E.A.T ride tasks
 
 
-execute if entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN] unless entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING] run data merge entity @s {NoAI:0}
-execute if entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN] if data storage x_seat flags{freezeRideOnAdjust:0} run data merge entity @s {NoAI:0}
-execute if entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN] unless entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING] run tag @s remove x_SEAT_ANCHOR_RIDE_FROZEN
-execute if entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN] if data storage x_seat flags{freezeRideOnAdjust:0} run tag @s remove x_SEAT_ANCHOR_RIDE_FROZEN
+execute if entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN] unless entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING, tag=!x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE] run data merge entity @s {NoAI:0}
+execute if entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN] unless entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING, tag=!x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE] run tag @s remove x_SEAT_ANCHOR_RIDE_FROZEN
 
 execute unless entity @e[tag=x_SEAT_RIDE_ANCHOR] if entity @s[tag=x_NO_COLLIDE__SEAT] run scoreboard players remove @s x_NO_COLLIDE__T 1
 execute unless entity @e[tag=x_SEAT_RIDE_ANCHOR] if entity @s[tag=x_NO_COLLIDE__SEAT] run tag @s remove x_NO_COLLIDE__SEAT

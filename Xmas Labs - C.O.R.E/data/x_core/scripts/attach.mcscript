@@ -7,7 +7,6 @@
 #
 
 
-
 /// If attaching entity doesn't have an EID, give it one first
 if(!'score @s x_EID matches 1..'){
     /function x_core:assign_eid
@@ -19,9 +18,13 @@ if(!'entity @s[type=minecraft:player]'){
   
     /// Tag as attaching
     /tag @s add x_ATTACHING
+    if('entity @s[tag=global.ignore,tag=!x_IGNORE_OVERRIDE]') {
+        /tag @s remove x_ATTACHING
+    }
+}
 
 /// If attaching entity is a player,
-} else {
+if('entity @s[type=minecraft:player,tag=!global.ignore,tag=!global.ignore.pos]'){
   
     /// Summon a attachment anchor
     /summon minecraft:armor_stand ~ ~ ~ {Tags:[x_EID,x_ATTACHING,x_ATTACHING_ANCHOR],Invisible:1,Small:1,Marker:1}
@@ -32,7 +35,7 @@ if(!'entity @s[type=minecraft:player]'){
 
 
 /// Do as all entities with an entity ID, if the attaching entity's parent ID matches it,
-asat('@e[tag=x_EID,tag=!x_TP_KILL]'), if('score @e[tag=x_ATTACHING,tag=!x_TP_KILL,limit=1] x_PID = @s x_EID') {
+asat('@e[tag=x_EID,tag=!x_TP_KILL]'), if('score @e[tag=x_ATTACHING,limit=1] x_PID = @s x_EID') {
     
     /// Add the entity's X, Y & Z positions with their respective offsets and update
 

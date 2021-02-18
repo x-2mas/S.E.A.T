@@ -1,0 +1,23 @@
+{
+    "values":[
+        "#minecraft:carpets", 
+        "#minecraft:slabs",
+        "#minecraft:stairs", 
+        "minecraft:cake", 
+        "minecraft:campfire",
+        "minecraft:cocoa", 
+        "minecraft:flower_pot",  
+        "minecraft:grindstone",
+        "minecraft:lantern", 
+        "minecraft:soul_lantern", 
+        "minecraft:lily_pad", 
+        "minecraft:sea_pickle", 
+        "minecraft:snow", 
+        "minecraft:stonecutter", 
+        "minecraft:sweet_berry_bush", 
+        "minecraft:turtle_egg",
+        "minecraft:daylight_detector",
+        "minecraft:repeater", 
+        "minecraft:comparator"
+    ]
+}

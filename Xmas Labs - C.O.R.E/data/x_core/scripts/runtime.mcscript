@@ -341,7 +341,7 @@ if('data storage x_core flags{loadNotified:1}') {
     if('data storage x_core flags{reload:1}') {
 
         /// Prompt user to reload
-        /tellraw @a ["",{"text":"\n\nC.O.R.E Reload Requested!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please use the ","color":"white"},{"text":"/reload ","color":"light_purple"},{"text":"command to reload Xmas Labs Packs! \nIf you can't run commands, just exit and re-enter the world.\nIf you're on a server, you may need to restart/reload it.\n\n","color":"white"},{"text":"Sorry for the inconvenience! \n\n","color":"white","italic":true}]
+        /tellraw @a ["",{"text":"\n\nC.O.R.E Reload Requested!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Please use the ","color":"white"},{"text":"/reload","color":"light_purple","underlined":true,"clickEvent":{"action":"run_command","value":"/reload"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Click to reload all datapacks! \n"},{"text":"Only works if you have the right permissions...","italic":true}]}},{"text":" command to reload Xmas Labs Packs! \nIf you can't run commands, just exit and re-enter the world.\nIf you're on a server, you may need to restart/reload it.\n\n","color":"white"},{"text":"Sorry for the inconvenience! \n\n","color":"white","italic":true}]
 
         /// Update flag to indicate reload requested
         /data modify storage x_core flags merge value {reload:-1}

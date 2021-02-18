@@ -1,0 +1,248 @@
+
+#
+#
+# S.E.A.T | player_menu
+# A chat menu for configuring player-specific S.E.A.T settings
+#
+#
+
+
+
+/// If menu just opened for the first time,
+if(!'score @s S.E.A.T matches 100..'){
+
+    /// Set menu to page 1
+    /trigger S.E.A.T set 100
+} 
+
+
+/// If menu opened to any page,
+if('score @s S.E.A.T matches 100..499') {
+
+    /// Menu header
+    if('data storage x_seat flags{enabled:0}'){
+        if('entity @s[tag=!x_SEAT_PLAYER_DISABLED]'){
+            /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T v1.16.5.06 \n","color":"gold","bold":true},{"text":" • Player Menu •  ","color":"aqua"},{"text":" ⏸ ","color":"gray","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 11"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Pause Pack for Yourself [GLOBALLY PAUSED]","color":"white"}]}},"\n"]
+        }
+        if('entity @s[tag=x_SEAT_PLAYER_DISABLED]'){
+            /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T v1.16.5.06 \n","color":"gold","bold":true},{"text":" • Player Menu •  ","color":"aqua"},{"text":" ▶ ","color":"gray","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 12"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Unpause Pack for Yourself [GLOBALLY PAUSED]","color":"white"}]}},"\n"]
+        }
+    }
+    if('data storage x_seat flags{enabled:1}'){
+        if('entity @s[tag=!x_SEAT_PLAYER_DISABLED]'){
+            /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T v1.16.5.06 \n","color":"gold","bold":true},{"text":" • Player Menu •  ","color":"aqua"},{"text":" ⏸ ","color":"aqua","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 11"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Pause Pack for Yourself","color":"white"}]}},"\n"]
+        }
+        if('entity @s[tag=x_SEAT_PLAYER_DISABLED]'){
+            /tellraw @s ["",{"text":"\n Xmas Labs ¦ S.E.A.T v1.16.5.06 \n","color":"gold","bold":true},{"text":" • Player Menu •  ","color":"aqua"},{"text":" ▶ ","color":"aqua","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 12"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Unpause Pack for Yourself","color":"white"}]}},"\n"]
+        }
+    }
+}
+
+
+
+/// If menu turned to page 1,
+if('score @s S.E.A.T matches 100..199') {
+
+    /// Seat physics toggle
+    if('data storage x_seat flags{physics:2}'){
+        /tellraw @s [{"text":" ☑ Use Physics  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Use Physics [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nThis feature makes you responsive to world physics while seated. Keep it ON if you want to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+    }
+    if('data storage x_seat flags{physics:1}' && 'entity @s[tag=!x_SEAT_DISABLED_PHYSICS]'){
+        /tellraw @s [{"text":" ☑ Use Physics  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 111"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Use Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature makes you responsive to world physics while seated. Keep it ON if you want to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+    }
+    if('data storage x_seat flags{physics:1}' && 'entity @s[tag=x_SEAT_DISABLED_PHYSICS]'){
+        /tellraw @s [{"text":" ☒ Use Physics  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 112"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Use Physics","bold":true,"underlined":true,"color":"gold"},"\nThis feature makes you responsive to world physics while seated. Keep it ON if you want to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+    }
+    if('data storage x_seat flags{physics:0}'){
+        /tellraw @s [{"text":" ☒ Use Physics  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Use Physics [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nThis feature makes you responsive to world physics while seated. Keep it ON if you want to fall, bounce, slide, etc while sitting. Turn it OFF to improve performance and avoid glitches."]}}]
+    }
+
+
+    /// Seat rotation toggle
+    if('data storage x_seat flags{rotationLock:2}'){
+        /tellraw @s [{"text":" ☑ Rotation Lock  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Rotation Lock [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nTurn ON to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode. "]}}]
+    }
+    if('data storage x_seat flags{rotationLock:1}' && 'entity @s[tag=x_SEAT_ENABLED_ROTATION_LOCK]'){
+        /tellraw @s [{"text":" ☑ Rotation Lock  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 121"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode. "]}}]
+    }
+    if('data storage x_seat flags{rotationLock:1}' && 'entity @s[tag=!x_SEAT_ENABLED_ROTATION_LOCK]'){
+        /tellraw @s [{"text":" ☒ Rotation Lock  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 122"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Rotation Lock","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode."]}}]
+    }
+    if('data storage x_seat flags{rotationLock:0}'){
+        /tellraw @s [{"text":" ☒ Rotation Lock  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Rotation Lock [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nTurn ON to lock S.E.A.T rotation. Makes seated movement look more natural, especially when riding mobs, but restricts your freedom of rotation. Also causes a bug where your inventory will auto-close if sitting on an entity that rotates. This setting is ignored in S.E.A.T Adjustment Mode."]}}]
+    }
+
+
+    /// Sneak-to-sit toggle
+    if('data storage x_seat flags{onlyIfSneaking:2}'){
+        /tellraw @s [{"text":" ☑ Only If Sneaking  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Only If Sneaking [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nMakes sitting slightly more complicated. If ON, you need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also looks more realistic."]}}]
+    }
+    if('data storage x_seat flags{onlyIfSneaking:1}' && 'entity @s[tag=x_SEAT_ENABLED_FORCE_SNEAKING]'){
+        /tellraw @s [{"text":" ☑ Only If Sneaking  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 131"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, you need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also looks more realistic."]}}]
+    }
+    if('data storage x_seat flags{onlyIfSneaking:1}' && 'entity @s[tag=!x_SEAT_ENABLED_FORCE_SNEAKING]'){
+        /tellraw @s [{"text":" ☒ Only If Sneaking  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 132"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only If Sneaking","bold":true,"underlined":true,"color":"gold"},"\nMakes sitting slightly more complicated. If ON, you need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also looks more realistic."]}}]
+    }
+    if('data storage x_seat flags{onlyIfSneaking:0}'){
+        /tellraw @s [{"text":" ☒ Only If Sneaking  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Only If Sneaking [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nMakes sitting slightly more complicated. If ON, you need to sneak for a bit while looking down, then release sneak and right-click to sit. Takes some getting used to, but stops you from unintentionally sitting on things. Also looks more realistic."]}}]
+    }
+
+
+    /// Page navigation and exit buttons
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 400"}},{"text":"Page 1/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 200"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 500"}}]
+
+}
+
+
+/// If menu turned to page 2,
+if('score @s S.E.A.T matches 200..299') {
+
+    /// Seat floor-bounce toggle
+    if('data storage x_seat flags{bounceOffFloor:2}'){
+        /tellraw @s [{"text":" ☑ Bounce Off Floor  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Bounce Off Floor [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nBy default, falling on bouncy surfaces looks strange as you seem to bounce in mid-air. Turning this ON will fix that but might cause the bounce to look less realistic."]}}]
+    } 
+    if('data storage x_seat flags{bounceOffFloor:1}' && 'entity @s[tag=x_SEAT_ENABLED_FLOOR_BOUNCE]'){
+        /tellraw @s [{"text":" ☑ Bounce Off Floor  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 211"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as you seem to bounce in mid-air. Turning this ON will fix that but might cause the bounce to look less realistic."]}}]
+    } 
+    if('data storage x_seat flags{bounceOffFloor:1}' && 'entity @s[tag=!x_SEAT_ENABLED_FLOOR_BOUNCE]') {
+        /tellraw @s [{"text":" ☒ Bounce Off Floor  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 212"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Bounce Off Floor","bold":true,"underlined":true,"color":"gold"},"\nBy default, falling on bouncy surfaces looks strange as you seem to bounce in mid-air. Turning this ON will fix that but might cause the bounce to look less realistic."]}}]
+    }
+    if('data storage x_seat flags{bounceOffFloor:0}') {
+        /tellraw @s [{"text":" ☒ Bounce Off Floor  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Bounce Off Floor [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nBy default, falling on bouncy surfaces looks strange as you seem to bounce in mid-air. Turning this ON will fix that but might cause the bounce to look less realistic."]}}]
+    }
+    
+    /// Seat only-sit-down toggle
+    if('data storage x_seat flags{onlySitDown:2}'){
+        /tellraw @s [{"text":" ☑ Only Sit Down  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Only Sit Down [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nBy default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this ON forces S.E.A.T to only use the block you're standing on/in."]}}]
+    } 
+    if('data storage x_seat flags{onlySitDown:1}' && 'entity @s[tag=x_SEAT_ENABLED_FORCE_SIT_DOWN]'){
+        /tellraw @s [{"text":" ☑ Only Sit Down  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 221"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this ON forces S.E.A.T to only use the block you're standing on/in."]}}]
+    } 
+    if('data storage x_seat flags{onlySitDown:1}' && 'entity @s[tag=!x_SEAT_ENABLED_FORCE_SIT_DOWN]') {
+        /tellraw @s [{"text":" ☒ Only Sit Down  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 222"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Only Sit Down","bold":true,"underlined":true,"color":"gold"},"\nBy default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this ON forces S.E.A.T to only use the block you're standing on/in."]}}]
+    }
+    if('data storage x_seat flags{onlySitDown:0}') {
+        /tellraw @s [{"text":" ☒ Only Sit Down  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Only Sit Down [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nBy default, S.E.A.T tries to seat you on any sittable surface directly behind you. If it doesn't find any, it seats you on/in whatever block you're standing on/in. Turning this ON forces S.E.A.T to only use the block you're standing on/in."]}}]
+    }
+    
+    /// freeze-ride-on-adjust toggle
+    if('data storage x_seat flags{freezeRideOnAdjust:2}'){
+        /tellraw @s [{"text":" ☑ Freeze Ride On Adjust  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+    } 
+    if('data storage x_seat flags{freezeRideOnAdjust:1}' && 'entity @s[tag=!x_SEAT_DISABLED_FREEZE_RIDE]'){
+        /tellraw @s [{"text":" ☑ Freeze Ride On Adjust  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 231"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+    } 
+    if('data storage x_seat flags{freezeRideOnAdjust:1}' && 'entity @s[tag=x_SEAT_DISABLED_FREEZE_RIDE]') {
+        /tellraw @s [{"text":" ☒ Freeze Ride On Adjust  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 232"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust","bold":true,"underlined":true,"color":"gold"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+    }
+    if('data storage x_seat flags{freezeRideOnAdjust:0}') {
+        /tellraw @s [{"text":" ☒ Freeze Ride On Adjust  ]","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Freeze Ride On Adjust [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nKeeping this ON will temporarily disable AI in the entity/mob you're sitting on while in S.E.A.T Adjustment Mode. This makes adjustment much easier but might cause issues with the mob/entity you're sitting on since it resets their state."]}}]
+    }
+
+    /// Page navigation and exit buttons
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 100"}},{"text":"Page 2/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 300"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 500"}}]
+}
+
+
+/// If menu turned to page 3,
+if('score @s S.E.A.T matches 300..399') {
+
+    /// Seat adjustment toggle
+    if('data storage x_seat flags{seatAdjustment:2}'){
+        /tellraw @s [{"text":" ☑ Seated Adjustment  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Seated Adjustment [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nTurn ON to enable access to S.E.A.T Adjustment Mode. Once seated, scroll while looking down to start adjusting."]}}]
+    } 
+    if('data storage x_seat flags{seatAdjustment:1}' && 'entity @s[tag=!x_SEAT_DISABLED_ADJUSTMENT]'){
+        /tellraw @s [{"text":" ☑ Seated Adjustment  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 311"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Seated Adjustment","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to enable access to S.E.A.T Adjustment Mode. Once seated, scroll while looking down to start adjusting."]}}]
+    } 
+    if('data storage x_seat flags{seatAdjustment:1}' && 'entity @s[tag=x_SEAT_DISABLED_ADJUSTMENT]') {
+        /tellraw @s [{"text":" ☒ Seated Adjustment  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 312"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Seated Adjustment","bold":true,"underlined":true,"color":"gold"},"\nTurn ON to enable access to S.E.A.T Adjustment Mode. Once seated, scroll while looking down to start adjusting."]}}]
+    }
+    if('data storage x_seat flags{seatAdjustment:0}') {
+        /tellraw @s [{"text":" ☒ Seated Adjustment  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Seated Adjustment [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nTurn ON to enable access to S.E.A.T Adjustment Mode. Once seated, scroll while looking down to start adjusting."]}}]
+    }
+    
+    /// Sitting-On-Mobs toggle
+    if('data storage x_seat flags{sitOnMobs:2}'){
+        /tellraw @s [{"text":" ☑ Sit On Mobs  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Sit On Mobs [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nKeep this ON to sit on mobs. This might prevent you from sitting in some spots that are too close to mobs."]}}]
+    } 
+    if('data storage x_seat flags{sitOnMobs:1}' && 'entity @s[tag=!x_SEAT_DISABLED_ON_MOBS]'){
+        /tellraw @s [{"text":" ☑ Sit On Mobs  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 321"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Sit On Mobs","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to sit on mobs. This might prevent you from sitting in some spots that are too close to mobs."]}}]
+    } 
+    if('data storage x_seat flags{sitOnMobs:1}' && 'entity @s[tag=x_SEAT_DISABLED_ON_MOBS]') {
+        /tellraw @s [{"text":" ☒ Sit On Mobs  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 322"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Sit On Mobs","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to sit on mobs. This might prevent you from sitting in some spots that are too close to mobs."]}}]
+    }
+    if('data storage x_seat flags{sitOnMobs:0}') {
+        /tellraw @s [{"text":" ☒ Sit On Mobs  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Sit On Mobs [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nKeep this ON to sit on mobs. This might prevent you from sitting in some spots that are too close to mobs."]}}]
+    }
+    
+    /// Adjustment limits toggle
+    if('data storage x_seat flags{adjustmentLimits:2}'){
+        /tellraw @s [{"text":" ☑ Adjustment Limits  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Adjustment Limits [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nTurning this ON prevents you from adjusting too far away from your initial position. This keeps you from using Adjustment Mode to fly or move through walls."]}}]
+    } 
+    if('data storage x_seat flags{adjustmentLimits:1}' && 'entity @s[tag=!x_SEAT_DISABLED_ADJUSTMENT_LIMITS]'){
+        /tellraw @s [{"text":" ☑ Adjustment Limits  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 331"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Adjustment Limits","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON prevents you from adjusting too far away from your initial position. This keeps you from using Adjustment Mode to fly or move through walls."]}}]
+    } 
+    if('data storage x_seat flags{adjustmentLimits:1}' && 'entity @s[tag=x_SEAT_DISABLED_ADJUSTMENT_LIMITS]') {
+        /tellraw @s [{"text":" ☒ Adjustment Limits  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 332"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Adjustment Limits","bold":true,"underlined":true,"color":"gold"},"\nTurning this ON prevents you from adjusting too far away from your initial position. This keeps you from using Adjustment Mode to fly or move through walls."]}}]
+    }
+    if('data storage x_seat flags{adjustmentLimits:0}') {
+        /tellraw @s [{"text":" ☒ Adjustment Limits  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Adjustment Limits [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nTurning this ON prevents you from adjusting too far away from your initial position. This keeps you from using Adjustment Mode to fly or move through walls."]}}]
+    }
+
+    /// Page navigation and exit buttons
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 200"}},{"text":"Page 3/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 400"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 500"}}]
+}
+
+
+/// If menu turned to page 4,
+if('score @s S.E.A.T matches 400..499') {
+
+    /// Seat fall-damage toggle
+    if('data storage x_seat flags{fallDamage:2}'){
+        /tellraw @s [{"text":" ☑ Fall Damage  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Fall Damage [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nKeep this ON to apply fall damage to you if you fall while seated. No reason to turn this OFF unless you're playing it super safe."]}}]
+    } 
+    if('data storage x_seat flags{fallDamage:1}' && 'entity @s[tag=!x_SEAT_DISABLED_FALL_DAMAGE]'){
+        /tellraw @s [{"text":" ☑ Fall Damage  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 411"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to apply fall damage to you if you fall while seated. No reason to turn this OFF unless you're playing it super safe."]}}]
+    } 
+    if('data storage x_seat flags{fallDamage:1}' && 'entity @s[tag=x_SEAT_DISABLED_FALL_DAMAGE]') {
+        /tellraw @s [{"text":" ☒ Fall Damage  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 412"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Fall Damage","bold":true,"underlined":true,"color":"gold"},"\nKeep this ON to apply fall damage to you if you fall while seated. No reason to turn this OFF unless you're playing it super safe."]}}]
+    }
+    if('data storage x_seat flags{fallDamage:0}') {
+        /tellraw @s [{"text":" ☒ Fall Damage  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Fall Damage [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nKeep this ON to apply fall damage to you if you fall while seated. No reason to turn this OFF unless you're playing it super safe."]}}]
+    }
+    
+    /// Inventory-blocking toggle
+    if('data storage x_seat flags{blockInventory:2}'){
+        /tellraw @s [{"text":" ☑ Block Inventory  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Block Inventory [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nPrevents you from accessing your inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    } 
+    if('data storage x_seat flags{blockInventory:1}' && 'entity @s[tag=!x_SEAT_DISABLED_INVENTORY_BLOCK]'){
+        /tellraw @s [{"text":" ☑ Block Inventory  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 421"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nPrevents you from accessing your inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    } 
+    if('data storage x_seat flags{blockInventory:1}' && 'entity @s[tag=x_SEAT_DISABLED_INVENTORY_BLOCK]') {
+        /tellraw @s [{"text":" ☒ Block Inventory  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 422"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Block Inventory","bold":true,"underlined":true,"color":"gold"},"\nPrevents you from accessing your inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    }
+    if('data storage x_seat flags{blockInventory:0}') {
+        /tellraw @s [{"text":" ☒ Block Inventory  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Block Inventory [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nPrevents you from accessing your inventory while seated. This 'feature' only exists to hide the non-functional inventory GUI added by S.E.A.T components. Turning this OFF will allow seated inventory access but might break immersion."]}}]
+    }
+    
+    /// Show-prompt toggle
+    if('data storage x_seat flags{showPrompts:2}'){
+        /tellraw @s [{"text":" ☑ Show Prompts  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Show Prompts [FORCED]","bold":true,"underlined":true,"color":"gray"},"\nTurn this OFF to disable sitting instruction prompts. This might make things difficult for you if you're new to the pack."]}}]
+    } 
+    if('data storage x_seat flags{showPrompts:1}' && 'entity @s[tag=!x_SEAT_DISABLED_PROMPTS]'){
+        /tellraw @s [{"text":" ☑ Show Prompts  ","color":"green","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 431"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this OFF to disable sitting instruction prompts. This might make things difficult for you if you're new to the pack."]}}]
+    } 
+    if('data storage x_seat flags{showPrompts:1}' && 'entity @s[tag=x_SEAT_DISABLED_PROMPTS]') {
+        /tellraw @s [{"text":" ☒ Show Prompts  ","color":"red","clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 432"},"hoverEvent":{"action":"show_text","contents":["",{"text":"Show Prompts","bold":true,"underlined":true,"color":"gold"},"\nTurn this OFF to disable sitting instruction prompts. This might make things difficult for you if you're new to the pack."]}}]
+    }
+    if('data storage x_seat flags{showPrompts:0}') {
+        /tellraw @s [{"text":" ☒ Show Prompts  ","color":"gray","hoverEvent":{"action":"show_text","contents":["",{"text":"Show Prompts [NOT ALLOWED]","bold":true,"underlined":true,"color":"gray"},"\nTurn this OFF to disable sitting instruction prompts. This might make things difficult for you if you're new to the pack."]}}]
+    }
+
+    /// Page navigation and exit buttons
+    /tellraw @s ["",{"text":"\n ◀ ","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Previous Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 300"}},{"text":"Page 4/4","color":"aqua"},{"text":" ▶","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Next Page","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 100"}},"      ",{"text":"✕ Close Menu","color":"aqua","hoverEvent":{"action":"show_text","contents":["",{"text":"Clear Chat & Menu","color":"white"}]},"clickEvent":{"action":"run_command","value":"/trigger S.E.A.T set 500"}}]
+}
+
+
+/// Bottom margin
+/tellraw @s ""

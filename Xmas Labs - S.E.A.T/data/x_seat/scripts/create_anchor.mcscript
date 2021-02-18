@@ -10,7 +10,7 @@
 /// Create a new anchor at player butt position
 positioned('as @s'), rotated('as @s'){
 
-    /summon minecraft:armor_stand ^ ^ ^ {Tags:[x_SYSTEM,x_EID,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_ANCHOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T ANCHOR\"}]",Small:1,Marker:1,Invisible:1,Invulnerable:1} 
+    /summon minecraft:armor_stand ^ ^ ^ {Tags:[x_SYSTEM,x_EID,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_ANCHOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL,global.ignore,x_IGNORE_OVERRIDE],CustomName:"[\"\",{\"text\":\"S.E.A.T ANCHOR\"}]",Small:1,Marker:1,Invisible:1,Invulnerable:1} 
 
     /// Create anchor slightly higher if tagged as low-roof
     positioned('~ ~0.2 ~'), if('entity @s[tag=x_SEAT_LOW_ROOF]') {

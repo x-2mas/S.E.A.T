@@ -11,27 +11,33 @@
 # Runs every tick.
 
 
-function x_seat:player_interface
-function x_seat:seat
-execute if data storage x_seat flags{onlyIfSneaking:1} unless data storage x_core flags.trackSneakTime run data modify storage x_core flags merge value {trackSneakTime:1}
-execute if data storage x_seat flags{onlyIfSneaking:1} unless data storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}] run data modify storage x_core flags.trackSneakTime__Packs append value {x_SEAT:1}
-execute unless data storage x_seat flags{onlyIfSneaking:1} if data storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}] run data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
-execute if entity @a[tag=x_SEATED] unless data storage x_core flags.scrollBar run data modify storage x_core flags merge value {scrollBar:1}
-execute if entity @a[tag=x_SEATED] unless data storage x_core flags.scrollBar__Packs[{x_SEAT:1}] run data modify storage x_core flags.scrollBar__Packs append value {x_SEAT:1}
-execute unless entity @a[tag=x_SEATED] if data storage x_core flags.scrollBar__Packs[{x_SEAT:1}] run data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.ticker run data modify storage x_core flags merge value {ticker:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.ticker__Packs[{x_SEAT:1}] run data modify storage x_core flags.ticker__Packs append value {x_SEAT:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.blockCollisions run data modify storage x_core flags merge value {blockCollisions:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}] run data modify storage x_core flags.blockCollisions__Packs append value {x_SEAT:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.attach run data modify storage x_core flags merge value {attach:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.attach__Packs[{x_SEAT:1}] run data modify storage x_core flags.attach__Packs append value {x_SEAT:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.monitorItems run data modify storage x_core flags merge value {monitorItems:1}
-execute if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.monitorItems__Packs[{x_SEAT:1}] run data modify storage x_core flags.monitorItems__Packs append value {x_SEAT:1}
-execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.ticker__Packs[{x_SEAT:1}] run data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
-execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}] run data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
-execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.attach__Packs[{x_SEAT:1}] run data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
-execute unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.monitorItems__Packs[{x_SEAT:1}] run data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]
-execute if data storage x_seat flags{rotationLock:1} run tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_ATTACH] add x_ATTACH_ROTATE
-execute unless data storage x_seat flags{rotationLock:1} run tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] remove x_ATTACH_ROTATE
-tag @e[tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_MAY_SIT,tag=!x_MAY_SIT_SKIP,tag=!x_MAY_NOT_SIT,tag=!x_SCROLLBAR__SEAT,tag=!x_NO_COLLIDE__SEAT,tag=!x_MAY_ADJUST_SEAT,tag=!x_MAY_ADJUST_SEAT_SKIP,tag=!x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,tag=!x_SEATED,tag=!x_SEAT_RIDE,tag=!x_SEAT_RIDE_SKIP,tag=!x_SEAT_NO_RIDE,tag=!x_SEAT_BLOCKING_INTERACTIONS,tag=!x_SEAT_BASE_PLAYER,tag=!x_SEAT_SURFACE_PLAYER,tag=!x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_ANCHOR_RIDE,tag=!x_SEAT_ANCHOR_RIDE_FROZEN] remove x_SEAT_NS
+function x_seat:ui
+execute if data storage x_seat flags{enabled:0} run function x_seat:disable
+
+execute if data storage x_seat flags{enabled:1} run function x_seat:ui_gestures
+execute if data storage x_seat flags{enabled:1} run function x_seat:seat
+execute if data storage x_seat flags{enabled:1} unless data storage x_seat flags{onlyIfSneaking:0} unless data storage x_core flags.trackSneakTime run data modify storage x_core flags merge value {trackSneakTime:1}
+execute if data storage x_seat flags{enabled:1} unless data storage x_seat flags{onlyIfSneaking:0} unless data storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}] run data modify storage x_core flags.trackSneakTime__Packs append value {x_SEAT:1}
+execute if data storage x_seat flags{enabled:1} if data storage x_seat flags{onlyIfSneaking:0} if data storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}] run data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
+execute if data storage x_seat flags{enabled:1} if entity @a[tag=x_SEATED] unless data storage x_core flags.scrollBar run data modify storage x_core flags merge value {scrollBar:1}
+execute if data storage x_seat flags{enabled:1} if entity @a[tag=x_SEATED] unless data storage x_core flags.scrollBar__Packs[{x_SEAT:1}] run data modify storage x_core flags.scrollBar__Packs append value {x_SEAT:1}
+execute if data storage x_seat flags{enabled:1} unless entity @a[tag=x_SEATED] if data storage x_core flags.scrollBar__Packs[{x_SEAT:1}] run data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.ticker run data modify storage x_core flags merge value {ticker:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.ticker__Packs[{x_SEAT:1}] run data modify storage x_core flags.ticker__Packs append value {x_SEAT:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.blockCollisions run data modify storage x_core flags merge value {blockCollisions:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}] run data modify storage x_core flags.blockCollisions__Packs append value {x_SEAT:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.attach run data modify storage x_core flags merge value {attach:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.attach__Packs[{x_SEAT:1}] run data modify storage x_core flags.attach__Packs append value {x_SEAT:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.monitorItems run data modify storage x_core flags merge value {monitorItems:1}
+execute if data storage x_seat flags{enabled:1} if entity @e[tag=x_SEAT_NS] unless data storage x_core flags.monitorItems__Packs[{x_SEAT:1}] run data modify storage x_core flags.monitorItems__Packs append value {x_SEAT:1}
+execute if data storage x_seat flags{enabled:1} unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.ticker__Packs[{x_SEAT:1}] run data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
+execute if data storage x_seat flags{enabled:1} unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.blockCollisions__Packs[{x_SEAT:1}] run data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
+execute if data storage x_seat flags{enabled:1} unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.attach__Packs[{x_SEAT:1}] run data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
+execute if data storage x_seat flags{enabled:1} unless entity @e[tag=x_SEAT_NS] if data storage x_core flags.monitorItems__Packs[{x_SEAT:1}] run data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]
+execute if data storage x_seat flags{enabled:1} if data storage x_seat flags{rotationLock:2} run tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_ATTACH] add x_ATTACH_ROTATE
+execute if data storage x_seat flags{enabled:1} if data storage x_seat flags{rotationLock:1} run tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_ATTACH,tag=!x_SEAT_ANCHOR_DISABLED_ROTATION_LOCK] add x_ATTACH_ROTATE
+execute if data storage x_seat flags{enabled:1} if data storage x_seat flags{rotationLock:0} run tag @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR] remove x_ATTACH_ROTATE
+execute if data storage x_seat flags{enabled:1} run tag @e[tag=!x_SEAT,tag=!x_SEAT_ANCHOR,tag=!x_SEAT_SENSOR,tag=!x_MAY_SIT,tag=!x_MAY_SIT_SKIP,tag=!x_MAY_NOT_SIT,tag=!x_SCROLLBAR__SEAT,tag=!x_NO_COLLIDE__SEAT,tag=!x_MAY_ADJUST_SEAT,tag=!x_MAY_ADJUST_SEAT_SKIP,tag=!x_ADJUSTING_SEAT,tag=!x_ADJUSTING_SEAT_SKIP,tag=!x_SEATED,tag=!x_SEAT_RIDE,tag=!x_SEAT_RIDE_SKIP,tag=!x_SEAT_NO_RIDE,tag=!x_SEAT_BLOCKING_INTERACTIONS,tag=!x_SEAT_BASE_PLAYER,tag=!x_SEAT_SURFACE_PLAYER,tag=!x_SEAT_ANCHOR_PLAYER,tag=!x_SEAT_ANCHOR_RIDE,tag=!x_SEAT_ANCHOR_RIDE_FROZEN,tag=!x_SEAT_PLAYER_DISABLED,tag=!x_SEAT_DISABLED_PHYSICS,tag=!x_SEAT_ENABLED_ROTATION_LOCK,tag=!x_SEAT_ENABLED_FORCE_SIT_DOWN,tag=!x_SEAT_ENABLED_FORCE_SNEAKING,tag=!x_SEAT_ENABLED_FLOOR_BOUNCE,tag=!x_SEAT_DISABLED_FALL_DAMAGE,tag=!x_SEAT_DISABLED_FREEZE_RIDE,tag=!x_SEAT_DISABLED_INVENTORY_BLOCK,tag=!x_SEAT_DISABLED_PROMPTS] remove x_SEAT_NS
+
+scoreboard players enable @a S.E.A.T 
 execute if data storage x_core flags{loadNotified:1} run advancement grant @a only x_seat:pack_loaded

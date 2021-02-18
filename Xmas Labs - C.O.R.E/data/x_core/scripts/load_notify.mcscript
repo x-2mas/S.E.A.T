@@ -12,13 +12,13 @@
 if('data storage x_core flags{reload:0}'){
 
     /// Announce successful pack load in chat
-    /tellraw @a [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Loaded! \n","italic":true,"color":"gold"}]
+    /tellraw @a[tag=x_LOAD_NOTIF] [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Loaded! \n","italic":true,"color":"gold"}]
 }
 
 if(!'data storage x_core flags.reload'){
 
     /// Announce successful pack load in chat
-    /tellraw @a [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Loaded! \n","italic":true,"color":"gold"}]
+    /tellraw @a[tag=x_LOAD_NOTIF] [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Loaded! \n","italic":true,"color":"gold"}]
 }
 
 
@@ -26,7 +26,7 @@ if(!'data storage x_core flags.reload'){
 if('data storage x_core flags{reload:-1}') {
 
     /// Announce successful pack re-load in chat
-    /tellraw @a [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Re-Loaded! \n","italic":true,"color":"gold"}]
+    /tellraw @a[tag=x_LOAD_NOTIF] [{"text":"\n Merry Xmas!\n","bold":true,"color":"dark_green"},{"text":" Xmas Labs C.O.R.E Re-Loaded! \n","italic":true,"color":"gold"}]
     
     /// Clear the reload request
     /data modify storage x_core flags.reload set value 0

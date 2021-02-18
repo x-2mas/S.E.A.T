@@ -13,7 +13,7 @@ if('entity @s[tag=x_SEAT_POST_FALLING]'){
         
 
     /// If bounce-off-floor is enabled,
-    if('data storage x_seat flags{bounceOffFloor:1}'){
+    if('entity @s[tag=x_SEAT_BASE_ENABLED_FLOOR_BOUNCE]'){
 
         /// Teleport to align player butt with ground
         /tp @s ~ ~-1.9 ~ 
@@ -21,7 +21,7 @@ if('entity @s[tag=x_SEAT_POST_FALLING]'){
 
 
     /// If seat physics is enabled and seat anchor missing,
-    if('data storage x_seat flags{physics:1}' && !'entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR]'){
+    if('entity @s[tag=!x_SEAT_BASE_DISABLED_PHYSICS]' && !'entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR]'){
         
         /// Create a new seat anchor
         /function x_seat:create_anchor
@@ -79,26 +79,6 @@ if('entity @s[tag=x_SEAT_FALLING]'){
 
         /// Tag as just finished falling
         /tag @s add x_SEAT_POST_FALLING
-    }
-}
-
-
-
-/// Run actions centered at seated player's butt
-positioned('^ ^1.9 ^'){
-
-    /// If seat anchor (armor stand) is missing at player's butt position,
-    if(!'entity @e[tag=x_SEAT_NS,tag=x_SEAT_BASE_ANCHOR,distance=..0.15]'){
-    
-        /// Tag seat as moving
-        /tag @s add x_SEAT_MOVING
-        
-
-    /// If seat physics anchor is present at player's butt position
-    } else {
-
-        /// Remove seat moving tag (if any)
-        /tag @s remove x_SEAT_MOVING
     }
 }
 

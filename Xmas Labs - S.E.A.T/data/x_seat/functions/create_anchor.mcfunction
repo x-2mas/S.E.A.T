@@ -10,7 +10,7 @@
 # Creates a new S.E.A.T anchor
 
 
-execute positioned as @s rotated as @s run summon minecraft:armor_stand ^ ^ ^ {Tags:[x_SYSTEM,x_EID,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_ANCHOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL],CustomName:"[\"\",{\"text\":\"S.E.A.T ANCHOR\"}]",Small:1,Marker:1,Invisible:1,Invulnerable:1} 
+execute positioned as @s rotated as @s run summon minecraft:armor_stand ^ ^ ^ {Tags:[x_SYSTEM,x_EID,x_SEAT_NS,x_SEAT_UNLINKED,x_SEAT_ANCHOR,x_SEAT_NO_RIDE,x_NO_COLLIDE,x_KILL_ON_UNINSTALL,global.ignore,x_IGNORE_OVERRIDE],CustomName:"[\"\",{\"text\":\"S.E.A.T ANCHOR\"}]",Small:1,Marker:1,Invisible:1,Invulnerable:1} 
 execute positioned as @s rotated as @s positioned ~ ~0.2 ~ if entity @s[tag=x_SEAT_LOW_ROOF] run tp @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] ^ ^1.9 ^-0.2 facing ^ ^1.9 ^
 execute positioned as @s rotated as @s if entity @s[tag=!x_SEAT_LOW_ROOF] run tp @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] ^ ^1.9 ^-0.2 facing ^ ^1.9 ^
 scoreboard players operation @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR,tag=x_SEAT_UNLINKED,sort=nearest,limit=1] x_SEAT_ID = @s x_SEAT_ID

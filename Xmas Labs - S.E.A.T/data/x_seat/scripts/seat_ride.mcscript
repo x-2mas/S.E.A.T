@@ -12,7 +12,7 @@
 if('entity @s[tag=x_SEAT_ANCHOR_RIDE_FROZEN]'){
 
     /// If no matching anchor that is being adjusted found, or freeze-ride-on-adjust is disabled
-    if(!'entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING]' || 'data storage x_seat flags{freezeRideOnAdjust:0}') {
+    if(!'entity @e[tag=x_SEAT_RIDE_ANCHOR, tag=x_SEAT_ANCHOR_ADJUSTING, tag=!x_SEAT_ANCHOR_DISABLED_FREEZE_RIDE]') {
 
         /// Re-enable ride AI
         /data merge entity @s {NoAI:0}

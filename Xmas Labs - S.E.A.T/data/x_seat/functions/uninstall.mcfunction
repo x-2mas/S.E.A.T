@@ -12,6 +12,24 @@
 
 execute if data storage x_core packs.x_seat run tellraw @a ["",{"text":"\n\nUninstalled Xmas Labs S.E.A.T Pack!\n\n","bold":true,"color":"gold"},{"text":"~ Finally taking a stand? ~\n\n\n","color":"light_purple","italic":true}]
 
+function x_seat:disable
+tag @e remove x_SEAT_PLAYER_DISABLED
+tag @e remove x_SEAT_PLAYER_DISABLED_ADJUSTMENT
+tag @e remove x_SEAT_PLAYER_DISABLED_ADJUSTMENT_LIMITS
+tag @e remove x_SEAT_PLAYER_DISABLED_PROMPTS
+tag @e remove x_SEAT_PLAYER_ENABLED_FORCE_SNEAKING
+tag @e remove x_SEAT_DISABLED_PHYSICS
+tag @e remove x_SEAT_ENABLED_ROTATION_LOCK
+tag @e remove x_SEAT_ENABLED_FORCE_SIT_DOWN
+tag @e remove x_SEAT_ENABLED_FORCE_SNEAKING
+tag @e remove x_SEAT_ENABLED_FLOOR_BOUNCE
+tag @e remove x_SEAT_DISABLED_FALL_DAMAGE
+tag @e remove x_SEAT_DISABLED_ADJUSTMENT
+tag @e remove x_SEAT_DISABLED_ON_MOBS
+tag @e remove x_SEAT_DISABLED_ADJUSTMENT_LIMITS
+tag @e remove x_SEAT_DISABLED_FREEZE_RIDE
+tag @e remove x_SEAT_DISABLED_INVENTORY_BLOCK
+tag @e remove x_SEAT_DISABLED_PROMPTS
 data remove storage x_core flags.loadCPU__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadEIDs__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadTickRegister__Packs[{x_SEAT:1}]
@@ -19,45 +37,12 @@ data remove storage x_core flags.loadSneakTimeRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadAttachmentRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadCollisionRegisters__Packs[{x_SEAT:1}]
 data remove storage x_core flags.loadScrollBarRegisters__Packs[{x_SEAT:1}]
-data remove storage x_core flags.ticker__Packs[{x_SEAT:1}]
-data remove storage x_core flags.trackSneakTime__Packs[{x_SEAT:1}]
-data remove storage x_core flags.scrollBar__Packs[{x_SEAT:1}]
-data remove storage x_core flags.blockCollisions__Packs[{x_SEAT:1}]
-data remove storage x_core flags.attach__Packs[{x_SEAT:1}]
-data remove storage x_core flags.monitorItems__Packs[{x_SEAT:1}]
 data remove storage x_seat flags
 data remove storage x_core packs.x_seat
 scoreboard objectives remove x_SEAT_ID
 scoreboard objectives remove x_SEAT_TICK
 scoreboard objectives remove x_SEAT_SCROLLED
 scoreboard objectives remove x_SEAT_MENU
-tag @e remove x_MAY_SIT
-tag @e remove x_MAY_SIT_SKIP
-tag @e remove x_MAY_NOT_SIT
-tag @e remove x_MAY_ADJUST_SEAT
-tag @e remove x_MAY_ADJUST_SEAT_SKIP
-tag @e remove x_ADJUSTING_SEAT
-tag @e remove x_ADJUSTING_SEAT_SKIP
-tag @e remove x_SEATED
-tag @e remove x_SEAT_BLOCKING_INTERACTIONS    
-tag @e remove x_SEAT_BASE_PLAYER
-tag @e remove x_SEAT_SURFACE_PLAYER
-tag @e remove x_SEAT_ANCHOR_PLAYER
-tag @e remove x_SEAT_RIDE
-tag @e remove x_SEAT_NO_RIDE
-tag @e remove x_SEAT_ANCHOR_RIDE
-tag @e remove x_SEAT_ANCHOR_RIDE_FROZEN
-execute as @e[tag=x_EID__SEAT] at @s run scoreboard players remove @s x_EID__T 1
-execute as @e[tag=x_EID__SEAT] at @s run tag @s remove x_EID__SEAT
-execute as @e[tag=x_NO_COLLIDE__SEAT] at @s run scoreboard players remove @s x_NO_COLLIDE__T 1
-execute as @e[tag=x_NO_COLLIDE__SEAT] at @s run tag @s remove x_NO_COLLIDE__SEAT
-execute as @e[tag=x_ATTACH__SEAT] at @s run scoreboard players remove @s x_ATTACH__T 1
-execute as @e[tag=x_ATTACH__SEAT] at @s run tag @s remove x_ATTACH__SEAT
-execute as @e[tag=x_SCROLLBAR__SEAT] at @s run scoreboard players remove @s x_SCROLLBAR__T 1
-execute as @e[tag=x_SCROLLBAR__SEAT] at @s run tag @s remove x_SCROLLBAR__SEAT
-kill @e[tag=x_SEAT_NS,tag=x_SEAT_SENSOR]
-kill @e[tag=x_SEAT_NS,tag=x_SEAT_ANCHOR]
-kill @e[tag=x_SEAT_NS,tag=x_SEAT_INTERACTION_BLOCKER]
-kill @e[tag=x_SEAT_NS,tag=x_SEAT]
+scoreboard objectives remove S.E.A.T
 tag @e remove x_SEAT_NS
 advancement revoke @a from x_seat:pack_loaded

@@ -11,6 +11,7 @@
 
 
 tag @s add x_LOAD_EDATA
+tag @s[tag=global.ignore,tag=!x_IGNORE_OVERRIDE] remove x_LOAD_EDATA
 execute as @s[tag=x_LOAD_EDATA] at @s store result score x_CPU x_EID run scoreboard players get @s x_EID
 execute as @s[tag=x_LOAD_EDATA] at @s if score x_CPU x_EID matches 0 run tellraw @a ["",{"text":"\n\nXmas Labs C.O.R.E Error!\n\n","bold":true,"underlined":true,"color":"gold"},{"text":"Tried loading entity data of an entity with no ID! \n\n","color":"gold"}]        
 execute as @s[tag=x_LOAD_EDATA] at @s if score x_CPU x_EID matches 0 run tag @s remove x_LOAD_EDATA

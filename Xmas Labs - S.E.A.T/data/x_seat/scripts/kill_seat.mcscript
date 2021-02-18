@@ -14,6 +14,10 @@
 /tag @s[tag=x_SEAT_SENSOR] add x_KILL_SEAT
 
 
+/// Disable seat control chests if present
+/data merge entity @s[tag=x_SEAT_SURFACE] {ChestedHorse:0}
+
+
 /// As all players riding a seat entity, with EID matching seat ID,
 asat('@a[nbt={RootVehicle:{Entity:{Tags:[x_SEAT_NS,x_SEAT]}}}]'), if('score @s x_EID = @e[tag=x_KILL_SEAT,tag=x_SEAT_SURFACE,limit=1,sort=nearest] x_SEAT_ID'){
 
